@@ -15,7 +15,6 @@
 
     <EditText
         android:id="@+id/nomeProfilo"
-        android:text="Nome profilo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
@@ -26,7 +25,10 @@
         android:text="Metodo di rilevamento"
         android:textColor="#000"
         />
-
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <RadioButton
         android:layout_marginTop="10dp"
         android:id="@+id/gpsButton"
@@ -49,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Beacon"/>
-
+    </RadioGroup>
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="fill_parent"
