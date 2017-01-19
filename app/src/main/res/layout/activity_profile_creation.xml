@@ -24,7 +24,7 @@
        <EditText
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:id="@+id/textViewProfileName"
+           android:id="@+id/editTextProfileName"
            android:text="inserisci il nome del profilo"
             />
    </LinearLayout>
@@ -45,7 +45,8 @@
 
         <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,6 +160,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Conferma"/>
+        android:text="Conferma"
+        android:id="@+id/confirmButton"/>
     </LinearLayout>
 </LinearLayout>
