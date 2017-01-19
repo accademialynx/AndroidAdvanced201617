@@ -33,4 +33,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+    static private void visualizzaProfilo(String[] profili){
+
+    }
+
+
+
+
 }
