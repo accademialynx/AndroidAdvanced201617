@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
 
@@ -28,16 +26,18 @@ public class MainActivity extends AppCompatActivity {
         addProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent editActivity = new Intent(MainActivity.this,EditProfile.class);
+                Intent editActivity = new Intent(MainActivity.this,ProfileDetail.class);
                 startActivity(editActivity);
             }
         });
+
+
     }
 
 
 
 
-    static private void visualizzaProfilo(String[] profili){
+    private void visualizzaProfilo(String[] profili){
 
     }
 
