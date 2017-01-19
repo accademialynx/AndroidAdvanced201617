@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         mydb = DBHelper.getInstance(this);
 
 
-        ArrayList<String> profili=new ArrayList<String>();
+       // ArrayList<String> profili=new ArrayList<String>();
         ListView listView=(ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,profili);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mydb.getAllProfiles());
 
         listView.setAdapter(adapter);
         Button addProfileButton=(Button)findViewById(R.id.addProfile);
@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        if(getIntent().getStringExtra("profilo")!=null) {
+       /* if(getIntent().getStringExtra("profilo")!=null) {
             String profilo = getIntent().getStringExtra("profilo").toString();
             Toast.makeText(getApplicationContext(), profilo+" aggiunto", Toast.LENGTH_SHORT).show();
             profili.add(profilo);
         }
         else{
             return;
-        }
+        }*/
     }
 
 
