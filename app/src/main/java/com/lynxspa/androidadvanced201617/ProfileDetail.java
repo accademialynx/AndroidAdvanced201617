@@ -26,32 +26,34 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        mydb = DBHelper.getInstance(this);
+
         editText=(EditText) findViewById(R.id.nomeProfilo);
 
         editText.setOnClickListener(this);
 
-        /*Button gpsButton=(Button) findViewById(R.id.gpsButton);
-        Button wifiButton=(Button) findViewById(R.id.wifiButton);
-        Button nfcButton=(Button) findViewById(R.id.nfcButton);
-        Button beaconButton=(Button) findViewById(R.id.beaconButton);
+        final RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        final SeekBar brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
+        final CheckBox brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
+        final SeekBar volumeBar=(SeekBar)findViewById(R.id.volumeBar);
+        final Switch bluetoothSwitch=(Switch)findViewById(R.id.switchBluetooth);
+        final Switch wifiSwitch=(Switch)findViewById(R.id.switchWifi);
 
-        ArrayList<Button> buttons=new ArrayList<Button>();
-        buttons.add(gpsButton);
-        buttons.add(wifiButton);
-        buttons.add(nfcButton);
-        buttons.add(beaconButton);*/
-        RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        final Button confirmButton=(Button)findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty()) {
+                    int id=DBHelper.getInstance(getApplicationContext()).getAllProfiles().size()+1;
+                    Profilo profilo=new Profilo(id, editText.getText().toString(), radioGroup, brightnessBar, brightnessCheckBox, volumeBar, bluetoothSwitch, wifiSwitch);
+                    mydb.insertOrUpdateProfile(profilo);
+                } else if(editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
+                }
+                finish();
+            }
+        });
 
-        SeekBar brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
-
-        CheckBox checkBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
-
-        SeekBar volumeBar=(SeekBar)findViewById(R.id.volumeBar);
-
-        Switch bluetooth=(Switch)findViewById(R.id.switchBluetooth);
-        Switch wifi=(Switch)findViewById(R.id.switchWifi);
-
-        creaProfilo(editText, radioGroup,brightnessBar,checkBox, volumeBar, bluetooth, wifi);
 
     }
 
@@ -64,28 +66,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         }else{
             return;
         }
-    }
-
-    private void creaProfilo(final EditText editText, final RadioGroup buttons, final SeekBar brightnessBar, final CheckBox brightnessCheckBox,
-                             final SeekBar volumeBar, final Switch bluetooth, final Switch wifi){
-
-        Button confirmButton=(Button)findViewById(R.id.confirmButton);
-        mydb = DBHelper.getInstance(this);
-             confirmButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View arg0) {
-                     if (editText.getText().toString() != null && !editText.getText().toString().isEmpty()) {
-                         mydb.addProfile(editText.getText().toString(),buttons,brightnessBar,brightnessCheckBox,volumeBar,bluetooth,wifi);
-                     } else if(editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()){
-                         Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
-                    }
-                     finish();
-                }
-            });
-
-
-
-
     }
 
 }
