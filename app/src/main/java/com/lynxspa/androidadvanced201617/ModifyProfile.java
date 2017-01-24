@@ -26,38 +26,23 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_modify);
+
+        mydb = DBHelper.getInstance(this);
 
         editText=(EditText) findViewById(R.id.nomeProfilo);
 
         editText.setOnClickListener(this);
 
-        /*Button gpsButton=(Button) findViewById(R.id.gpsButton);
-        Button wifiButton=(Button) findViewById(R.id.wifiButton);
-        Button nfcButton=(Button) findViewById(R.id.nfcButton);
-        Button beaconButton=(Button) findViewById(R.id.beaconButton);
+        final RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        final SeekBar brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
+        final CheckBox brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
+        final SeekBar volumeBar=(SeekBar)findViewById(R.id.volumeBar);
+        final Switch bluetoothSwitch=(Switch)findViewById(R.id.switchBluetooth);
+        final Switch wifiSwitch=(Switch)findViewById(R.id.switchWifi);
 
-        ArrayList<Button> buttons=new ArrayList<Button>();
-        buttons.add(gpsButton);
-        buttons.add(wifiButton);
-        buttons.add(nfcButton);
-        buttons.add(beaconButton);*/
-        RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
-
-        SeekBar brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
-
-        CheckBox checkBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
-
-        SeekBar volumeBar=(SeekBar)findViewById(R.id.volumeBar);
-
-        Switch bluetooth=(Switch)findViewById(R.id.switchBluetooth);
-        Switch wifi=(Switch)findViewById(R.id.switchWifi);
-
-       /* ArrayList<String> nomeProfili=mydb.getAllProfiles();
-        for(int i=0;i<nomeProfili.toArray().length;i++){
-        }*/
-        aggiornaProfilo(editText, radioGroup,brightnessBar,checkBox, volumeBar, bluetooth, wifi);
-
+        final Button confirmButton=(Button)findViewById(R.id.modifyButton);
+        final Button cancel=(Button)findViewById(R.id.cancelButton);
     }
 
     @Override
