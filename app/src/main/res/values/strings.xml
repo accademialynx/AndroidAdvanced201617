@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Lista Profili</string>
+    <string name="profiloEdit">Inserisci nome profilo</string>
 </resources>

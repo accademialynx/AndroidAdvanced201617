@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         >
-
     </ListView>
     <Button
         android:id="@+id/addProfile"
@@ -34,9 +33,9 @@
         android:background="@color/buttonColor"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:width="300dp"
+        android:layout_weight="1"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="0px"
         />
 </LinearLayout>
