@@ -1,5 +1,6 @@
 package com.lynxspa.androidadvanced201617;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -43,6 +44,13 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
 
         final Button confirmButton=(Button)findViewById(R.id.modifyButton);
         final Button cancel=(Button)findViewById(R.id.cancelButton);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainActivity = new Intent(ModifyProfile.this, MainActivity.class);
+                startActivity(mainActivity);
+            }
+        });
     }
 
     @Override
@@ -54,32 +62,5 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
         }else{
             return;
         }
-    }
-
-    private void aggiornaProfilo(final EditText editText, final RadioGroup buttons, final SeekBar brightnessBar, final CheckBox brightnessCheckBox,
-                             final SeekBar volumeBar, final Switch bluetooth, final Switch wifi){
-
-        Button confirmButton=(Button)findViewById(R.id.confirmButton);
-        mydb = DBHelper.getInstance(this);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty()) {
-                    /**
-                     *
-                     * da implementare ancora l'aggiornamento dei dati presenti nel db
-                     *
-                     * */
-                 //   mydb.updateProfile(editText.getText().toString(), buttons, brightnessBar, brightnessCheckBox, volumeBar, bluetooth, wifi);
-                } else if(editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
-                }
-                finish();
-            }
-        });
-
-
-
-
     }
 }
