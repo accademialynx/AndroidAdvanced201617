@@ -12,7 +12,6 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
-
     <EditText
         android:text="@string/profiloEdit"
         android:id="@+id/nomeProfilo"
@@ -71,7 +70,8 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lume"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        />
     <CheckBox
         android:id="@+id/brightnessCheckBox"
         android:layout_width="wrap_content"
