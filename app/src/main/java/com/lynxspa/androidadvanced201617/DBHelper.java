@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,10 +30,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BLUETOOTH_SWITCH = "bluetoothSwitch";
     public static final String WIFI_SWITCH = "wifiSwitch";
 
+    public static final int VERSION_DB=1;
 
     private static DBHelper newInstance;
     private DBHelper(Context context){
-        super(context,DATABASE_NAME,null,1);
+        super(context,DATABASE_NAME,null,VERSION_DB);
     }
 
     public static DBHelper getInstance(Context context){
@@ -63,14 +65,14 @@ public class DBHelper extends SQLiteOpenHelper {
                                SeekBar volumeBar,Switch bluetoothSwitch, Switch wifiSwitch) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", nameProfile);
-        contentValues.put("radioButton", button.getCheckedRadioButtonId());
-        contentValues.put("brightnessBar", brightnessBar.getProgress());
-        contentValues.put("brightnessCheckBox", brightnessCheckBox.getId());
-        contentValues.put("volumeBar", volumeBar.getProgress());
-        contentValues.put("bluetoothSwitch", bluetoothSwitch.getId());
-        contentValues.put("wifiSwitch", wifiSwitch.getId());
-        db.insert("Profiles", null, contentValues);
+        contentValues.put(NAME_PROFILE, nameProfile);
+        contentValues.put(RADIO_BUTTON_VALUE, button.getCheckedRadioButtonId());
+        contentValues.put(BRIGHTNESS_BAR_VALUE, brightnessBar.getProgress());
+        contentValues.put(CHECK_BRIGHTNESS, brightnessCheckBox.getId());
+        contentValues.put(BRIGHTNESS_VOLUME, volumeBar.getProgress());
+        contentValues.put(BLUETOOTH_SWITCH, bluetoothSwitch.getId());
+        contentValues.put(WIFI_SWITCH, wifiSwitch.getId());
+        db.insert(PROFILES_TABLE_NAME, null, contentValues);
         return true;
     }
 
@@ -78,28 +80,26 @@ public class DBHelper extends SQLiteOpenHelper {
                                   SeekBar volumeBar,Switch bluetoothSwitch, Switch wifiSwitch) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", nameProfile);
-        contentValues.put("radioButton", button.getCheckedRadioButtonId());
-        contentValues.put("brightnessBar", brightnessBar.getProgress());
-        contentValues.put("brightnessCheckBox", brightnessCheckBox.getId());
-        contentValues.put("volumeBar", volumeBar.getProgress());
-        contentValues.put("bluetoothSwitch", bluetoothSwitch.getId());
-        contentValues.put("wifiSwitch", wifiSwitch.getId());
-        db.update("Profiles", contentValues, "id = ? ", new String[]{Integer.toString(id)});
+        contentValues.put(NAME_PROFILE, nameProfile);
+        contentValues.put(RADIO_BUTTON_VALUE, button.getCheckedRadioButtonId());
+        contentValues.put(BRIGHTNESS_BAR_VALUE, brightnessBar.getProgress());
+        contentValues.put(CHECK_BRIGHTNESS, brightnessCheckBox.getId());
+        contentValues.put(BRIGHTNESS_VOLUME, volumeBar.getProgress());
+        contentValues.put(BLUETOOTH_SWITCH, bluetoothSwitch.getId());
+        contentValues.put(WIFI_SWITCH, wifiSwitch.getId());
+        db.update(PROFILES_TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "SELECT * FROM Profiles WHERE id="+id+"", null );
+        Cursor res =  db.rawQuery("SELECT * FROM Profiles WHERE id=" + id + "", null);
         return res;
     }
 
     public Integer deleteProfile(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("Profiles",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
+        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID+"= ? ", new String[] { Integer.toString(id) });
     }
 
     public ArrayList<String> getAllProfiles() {
@@ -107,7 +107,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "SELECT * FROM Profiles", null );
+        Cursor res =  db.rawQuery( "SELECT name FROM Profiles", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -116,4 +116,5 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }
+
 }

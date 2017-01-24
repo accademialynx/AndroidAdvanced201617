@@ -1,9 +1,7 @@
 package com.lynxspa.androidadvanced201617;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,12 +9,16 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
+/**
+ * Created by Esami on 24/01/2017.
+ */
+public class ModifyProfile extends AppCompatActivity implements View.OnClickListener {
+
 
     DBHelper mydb;
     EditText editText;
@@ -51,7 +53,10 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         Switch bluetooth=(Switch)findViewById(R.id.switchBluetooth);
         Switch wifi=(Switch)findViewById(R.id.switchWifi);
 
-        creaProfilo(editText, radioGroup,brightnessBar,checkBox, volumeBar, bluetooth, wifi);
+       /* ArrayList<String> nomeProfili=mydb.getAllProfiles();
+        for(int i=0;i<nomeProfili.toArray().length;i++){
+        }*/
+        aggiornaProfilo(editText, radioGroup,brightnessBar,checkBox, volumeBar, bluetooth, wifi);
 
     }
 
@@ -66,26 +71,30 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void creaProfilo(final EditText editText, final RadioGroup buttons, final SeekBar brightnessBar, final CheckBox brightnessCheckBox,
+    private void aggiornaProfilo(final EditText editText, final RadioGroup buttons, final SeekBar brightnessBar, final CheckBox brightnessCheckBox,
                              final SeekBar volumeBar, final Switch bluetooth, final Switch wifi){
 
         Button confirmButton=(Button)findViewById(R.id.confirmButton);
         mydb = DBHelper.getInstance(this);
-             confirmButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View arg0) {
-                     if (editText.getText().toString() != null && !editText.getText().toString().isEmpty()) {
-                         mydb.addProfile(editText.getText().toString(),buttons,brightnessBar,brightnessCheckBox,volumeBar,bluetooth,wifi);
-                     } else if(editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()){
-                         Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
-                    }
-                     finish();
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty()) {
+                    /**
+                     *
+                     * da implementare ancora l'aggiornamento dei dati presenti nel db
+                     *
+                     * */
+                 //   mydb.updateProfile(editText.getText().toString(), buttons, brightnessBar, brightnessCheckBox, volumeBar, bluetooth, wifi);
+                } else if(editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
                 }
-            });
+                finish();
+            }
+        });
 
 
 
 
     }
-
 }
