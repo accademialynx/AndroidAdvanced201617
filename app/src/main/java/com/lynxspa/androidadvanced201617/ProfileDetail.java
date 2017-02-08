@@ -40,6 +40,8 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         final Switch wifiSwitch=(Switch)findViewById(R.id.switchWifi);
 
         final Button confirmButton=(Button)findViewById(R.id.confirmButton);
+
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {

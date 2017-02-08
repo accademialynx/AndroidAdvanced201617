@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -35,7 +36,10 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
 
         editText.setOnClickListener(this);
 
+
+
         final RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        final int radioButtonId= radioGroup.getCheckedRadioButtonId();
         final SeekBar brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
         final CheckBox brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
         final SeekBar volumeBar=(SeekBar)findViewById(R.id.volumeBar);
@@ -44,6 +48,7 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
 
         final Button confirmButton=(Button)findViewById(R.id.modifyButton);
         final Button cancel=(Button)findViewById(R.id.cancelButton);
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +56,19 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
                 startActivity(mainActivity);
             }
         });
+
+        final RadioButton gpsButton=(RadioButton) findViewById(R.id.gpsButton);
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapsActivity = new Intent(ModifyProfile.this, MapsActivity.class);
+
+                startActivity(mapsActivity);
+            }
+        });
+
     }
+
 
     @Override
     public void onClick(View v) {
@@ -63,4 +80,5 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
             return;
         }
     }
+
 }

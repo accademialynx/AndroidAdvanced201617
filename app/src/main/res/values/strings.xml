@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Lista Profili</string>
     <string name="profiloEdit">Inserisci nome profilo</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
