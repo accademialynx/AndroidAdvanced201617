@@ -134,17 +134,34 @@
             android:layout_toRightOf="@+id/wifi" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/confirmButton"
-        android:text="CREA"
-        android:background="@color/buttonColor"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:textColor="#FFF"
-        android:layout_marginTop="@dimen/marginTop"
-        android:layout_marginBottom="0px"
-        />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/confirmButton"
+            android:text="CREA"
+            android:background="@color/buttonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginBottom="0px"
+            />
+        <Button
+            android:id="@+id/appListButton"
+            android:text="APP"
+            android:background="@color/buttonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_weight="0.5"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginBottom="0px"
+            />
+    </RelativeLayout>
 
 </LinearLayout>

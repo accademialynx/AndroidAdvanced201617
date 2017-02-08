@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,9 +38,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // ArrayList<String> profili=new ArrayList<String>();
         ListView listView=(ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,mydb.getAllProfiles() );
+        TextView textView=(TextView)findViewById(R.id.nameProfile);
+        ArrayList<String> listaProfili=new ArrayList<>();
+        for(int i=0;i<mydb.getAllProfiles().size();i++){
+            listaProfili.add(mydb.getAllProfiles().get(i).getName());
+            textView.setText(listaProfili.get(i));
+        }
 
-        listView.setAdapter(adapter);
         Button addProfileButton=(Button)findViewById(R.id.addProfile);
         addProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,32 +61,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent modifyProfile = new Intent(MainActivity.this, ModifyProfile.class);
-                modifyProfile.putStringArrayListExtra("listaProfili", mydb.getAllProfiles());
+                Profilo profilo=mydb.getAllProfiles().get(position);
+                modifyProfile.putExtra("Profilo", profilo.getId());
+                modifyProfile.putExtras(modifyProfile);
                 startActivity(modifyProfile);
             }
         });
-      /*  listView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CharSequence menu[] = new CharSequence[] {"Modifica", "Elimina"};
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(new Application());
-                builder.setTitle("Seleziona un'opzione");
-                builder.setItems(menu, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent editActivity = new Intent(MainActivity.this, ProfileDetail.class);
-                        if (builder.getContext().getApplicationContext().equals("Modifica")) {
-                            //  editActivity.putStringArrayListExtra("listaProfili", profili);
-                            startActivity(editActivity);
-                        }else{
-                            return;
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });*/
+
 
     }
 }

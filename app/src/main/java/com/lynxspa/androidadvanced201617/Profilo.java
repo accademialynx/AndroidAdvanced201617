@@ -12,14 +12,14 @@ public class Profilo {
 
     private int id;
     private String name;
-    private RadioGroup radioGroup;
-    private SeekBar brigthnesBar;
-    private CheckBox brightnessCheckBox;
-    private SeekBar volumeBar;
-    private Switch bluetoothSwitch;
-    private Switch wifiSwitch;
+    private int radioGroup;
+    private int brigthnesBar;
+    private int brightnessCheckBox;
+    private int volumeBar;
+    private int bluetoothSwitch;
+    private int wifiSwitch;
 
-    public Profilo(int id, String name, RadioGroup radioGroup, SeekBar brigthnesBar, CheckBox brightnessCheckBox, SeekBar volumeBar, Switch bluetoothSwitch, Switch wifiSwitch) {
+    public Profilo(int id, String name, int radioGroup, int brigthnesBar, int brightnessCheckBox, int volumeBar, int bluetoothSwitch, int wifiSwitch) {
         this.id = id;
         this.name = name;
         this.radioGroup = radioGroup;
@@ -46,51 +46,51 @@ public class Profilo {
         this.name = name;
     }
 
-    public RadioGroup getRadioGroup() {
+    public int getRadioGroup() {
         return radioGroup;
     }
 
-    public void setRadioGroup(RadioGroup radioGroup) {
+    public void setRadioGroup(int radioGroup) {
         this.radioGroup = radioGroup;
     }
 
-    public SeekBar getBrigthnesBar() {
+    public int getBrigthnesBar() {
         return brigthnesBar;
     }
 
-    public void setBrigthnesBar(SeekBar brigthnesBar) {
+    public void setBrigthnesBar(int brigthnesBar) {
         this.brigthnesBar = brigthnesBar;
     }
 
-    public CheckBox getBrightnessCheckBox() {
+    public int getBrightnessCheckBox() {
         return brightnessCheckBox;
     }
 
-    public void setBrightnessCheckBox(CheckBox brightnessCheckBox) {
+    public void setBrightnessCheckBox(int brightnessCheckBox) {
         this.brightnessCheckBox = brightnessCheckBox;
     }
 
-    public SeekBar getVolumeBar() {
+    public int getVolumeBar() {
         return volumeBar;
     }
 
-    public void setVolumeBar(SeekBar volumeBar) {
+    public void setVolumeBar(int volumeBar) {
         this.volumeBar = volumeBar;
     }
 
-    public Switch getBluetoothSwitch() {
+    public int getBluetoothSwitch() {
         return bluetoothSwitch;
     }
 
-    public void setBluetoothSwitch(Switch bluetoothSwitch) {
+    public void setBluetoothSwitch(int bluetoothSwitch) {
         this.bluetoothSwitch = bluetoothSwitch;
     }
 
-    public Switch getWifiSwitch() {
+    public int getWifiSwitch() {
         return wifiSwitch;
     }
 
-    public void setWifiSwitch(Switch wifiSwitch) {
+    public void setWifiSwitch(int wifiSwitch) {
         this.wifiSwitch = wifiSwitch;
     }
 

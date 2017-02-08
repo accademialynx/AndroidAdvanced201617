@@ -148,34 +148,42 @@
 
     <Button
         android:id="@+id/modifyButton"
-        android:text="MODIFICA"
+        android:text="@string/confirm"
         android:background="@color/buttonColor"
-        android:layout_width="250px"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="#FFF"
         android:layout_marginTop="30px"
-        android:layout_marginBottom="0px"
-        android:layout_weight="1"
-        />
+        android:layout_marginBottom="0px" />
 
         <Button
-            android:id="@+id/cancelButton"
-            android:text="ANNULLA"
+            android:id="@+id/deleteProfile"
+            android:text="@string/deleteProfile"
             android:background="@color/buttonColor"
-            android:layout_width="250px"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="#FFF"
             android:layout_marginTop="30px"
             android:layout_marginBottom="0px"
-            android:layout_weight="1"
             android:layout_toRightOf="@+id/modifyButton"
-
-            android:layout_marginLeft="150px"
-
+            android:layout_marginLeft="80px"
 
             />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:text="@string/cancelButton"
+            android:background="@color/buttonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:layout_marginTop="30px"
+            android:layout_marginBottom="0px"
+            android:layout_toRightOf="@+id/modifyButton"
+            android:layout_marginLeft="70px" />
 
     </LinearLayout>
 

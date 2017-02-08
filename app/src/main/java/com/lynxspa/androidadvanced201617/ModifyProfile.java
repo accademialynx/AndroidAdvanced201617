@@ -43,10 +43,22 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
         final Switch wifiSwitch=(Switch)findViewById(R.id.switchWifi);
 
         final Button confirmButton=(Button)findViewById(R.id.modifyButton);
+        final Button deleteProfile=(Button)findViewById(R.id.deleteProfile);
         final Button cancel=(Button)findViewById(R.id.cancelButton);
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent mainActivity = new Intent(ModifyProfile.this, MainActivity.class);
+                startActivity(mainActivity);
+            }
+        });
+
+        deleteProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle profilo = getIntent().getExtras();
+                mydb.deleteProfile((Integer) profilo.get("Profilo"));
                 Intent mainActivity = new Intent(ModifyProfile.this, MainActivity.class);
                 startActivity(mainActivity);
             }
