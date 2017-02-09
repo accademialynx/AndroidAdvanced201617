@@ -38,12 +38,17 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // ArrayList<String> profili=new ArrayList<String>();
         ListView listView=(ListView)findViewById(R.id.listView);
-        TextView textView=(TextView)findViewById(R.id.nameProfile);
         ArrayList<String> listaProfili=new ArrayList<>();
+
+        if(mydb.getAllProfiles()!=null){
         for(int i=0;i<mydb.getAllProfiles().size();i++){
             listaProfili.add(mydb.getAllProfiles().get(i).getName());
-            textView.setText(listaProfili.get(i));
-        }
+        }}
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listaProfili);
+
+        listView.setAdapter(adapter);
+
 
         Button addProfileButton=(Button)findViewById(R.id.addProfile);
         addProfileButton.setOnClickListener(new View.OnClickListener() {

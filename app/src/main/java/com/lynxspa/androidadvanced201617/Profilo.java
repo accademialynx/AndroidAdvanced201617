@@ -12,17 +12,17 @@ public class Profilo {
 
     private int id;
     private String name;
-    private int radioGroup;
+    private int radioButton;
     private int brigthnesBar;
     private int brightnessCheckBox;
     private int volumeBar;
     private int bluetoothSwitch;
     private int wifiSwitch;
 
-    public Profilo(int id, String name, int radioGroup, int brigthnesBar, int brightnessCheckBox, int volumeBar, int bluetoothSwitch, int wifiSwitch) {
+    public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox, int volumeBar, int bluetoothSwitch, int wifiSwitch) {
         this.id = id;
         this.name = name;
-        this.radioGroup = radioGroup;
+        this.radioButton= radioButton;
         this.brigthnesBar = brigthnesBar;
         this.brightnessCheckBox = brightnessCheckBox;
         this.volumeBar = volumeBar;
@@ -46,12 +46,12 @@ public class Profilo {
         this.name = name;
     }
 
-    public int getRadioGroup() {
-        return radioGroup;
+    public int getRadioButton() {
+        return radioButton;
     }
 
-    public void setRadioGroup(int radioGroup) {
-        this.radioGroup = radioGroup;
+    public void setRadioButton(int radioButton) {
+        this.radioButton = radioButton;
     }
 
     public int getBrigthnesBar() {

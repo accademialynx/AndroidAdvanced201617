@@ -77,18 +77,18 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertOrUpdateProfile (Profilo profilo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        if(getData(profilo.getId())==null){
+        if(getData(profilo.getId())!=null){
             contentValues.put(NAME_PROFILE, profilo.getName());
-            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioGroup());
+            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
             contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
             contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
             contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
             contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
             contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
             db.insert(PROFILES_TABLE_NAME, null, contentValues);
-        }else if(getData(profilo.getId())!=null){
+        }else if(getData(profilo.getId())==null){
             contentValues.put(NAME_PROFILE, profilo.getName());
-            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioGroup());
+            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
             contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
             contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
             contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
