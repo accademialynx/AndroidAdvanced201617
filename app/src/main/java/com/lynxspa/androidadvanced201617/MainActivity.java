@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent modifyProfile = new Intent(MainActivity.this, ModifyProfile.class);
                 Profilo profilo=mydb.getAllProfiles().get(position);
-                modifyProfile.putExtra("Profilo", profilo.getId());
-                modifyProfile.putExtras(modifyProfile);
+                modifyProfile.putExtra("Profilo", position);
                 startActivity(modifyProfile);
             }
         });

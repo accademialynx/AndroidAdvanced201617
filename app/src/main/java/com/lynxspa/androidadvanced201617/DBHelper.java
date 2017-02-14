@@ -25,14 +25,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String WIFI_SWITCH = "wifiSwitch";
 
     public static final int VERSION_DB=1;
-    private static final int VER_SESSION_FEEDBACK_URL = 2;
-    private static final int VER_SESSION_NOTES_URL_SLUG = 3;
 
-    private static final int DATABASE_CURRENT_VERSION = VER_SESSION_NOTES_URL_SLUG;
+    private static final int DATABASE_CURRENT_VERSION = VERSION_DB;
 
     private static DBHelper newInstance;
     private DBHelper(Context context){
-        super(context,DATABASE_NAME,null,VERSION_DB);
+        super(context,DATABASE_NAME,null,DATABASE_CURRENT_VERSION);
     }
 
     public static DBHelper getInstance(Context context){
@@ -55,21 +53,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        int version=oldVersion;
-        if(VERSION_DB==version){
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN "
-                        + "(id INTEGER PRIMARY KEY, name TEXT,radioButton INTEGER,brightnessBar INTEGER," +
-                        " brightnessCheckBox INTEGER,volumeBar INTEGER,bluetoothSwitch INTEGER, wifiSwitch INTEGER)");
-                version = VER_SESSION_FEEDBACK_URL;
-        }else{
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN "
-                        + "(id INTEGER PRIMARY KEY, name TEXT,radioButton INTEGER,brightnessBar INTEGER," +
-                        " brightnessCheckBox INTEGER,volumeBar INTEGER,bluetoothSwitch INTEGER, wifiSwitch INTEGER)");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN "
-                        + "(id INTEGER PRIMARY KEY, name TEXT,radioButton INTEGER,brightnessBar INTEGER," +
-                        " brightnessCheckBox INTEGER,volumeBar INTEGER,bluetoothSwitch INTEGER, wifiSwitch INTEGER)");
-                version = VER_SESSION_NOTES_URL_SLUG;
-        }
 
     }
 
@@ -105,15 +88,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Integer deleteProfile(Integer id) {
+/*    public Integer deleteProfile(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID+"= ? ", new String[] { Integer.toString(id) });
-    }
+        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID+"="+id, new String[] { Integer.toString(id) });
+    }*/
 
+    public int delete(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID + "=" + id, null);
+    }
     public ArrayList<Profilo> getAllProfiles() {
         ArrayList<Profilo> array_list = new ArrayList<Profilo>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "SELECT name FROM Profiles", null );
+        Cursor res =  db.rawQuery( "SELECT * FROM Profiles", null );
         res.moveToFirst();
 
 
