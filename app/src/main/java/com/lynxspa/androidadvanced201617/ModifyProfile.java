@@ -127,6 +127,15 @@ public class ModifyProfile extends AppCompatActivity implements View.OnClickList
                 startActivity(mainActivity);
             }
         });
+
+
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapsActivity=new Intent(ModifyProfile.this, MapsActivity.class);
+                startActivity(mapsActivity);
+            }
+        });
     }
 
     @Override
