@@ -5,12 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.Switch;
 
 import java.util.ArrayList;
 
@@ -32,9 +26,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final int VERSION_DB=1;
 
+    private static final int DATABASE_CURRENT_VERSION = VERSION_DB;
+
     private static DBHelper newInstance;
     private DBHelper(Context context){
-        super(context,DATABASE_NAME,null,VERSION_DB);
+        super(context,DATABASE_NAME,null,DATABASE_CURRENT_VERSION);
     }
 
     public static DBHelper getInstance(Context context){
@@ -57,8 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Profiles");
-        onCreate(db);
+
     }
 
 
@@ -67,15 +62,22 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         if(getData(profilo.getId())!=null){
             contentValues.put(NAME_PROFILE, profilo.getName());
-            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioGroup().getCheckedRadioButtonId());
-            contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar().getProgress());
-            contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox().getId());
-            contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar().getProgress());
-            contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch().getId());
-            contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch().getId());
+            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
+            contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
+            contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
+            contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
+            contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
+            contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
             db.insert(PROFILES_TABLE_NAME, null, contentValues);
-        }else{
-            db.update(PROFILES_TABLE_NAME, contentValues, "id =  " + profilo.getId(), new String[]{Integer.toString(profilo.getId())});
+        }else if(getData(profilo.getId())==null){
+            contentValues.put(NAME_PROFILE, profilo.getName());
+            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
+            contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
+            contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
+            contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
+            contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
+            contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
+            db.update(PROFILES_TABLE_NAME, contentValues, "id = " + profilo.getId(), new String[]{Integer.toString(profilo.getId())});
         }
         return true;
     }
@@ -86,21 +88,33 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Integer deleteProfile(Integer id) {
+/*    public Integer deleteProfile(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID+"= ? ", new String[] { Integer.toString(id) });
-    }
+        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID+"="+id, new String[] { Integer.toString(id) });
+    }*/
 
-    public ArrayList<String> getAllProfiles() {
-        ArrayList<String> array_list = new ArrayList<String>();
-
-        //hp = new HashMap();
+    public int delete(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "SELECT name FROM Profiles", null );
+        return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID + "=" + id, null);
+    }
+    public ArrayList<Profilo> getAllProfiles() {
+        ArrayList<Profilo> array_list = new ArrayList<Profilo>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "SELECT * FROM Profiles", null );
         res.moveToFirst();
 
+
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(NAME_PROFILE)));
+            Profilo profilo=new Profilo(
+                    res.getColumnIndex(PROFILES_COLUMN_ID),
+                    res.getString(res.getColumnIndex(NAME_PROFILE)),
+                    res.getInt(res.getColumnIndex(RADIO_BUTTON_VALUE)),
+                    res.getInt(res.getColumnIndex(BRIGHTNESS_BAR_VALUE)),
+                    res.getInt(res.getColumnIndex(CHECK_BRIGHTNESS)),
+                    res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME)),
+                    res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
+                    res.getInt(res.getColumnIndex(WIFI_SWITCH)));
+            array_list.add(profilo);
             res.moveToNext();
         }
         return array_list;
