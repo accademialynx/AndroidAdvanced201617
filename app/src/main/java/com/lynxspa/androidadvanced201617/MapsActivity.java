@@ -1,8 +1,11 @@
 package com.lynxspa.androidadvanced201617;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,10 +31,14 @@ import java.util.jar.Manifest;
 public class MapsActivity extends FragmentActivity implements  OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private double dLat;
-    private double dLong;
+    private double latitude;
+    private double longitude;
     private Marker mMarker;
+    private Location mLastLocation;
+    //private GoogleApiClient mGoogleApiClient;
 
+    //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    //protected LocationListener locationListener;
 
 
     @Override
@@ -45,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
 
 
     }
+
 
    /** private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
         @Override
@@ -61,9 +69,8 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng myPosition = new LatLng(-34, 151);
-    /**    //LatLng myPosition = new LatLng(dLat,dLong);
-
+        LatLng myPosition = new LatLng(0, 0);
+        //LatLng myPosition = new LatLng(dLat,dLong);
         // Add a marker in Sydney, Australia, and move the camera.
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -76,23 +83,25 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
          return;
         }
         mMap.setMyLocationEnabled(true);
-        Location userLocation = mMap.getMyLocation();
-        LatLng myPosition = null;
+        LocationManager locationManager= (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        Location userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (userLocation != null) {
             myPosition = new LatLng(userLocation.getLatitude(),
                     userLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition,
                     mMap.getMaxZoomLevel() - 5));
 
-**/
+
 
 
 
             //Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(dLat, dLong)).radius(1000));
-            Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(-34,151)).radius(1000));
+            Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(userLocation.getLatitude(),userLocation.getLongitude() )).radius(1000).strokeColor(Color.RED));
 
 
             mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
         }
     }
+}
