@@ -56,7 +56,6 @@ public class AppAdapter extends BaseAdapter{
     }
 
     static class ViewHolder{
-
         TextView textInListView;
     }
 }

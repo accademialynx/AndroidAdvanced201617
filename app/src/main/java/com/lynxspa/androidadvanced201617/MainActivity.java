@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent modifyProfile = new Intent(MainActivity.this, ModifyProfile.class);
+                Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
                 Profilo profilo=mydb.getAllProfiles().get(position);
-                modifyProfile.putExtra("Profilo", position);
+                modifyProfile.putExtra("Profilo", profilo.getId());
                 startActivity(modifyProfile);
             }
         });
