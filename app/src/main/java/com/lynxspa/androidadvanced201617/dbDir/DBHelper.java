@@ -1,10 +1,12 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.dbDir;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
 import java.util.ArrayList;
 import java.util.List;

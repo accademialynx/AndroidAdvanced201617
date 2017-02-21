@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.mapDir;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.lynxspa.androidadvanced201617.R;
 
 import java.util.jar.Manifest;
 

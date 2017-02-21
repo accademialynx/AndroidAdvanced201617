@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.profileDir;
 
 import android.widget.CheckBox;
 import android.widget.RadioGroup;

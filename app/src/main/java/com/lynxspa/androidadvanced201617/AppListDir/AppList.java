@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.AppListDir;
 
 import android.graphics.drawable.Drawable;
 

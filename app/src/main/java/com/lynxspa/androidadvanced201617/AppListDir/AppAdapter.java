@@ -1,12 +1,13 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.AppListDir;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 

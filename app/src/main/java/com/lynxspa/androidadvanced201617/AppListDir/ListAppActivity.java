@@ -1,19 +1,16 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.AppListDir;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.lynxspa.androidadvanced201617.R;
 
 import java.util.ArrayList;
 import java.util.List;
