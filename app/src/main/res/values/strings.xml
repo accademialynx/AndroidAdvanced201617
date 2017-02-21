@@ -4,6 +4,7 @@
     <string name="cancelButton">Annulla</string>
     <string name="deleteProfile">Elimina</string>
     <string name="confirm">Conferma</string>
+    <string name="title_activity_maps">Mappa</string>
     <string name="metodo_rilevamento">Metodo di rilevamento</string>
     <string name="gps">GPS</string>
     <string name="wifi">WI-FI</string>
