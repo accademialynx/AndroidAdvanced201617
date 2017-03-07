@@ -48,21 +48,24 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "CREATE TABLE "+PROFILES_TABLE_NAME+" " +
-                        "("+PROFILES_COLUMN_ID+" INTEGER PRIMARY KEY," +
-                        ""+NAME_PROFILE+" TEXT," +
-                        ""+RADIO_BUTTON_VALUE+" INTEGER," +
-                        ""+BRIGHTNESS_BAR_VALUE+" INTEGER," +
-                        ""+CHECK_BRIGHTNESS +" INTEGER," +
-                        ""+BRIGHTNESS_VOLUME+" INTEGER," +
-                        ""+BLUETOOTH_SWITCH+" INTEGER," +
-                        ""+WIFI_SWITCH+" INTEGER)"
+                "CREATE TABLE "+ PROFILES_TABLE_NAME +" " +"("
+                          + PROFILES_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                        ""+ NAME_PROFILE +" TEXT," +
+                        ""+ RADIO_BUTTON_VALUE +" INTEGER," +
+                        ""+ BRIGHTNESS_BAR_VALUE +" INTEGER," +
+                        ""+ CHECK_BRIGHTNESS +" INTEGER," +
+                        ""+ BRIGHTNESS_VOLUME +" INTEGER," +
+                        ""+ BLUETOOTH_SWITCH +" INTEGER," +
+                        ""+ WIFI_SWITCH +" INTEGER)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+      /*  String upgradeQuery = "ALTER TABLE "+PROFILES_TABLE_NAME+" ADD COLUMN "++" TEXT";
+        if (oldVersion == 1 && newVersion == 2)
+            db.execSQL(upgradeQuery);*/
     }
 
 
