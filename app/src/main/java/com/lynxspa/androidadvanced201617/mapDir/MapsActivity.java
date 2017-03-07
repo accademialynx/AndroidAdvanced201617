@@ -43,11 +43,6 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
     SeekBar circleZoom;
     private Circle circle;
 
-    //private GoogleApiClient mGoogleApiClient;
-
-    //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    //protected LocationListener locationListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +52,8 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        //circleZoom = (SeekBar)findViewById(R.id.circleZoom);
-
-//        circleZoom.setProgress();
-
 
     }
-
-
-   /** private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
-        @Override
-        public void onMyLocationChange(Location location) {
-            LatLng loc = new LatLng(Location.getLatitude(), Location.getLongitude());
-            mMarker = mMap.addMarker(new MarkerOptions().position(loc));
-            if (mMap != null){
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc,16.0f));
-            }
-        }
-    };**/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -103,8 +82,6 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition,
                     mMap.getMaxZoomLevel() - 5));
 
-
-
             //Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(dLat, dLong)).radius(1000));
             //Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(userLocation.getLatitude(),userLocation.getLongitude() )).radius(500).strokeColor(Color.RED));
             circle = mMap.addCircle((new CircleOptions().center(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())).radius(200).strokeColor(Color.RED)));
@@ -114,12 +91,12 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
 
                     seekBar.setMax(1000);
-                    circle.setRadius(progress);
+                    circle.setRadius(200+progress);
                 }
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    circle.setRadius(200+seekBar.getProgress());
+                    circle.setRadius(seekBar.getProgress());
                 }
                 @Override
             public void onStopTrackingTouch(final SeekBar seekBar){
