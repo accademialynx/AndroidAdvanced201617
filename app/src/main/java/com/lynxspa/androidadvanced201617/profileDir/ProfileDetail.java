@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.lynxspa.androidadvanced201617.AppListDir.ListAppActivity;
 import com.lynxspa.androidadvanced201617.MainActivity;
 import com.lynxspa.androidadvanced201617.R;
+import com.lynxspa.androidadvanced201617.WifiDir.WifiListActivity;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 import com.lynxspa.androidadvanced201617.mapDir.MapsActivity;
 
@@ -38,6 +39,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     TextView appList;
 
     final static private int APP_LIST_ACTIVITY=1;
+    final static private int WIFI_LIST_ACTIVITY=1;
 
     private Profilo currentProfile;
 
@@ -113,7 +115,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent listAppsActivity = new Intent(ProfileDetail.this, ListAppActivity.class);
-                startActivityForResult(listAppsActivity, 1);
+                startActivityForResult(listAppsActivity, APP_LIST_ACTIVITY);
             }
         });
 
@@ -122,6 +124,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent mapsActivity=new Intent(ProfileDetail.this, MapsActivity.class);
                 startActivity(mapsActivity);
+            }
+        });
+
+        wifiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
+                startActivityForResult(wifiActivity,WIFI_LIST_ACTIVITY);
             }
         });
     }
@@ -262,7 +272,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent listAppsActivity = new Intent(ProfileDetail.this, ListAppActivity.class);
-                startActivity(listAppsActivity);
+                startActivityForResult(listAppsActivity, APP_LIST_ACTIVITY);
             }
         });
 
@@ -271,6 +281,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent mapsActivity=new Intent(ProfileDetail.this, MapsActivity.class);
                 startActivity(mapsActivity);
+            }
+        });
+
+        wifiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
+                startActivityForResult(wifiActivity, WIFI_LIST_ACTIVITY);
             }
         });
     }

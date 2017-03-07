@@ -16,4 +16,5 @@
     <string name="apps">AppList</string>
     <string name="auto">Auto</string>
     <string name="add">CREA</string>
+    <string name="setWifi">Imposta</string>
 </resources>

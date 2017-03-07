@@ -30,7 +30,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".profileDir.ProfileDetail" />
-        <activity android:name=".AppListDir.ListAppActivity"></activity>
+        <activity android:name=".AppListDir.ListAppActivity"/>
+        <activity android:name=".WifiDir.WifiListActivity"/>
         <activity android:name=".mapDir.MapsActivity"
             android:label="Map"/>
 

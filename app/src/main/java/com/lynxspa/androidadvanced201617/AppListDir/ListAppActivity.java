@@ -47,7 +47,6 @@ public class ListAppActivity extends AppCompatActivity {
         });
     }
 
-
     private List<AppList> getInstalledApps() {
         List<AppList> res = new ArrayList<AppList>();
         List<PackageInfo> packs = getPackageManager().getInstalledPackages(0);

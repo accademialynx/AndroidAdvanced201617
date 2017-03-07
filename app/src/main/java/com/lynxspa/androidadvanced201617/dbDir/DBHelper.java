@@ -44,7 +44,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
@@ -67,7 +66,6 @@ public class DBHelper extends SQLiteOpenHelper {
         if (oldVersion == 1 && newVersion == 2)
             db.execSQL(upgradeQuery);*/
     }
-
 
     public boolean insertOrUpdateProfile (Profilo profilo) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -107,6 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+
     public List<Profilo> getAllProfiles() {
         return getProfilesBySql("SELECT * FROM "+PROFILES_TABLE_NAME);
     }

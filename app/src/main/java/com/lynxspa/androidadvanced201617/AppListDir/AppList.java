@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
  */
 public class AppList {
 
-
     private String name;
 
     public AppList(String name) {
