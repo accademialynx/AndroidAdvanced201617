@@ -3,6 +3,7 @@ package com.lynxspa.androidadvanced201617;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +14,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatSeekBar;
+import android.view.Display;
+import android.widget.SeekBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,6 +39,9 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
     private double longitude;
     private Marker mMarker;
     private Location mLastLocation;
+    SeekBar circleZoom;
+    private Circle circle;
+
     //private GoogleApiClient mGoogleApiClient;
 
     //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -49,6 +56,9 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
+        //circleZoom = (SeekBar)findViewById(R.id.circleZoom);
+
+//        circleZoom.setProgress();
 
 
     }
@@ -94,11 +104,27 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
 
 
 
-
-
             //Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(dLat, dLong)).radius(1000));
-            Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(userLocation.getLatitude(),userLocation.getLongitude() )).radius(1000).strokeColor(Color.RED));
+            //Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(userLocation.getLatitude(),userLocation.getLongitude() )).radius(500).strokeColor(Color.RED));
+            circle = mMap.addCircle((new CircleOptions().center(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())).radius(200).strokeColor(Color.RED)));
+            //circleZoom = (SeekBar)findViewById(R.id.circleZoom);
+            final SeekBar progress = (SeekBar) findViewById(R.id.circleZoom);
+            progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
 
+                    seekBar.setMax(1000);
+                    circle.setRadius(progress);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    circle.setRadius(200+seekBar.getProgress());
+                }
+                @Override
+            public void onStopTrackingTouch(final SeekBar seekBar){
+
+                }
+            });
 
             mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
