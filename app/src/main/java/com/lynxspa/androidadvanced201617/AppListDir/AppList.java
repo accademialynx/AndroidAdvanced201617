@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617;
+package com.lynxspa.androidadvanced201617.AppListDir;
 
 import android.graphics.drawable.Drawable;
 
@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
  * Created by Esami on 08/02/2017.
  */
 public class AppList {
-
 
     private String name;
 

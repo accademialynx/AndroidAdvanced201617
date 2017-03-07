@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ProfileDetail"
+    tools:context=".profileDir.ProfileDetail"
     android:orientation="vertical"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/marginTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Metodo di rilevamento"
+        android:text="@string/metodo_rilevamento"
         android:textColor="@color/textColor"
         />
     <RadioGroup
@@ -34,23 +34,23 @@
         android:id="@+id/gpsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GPS"/>
+        android:text="@string/gps"/>
 
     <RadioButton
         android:id="@+id/wifiButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wifi"/>
+        android:text="@string/wifi"/>
     <RadioButton
         android:id="@+id/nfcButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NFC"/>
+        android:text="@string/nfc"/>
     <RadioButton
         android:id="@+id/beaconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Beacon"/>
+        android:text="@string/beacon"/>
     </RadioGroup>
     <LinearLayout
         android:layout_marginTop="@dimen/marginTop"
@@ -61,7 +61,7 @@
             android:id="@+id/lume"
             android:layout_width="@dimen/widthLayout"
             android:layout_height="wrap_content"
-            android:text="Luminosità"
+            android:text="@string/brightness"
             android:textColor="@color/textColor"/>
     <SeekBar
 
@@ -76,7 +76,7 @@
         android:id="@+id/brightnessCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auto"
+        android:text="@string/auto"
         android:layout_alignParentRight="true"/>
     </LinearLayout>
 
@@ -89,7 +89,7 @@
         android:id="@+id/volume"
         android:layout_width="@dimen/widthLayout"
         android:layout_height="wrap_content"
-        android:text="Volume"
+        android:text="@string/volume"
         android:textColor="@color/textColor"/>
     <SeekBar
         android:id="@+id/volumeBar"
@@ -107,7 +107,7 @@
             android:id="@+id/bluetooth"
             android:layout_width="@dimen/widthLayout"
             android:layout_height="wrap_content"
-            android:text="Bluetooth"
+            android:text="@string/bluetooth"
             android:textColor="@color/textColor"/>
         <Switch
             android:id="@+id/switchBluetooth"
@@ -125,7 +125,7 @@
             android:id="@+id/wifi"
             android:layout_width="@dimen/widthLayout"
             android:layout_height="wrap_content"
-            android:text="Wifi"
+            android:text="@string/wifi"
             android:textColor="@color/textColor"/>
         <Switch
             android:id="@+id/switchWifi"
@@ -134,34 +134,39 @@
             android:layout_toRightOf="@+id/wifi" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/apps"
+            android:textColor="@color/textColor"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/appList"
+            android:layout_weight="0.5"
+            android:text="-"
+            android:textColor="@color/textColor"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <Button
             android:id="@+id/confirmButton"
-            android:text="CREA"
+            android:text="@string/add"
             android:background="@color/buttonColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:textAlignment="center"
+            android:layout_weight="1"
             android:textColor="#FFF"
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginBottom="0px"
             />
-        <Button
-            android:id="@+id/appListButton"
-            android:text="APP"
-            android:background="@color/buttonColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_weight="0.5"
-            android:textAlignment="center"
-            android:textColor="#FFF"
-            android:layout_marginTop="@dimen/marginTop"
-            android:layout_marginBottom="0px"
-            />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
