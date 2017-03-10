@@ -157,6 +157,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     private void modProfile(){
         setContentView(R.layout.activity_modify);
 
+        editText=(EditText)findViewById(R.id.nomeProfilo);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
