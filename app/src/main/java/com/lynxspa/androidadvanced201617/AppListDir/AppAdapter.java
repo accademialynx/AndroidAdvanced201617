@@ -11,9 +11,6 @@ import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 
-/**
- * Created by Esami on 08/02/2017.
- */
 public class AppAdapter extends BaseAdapter{
 
     private LayoutInflater layoutInflater;

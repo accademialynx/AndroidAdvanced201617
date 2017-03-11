@@ -79,8 +79,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         appList = (TextView) findViewById(R.id.appList);
 
         final Button confirmButton = (Button) findViewById(R.id.confirmButton);
-
-
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -153,9 +151,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     private void modProfile(){
         setContentView(R.layout.activity_modify);
+        mydb = DBHelper.getInstance(this);
 
         editText=(EditText)findViewById(R.id.nomeProfilo);
         editText.setOnClickListener(new View.OnClickListener() {
@@ -164,14 +162,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                 editText.setText("");
             }
         });
-        mydb = DBHelper.getInstance(this);
-        final Bundle profilo = getIntent().getExtras();
-        currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+        editText.setOnClickListener(this);
 
         final Button confirmButton=(Button)findViewById(R.id.modifyButton);
         final Button deleteProfile=(Button)findViewById(R.id.deleteProfile);
-
-        editText=(EditText) findViewById(R.id.nomeProfilo);
+        final RadioButton gpsButton=(RadioButton) findViewById(R.id.gpsButton);
+        final RadioButton wifiButton=(RadioButton) findViewById(R.id.wifiButton);
+        final RadioButton nfcButton=(RadioButton) findViewById(R.id.nfcButton);
+        final RadioButton beaconButton=(RadioButton) findViewById(R.id.beaconButton);
         brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
         brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
         volumeBar=(SeekBar)findViewById(R.id.volumeBar);
@@ -179,14 +177,8 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         wifiSwitch=(Switch)findViewById(R.id.switchWifi);
         radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
 
-        final RadioButton gpsButton=(RadioButton) findViewById(R.id.gpsButton);
-        final RadioButton wifiButton=(RadioButton) findViewById(R.id.wifiButton);
-        final RadioButton nfcButton=(RadioButton) findViewById(R.id.nfcButton);
-        final RadioButton beaconButton=(RadioButton) findViewById(R.id.beaconButton);
-
-        editText.setOnClickListener(this);
-
-
+        final Bundle profilo = getIntent().getExtras();
+        currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
         editText.setText(currentProfile.getName());
 
         switch (currentProfile.getRadioButton())
@@ -225,7 +217,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         }else{
             wifiSwitch.setChecked(false);
         }
-
 
         deleteProfile.setOnClickListener(new View.OnClickListener() {
             @Override

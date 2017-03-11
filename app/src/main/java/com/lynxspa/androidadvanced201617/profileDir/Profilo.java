@@ -1,13 +1,5 @@
 package com.lynxspa.androidadvanced201617.profileDir;
 
-import android.widget.CheckBox;
-import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.Switch;
-
-/**
- * Created by Esami on 24/01/2017.
- */
 public class Profilo {
 
     private int id;
