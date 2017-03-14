@@ -24,7 +24,7 @@
     </ListView>
     <Button
         android:id="@+id/addProfile"
-        android:text="Aggiungi profilo"
+        android:text="@string/addProfile"
         android:background="@color/buttonColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

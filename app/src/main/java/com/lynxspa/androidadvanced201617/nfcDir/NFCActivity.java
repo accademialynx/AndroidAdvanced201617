@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
  */
 public class NFCActivity extends AppCompatActivity {
 
-   private NfcAdapter mAdapter;
+    private NfcAdapter mAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
@@ -37,7 +39,6 @@ public class NFCActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_nfc);
         mText = (TextView) findViewById(R.id.info);
-        mText.setText("Scan a tag");
 
         mAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -68,6 +69,7 @@ public class NFCActivity extends AppCompatActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
+        ListView techListView=(ListView)findViewById(R.id.nfcTechList);;
         Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         if (tag == null) {
@@ -90,6 +92,11 @@ public class NFCActivity extends AppCompatActivity {
                 tagInfo += techList[i] + "\n ";
             }
             mText.setText(tagId.toString());
+
+
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, techList);
+
+            techListView.setAdapter(adapter);
         }
     }
 

@@ -22,7 +22,11 @@
         android:id="@+id/buttonSetWifi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/setWifi"
+        android:text="@string/set"
         android:layout_gravity="bottom"
+        android:background="@color/buttonColor"
+        android:layout_weight="1"
+        android:textColor="#FFF"
+        android:layout_marginTop="@dimen/marginTop"
         />
 </LinearLayout>
