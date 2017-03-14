@@ -39,6 +39,7 @@
         <activity android:name=".WifiDir.WifiListActivity"/>
         <activity android:name=".mapDir.MapsActivity" android:label="Map"/>
         <activity android:name=".nfcDir.NFCActivity"/>
+        <activity android:name=".BeaconDir.BeaconActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
