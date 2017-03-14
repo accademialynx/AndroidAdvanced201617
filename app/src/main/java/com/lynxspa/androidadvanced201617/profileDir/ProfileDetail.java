@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.AppListDir.ListAppActivity;
+import com.lynxspa.androidadvanced201617.BeaconDir.BeaconActivity;
 import com.lynxspa.androidadvanced201617.MainActivity;
 import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.WifiDir.WifiListActivity;
@@ -44,6 +45,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
     final static private int NFC_ACTIVITY=1;
+    final static private int BEACON_ACTIVITY=1;
 
     private Profilo currentProfile;
 
@@ -106,6 +108,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                         switchWifi = 1;
                     }
 
+
                     Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),volumeBarNotification.getProgress(), switchBluetooth, switchWifi);
                     mydb.insertOrUpdateProfile(profilo);
                 } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
@@ -144,6 +147,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent nfcActivity=new Intent(ProfileDetail.this, NFCActivity.class);
                 startActivityForResult(nfcActivity, NFC_ACTIVITY);
+            }
+        });
+
+        beaconButton.setOnClickListener(new  View.OnClickListener(){
+            @Override
+        public void onClick(View v){
+                Intent beaconActivity=new Intent(ProfileDetail.this, BeaconActivity.class);
+                startActivityForResult(beaconActivity, BEACON_ACTIVITY);
             }
         });
     }
@@ -307,6 +318,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent nfcActivity=new Intent(ProfileDetail.this, NFCActivity.class);
                 startActivityForResult(nfcActivity, NFC_ACTIVITY);
+            }
+        });
+
+        beaconButton.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent beaconActivity=new Intent(ProfileDetail.this, BeaconActivity.class);
+                startActivityForResult(beaconActivity, BEACON_ACTIVITY);
             }
         });
     }
