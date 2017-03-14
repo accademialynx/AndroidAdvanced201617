@@ -20,7 +20,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String RADIO_BUTTON_VALUE = "radioButton";
     public static final String BRIGHTNESS_BAR_VALUE = "brightnessBar";
     public static final String CHECK_BRIGHTNESS = "brightnessCheckBox";
-    public static final String BRIGHTNESS_VOLUME = "volumeBar";
+    public static final String BRIGHTNESS_VOLUME_RING = "volumeRing";
+    public static final String BRIGHTNESS_VOLUME_MUSIC = "volumeMusic";
+    public static final String BRIGHTNESS_VOLUME_NOTIFICATION = "volumeNotification";
     public static final String BLUETOOTH_SWITCH = "bluetoothSwitch";
     public static final String WIFI_SWITCH = "wifiSwitch";
 
@@ -50,7 +52,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         ""+ RADIO_BUTTON_VALUE +" INTEGER," +
                         ""+ BRIGHTNESS_BAR_VALUE +" INTEGER," +
                         ""+ CHECK_BRIGHTNESS +" INTEGER," +
-                        ""+ BRIGHTNESS_VOLUME +" INTEGER," +
+                        ""+ BRIGHTNESS_VOLUME_RING +" INTEGER," +
+                        ""+ BRIGHTNESS_VOLUME_MUSIC +" INTEGER," +
+                        ""+ BRIGHTNESS_VOLUME_NOTIFICATION+" INTEGER," +
                         ""+ BLUETOOTH_SWITCH +" INTEGER," +
                         ""+ WIFI_SWITCH +" INTEGER)"
         );
@@ -72,7 +76,9 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
             contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
             contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
-            contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
+            contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
+            contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
+            contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
             contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
             contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
             db.insert(PROFILES_TABLE_NAME, null, contentValues);
@@ -81,7 +87,9 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
             contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
             contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
-            contentValues.put(BRIGHTNESS_VOLUME, profilo.getVolumeBar());
+            contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
+            contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
+            contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
             contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
             contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
             db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
@@ -121,7 +129,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(RADIO_BUTTON_VALUE)),
                     res.getInt(res.getColumnIndex(BRIGHTNESS_BAR_VALUE)),
                     res.getInt(res.getColumnIndex(CHECK_BRIGHTNESS)),
-                    res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME)),
+                    res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_RING)),
+                    res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_MUSIC)),
+                    res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_NOTIFICATION)),
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
                     res.getInt(res.getColumnIndex(WIFI_SWITCH)));
             array_list.add(profilo);

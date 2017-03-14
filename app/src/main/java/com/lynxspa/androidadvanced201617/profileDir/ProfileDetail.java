@@ -21,6 +21,7 @@ import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.WifiDir.WifiListActivity;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 import com.lynxspa.androidadvanced201617.mapDir.MapsActivity;
+import com.lynxspa.androidadvanced201617.nfcDir.NFCActivity;
 
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,7 +29,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     EditText editText;
     SeekBar brightnessBar;
     CheckBox brightnessCheckBox;
-    SeekBar volumeBar;
+    SeekBar volumeBarRing;
+    SeekBar volumeBarMusic;
+    SeekBar volumeBarNotification;
     Switch bluetoothSwitch;
     Switch wifiSwitch;
     RadioButton gpsButton;
@@ -40,6 +43,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
+    final static private int NFC_ACTIVITY=1;
 
     private Profilo currentProfile;
 
@@ -73,7 +77,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         brightnessBar = (SeekBar) findViewById(R.id.brightnessBar);
         brightnessCheckBox = (CheckBox) findViewById(R.id.brightnessCheckBox);
-        volumeBar = (SeekBar) findViewById(R.id.volumeBar);
+        volumeBarRing = (SeekBar) findViewById(R.id.volumeBarRing);
+        volumeBarMusic=(SeekBar)findViewById(R.id.volumeBarMusic);
+        volumeBarNotification=(SeekBar) findViewById(R.id.volumeBarNotification);
         bluetoothSwitch = (Switch) findViewById(R.id.switchBluetooth);
         wifiSwitch = (Switch) findViewById(R.id.switchWifi);
         appList = (TextView) findViewById(R.id.appList);
@@ -100,7 +106,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                         switchWifi = 1;
                     }
 
-                    Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBar.getProgress(), switchBluetooth, switchWifi);
+                    Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),volumeBarNotification.getProgress(), switchBluetooth, switchWifi);
                     mydb.insertOrUpdateProfile(profilo);
                 } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
@@ -129,7 +135,15 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
-                startActivityForResult(wifiActivity,WIFI_LIST_ACTIVITY);
+                startActivityForResult(wifiActivity, WIFI_LIST_ACTIVITY);
+            }
+        });
+
+        nfcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nfcActivity=new Intent(ProfileDetail.this, NFCActivity.class);
+                startActivityForResult(nfcActivity, NFC_ACTIVITY);
             }
         });
     }
@@ -172,7 +186,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         final RadioButton beaconButton=(RadioButton) findViewById(R.id.beaconButton);
         brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
         brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
-        volumeBar=(SeekBar)findViewById(R.id.volumeBar);
+        volumeBarRing = (SeekBar) findViewById(R.id.volumeBarRing);
+        volumeBarMusic=(SeekBar)findViewById(R.id.volumeBarMusic);
+        volumeBarNotification=(SeekBar) findViewById(R.id.volumeBarNotification);
         bluetoothSwitch=(Switch)findViewById(R.id.switchBluetooth);
         wifiSwitch=(Switch)findViewById(R.id.switchWifi);
         radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
@@ -206,7 +222,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             brightnessCheckBox.setChecked(false);
         }
 
-        volumeBar.setProgress(currentProfile.getVolumeBar());
+        volumeBarRing.setProgress(currentProfile.getVolumeBarRing());
+        volumeBarMusic.setProgress(currentProfile.getVolumeBarMusic());
+        volumeBarNotification.setProgress(currentProfile.getVolumeBarNotification());
         if(currentProfile.getBluetoothSwitch()==1){
             bluetoothSwitch.setChecked(true);
         }else{
@@ -248,7 +266,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                         switchWifi = 1;
                     }
 
-                    currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBar.getProgress(), switchBluetooth, switchWifi);
+                    currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),volumeBarNotification.getProgress(), switchBluetooth, switchWifi);
                     mydb.insertOrUpdateProfile(currentProfile);
                     Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
                     startActivity(mainActivity);
@@ -281,6 +299,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
                 startActivityForResult(wifiActivity, WIFI_LIST_ACTIVITY);
+            }
+        });
+
+        nfcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nfcActivity=new Intent(ProfileDetail.this, NFCActivity.class);
+                startActivityForResult(nfcActivity, NFC_ACTIVITY);
             }
         });
     }

@@ -11,10 +11,15 @@
     <string name="nfc">NFC</string>
     <string name="beacon">Beacon</string>
     <string name="brightness">Luminosità</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Volumi</string>
+    <string name="volumeRing">Suoneria</string>
+    <string name="volumeMusic">Musica</string>
+    <string name="volumeNotification">Notifiche</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="apps">AppList</string>
     <string name="auto">Auto</string>
     <string name="add">CREA</string>
     <string name="setWifi">Imposta</string>
+    <string name="other">Altro</string>
+    <string name="explanation"></string>
 </resources>

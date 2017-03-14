@@ -7,17 +7,21 @@ public class Profilo {
     private int radioButton;
     private int brigthnesBar;
     private int brightnessCheckBox;
-    private int volumeBar;
+    private int volumeBarRing;
+    private int volumeBarMusic;
+    private int volumeBarNotification;
     private int bluetoothSwitch;
     private int wifiSwitch;
 
-    public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox, int volumeBar, int bluetoothSwitch, int wifiSwitch) {
+    public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox, int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch, int wifiSwitch) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
         this.brigthnesBar = brigthnesBar;
         this.brightnessCheckBox = brightnessCheckBox;
-        this.volumeBar = volumeBar;
+        this.volumeBarRing = volumeBarRing;
+        this.volumeBarMusic=volumeBarMusic;
+        this.volumeBarNotification=volumeBarNotification;
         this.bluetoothSwitch = bluetoothSwitch;
         this.wifiSwitch = wifiSwitch;
     }
@@ -62,12 +66,28 @@ public class Profilo {
         this.brightnessCheckBox = brightnessCheckBox;
     }
 
-    public int getVolumeBar() {
-        return volumeBar;
+    public int getVolumeBarRing() {
+        return volumeBarRing;
     }
 
-    public void setVolumeBar(int volumeBar) {
-        this.volumeBar = volumeBar;
+    public void setVolumeBarRing(int volumeBarRing) {
+        this.volumeBarRing = volumeBarRing;
+    }
+
+    public int getVolumeBarMusic() {
+        return volumeBarMusic;
+    }
+
+    public void setVolumeBarMusic(int volumeBarMusic) {
+        this.volumeBarMusic = volumeBarMusic;
+    }
+
+    public int getVolumeBarNotification() {
+        return volumeBarNotification;
+    }
+
+    public void setVolumeBarNotification(int volumeBarNotification) {
+        this.volumeBarNotification = volumeBarNotification;
     }
 
     public int getBluetoothSwitch() {

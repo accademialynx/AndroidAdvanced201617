@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-feature android:name="android.hardware.nfc" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -25,15 +28,17 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <activity android:name=".profileDir.ProfileDetail" />
         <activity android:name=".AppListDir.ListAppActivity"/>
         <activity android:name=".WifiDir.WifiListActivity"/>
-        <activity android:name=".mapDir.MapsActivity"
-            android:label="Map"/>
+        <activity android:name=".mapDir.MapsActivity" android:label="Map"/>
+        <activity android:name=".nfcDir.NFCActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
