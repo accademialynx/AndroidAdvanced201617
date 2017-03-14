@@ -8,6 +8,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.nfc.Tag;
+import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,69 +24,78 @@ import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
  */
 public class NFCActivity extends AppCompatActivity {
 
-    private NfcAdapter nfcAdapter;
-    TextView textViewInfo;
+   private NfcAdapter mAdapter;
+    private PendingIntent mPendingIntent;
+    private IntentFilter[] mFilters;
+    private String[][] mTechLists;
+    private TextView mText;
+    private int mCount = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedState) {
+        super.onCreate(savedState);
+
         setContentView(R.layout.activity_nfc);
-        textViewInfo = (TextView)findViewById(R.id.info);
+        mText = (TextView) findViewById(R.id.info);
+        mText.setText("Scan a tag");
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if(nfcAdapter == null){
-            Toast.makeText(this,
-                    "NFC NOT supported on this devices!",
-                    Toast.LENGTH_LONG).show();
-            finish();
-        }else if(!nfcAdapter.isEnabled()){
-            Toast.makeText(this,
-                    "NFC NOT Enabled!",
-                    Toast.LENGTH_LONG).show();
-            finish();
+        mAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        mPendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndef.addDataType("*/*");
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException("fail", e);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        mFilters = new IntentFilter[] {
+                ndef,
+        };
 
         Intent intent = getIntent();
         String action = intent.getAction();
 
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-            Toast.makeText(this,
-                    "onResume() - ACTION_TAG_DISCOVERED",
-                    Toast.LENGTH_SHORT).show();
+        mTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+    }
 
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            if(tag == null){
-                textViewInfo.setText("tag == null");
-            }else{
-                String tagInfo = tag.toString() + "\n";
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.enableForegroundDispatch(this, mPendingIntent, mFilters, mTechLists);
+    }
 
-                tagInfo += "\nTag Id: \n";
-                byte[] tagId = tag.getId();
-                tagInfo += "length = " + tagId.length +"\n";
-                for (int i=0; i<tagId.length; i++){
-                    tagInfo += Integer.toHexString(tagId[i] & 0xFF) + " ";
-                }
-                tagInfo += "\n";
+    @Override
+    public void onNewIntent(Intent intent) {
+        Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        if (tag == null) {
+            mText.setText("tag == null");
+        } else {
+            String tagInfo = tag.toString() + "\n";
 
-                String[] techList = tag.getTechList();
-                tagInfo += "\nTech List\n";
-                tagInfo += "length = " + techList.length +"\n";
-                for(int i=0; i<techList.length; i++){
-                    tagInfo += techList[i] + "\n ";
-                }
-
-                textViewInfo.setText(tagInfo);
+            tagInfo += "\nTag Id: \n";
+            byte[] tagId = tag.getId();
+            tagInfo += "length = " + tagId.length + "\n";
+            for (int i = 0; i < tagId.length; i++) {
+                tagInfo += Integer.toHexString(tagId[i] & 0xFF) + " ";
             }
-        }else{
-            Toast.makeText(this,
-                    "onResume() : " + action,
-                    Toast.LENGTH_SHORT).show();
-        }
+            tagInfo += "\n";
 
+            String[] techList = tag.getTechList();
+            tagInfo += "\nTech List\n";
+            tagInfo += "length = " + techList.length + "\n";
+            for (int i = 0; i < techList.length; i++) {
+                tagInfo += techList[i] + "\n ";
+            }
+            mText.setText(tagId.toString());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mAdapter.disableForegroundDispatch(this);
     }
 }
