@@ -11,9 +11,6 @@ import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Esami on 19/01/2017.
- */
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "DBProfiles.db";

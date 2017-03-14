@@ -11,9 +11,6 @@ import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 
-/**
- * Created by Esami on 07/03/2017.
- */
 public class WifiAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;

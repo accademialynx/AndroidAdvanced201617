@@ -8,11 +8,7 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
@@ -20,14 +16,10 @@ import com.lynxspa.androidadvanced201617.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Esami on 07/03/2017.
- */
 public class WifiListActivity extends Activity
 {
     WifiManager wifi;
     ListView wifiListView;
-    Button buttonSetWifi;
     int size = 0;
     List<ScanResult> results;
 
@@ -63,7 +55,6 @@ public class WifiListActivity extends Activity
                         WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%");
                         arraylistWifi.add(wifiList);
                         size--;
-
                     }
                 } catch (Exception e) {
                 }
@@ -72,9 +63,9 @@ public class WifiListActivity extends Activity
                 wifiListView.setAdapter(wifiAdapter);
                 results = wifi.getScanResults();
                 size = results.size();
+                wifi.startScan();
             }
         }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
 
     }
 }

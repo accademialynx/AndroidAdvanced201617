@@ -1,8 +1,5 @@
 package com.lynxspa.androidadvanced201617.WifiDir;
 
-/**
- * Created by Esami on 07/03/2017.
- */
 public class WifiList {
 
     private String ssid;

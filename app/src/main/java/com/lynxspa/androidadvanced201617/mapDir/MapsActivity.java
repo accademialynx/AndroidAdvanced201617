@@ -51,8 +51,6 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
-
-
     }
 
     @Override

@@ -14,7 +14,9 @@ import com.lynxspa.androidadvanced201617.profileDir.ProfileDetail;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
 import java.util.ArrayList;
-
+/*
+* Created by Mohamed and Kishore
+* */
 public class MainActivity extends AppCompatActivity {
 
     DBHelper mydb;
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        // ArrayList<String> profili=new ArrayList<String>();
         ListView listView=(ListView)findViewById(R.id.listView);
         ArrayList<String> listaProfili=new ArrayList<>();
 
@@ -44,13 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-
         Button addProfileButton=(Button)findViewById(R.id.addProfile);
         addProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent editActivity = new Intent(MainActivity.this, ProfileDetail.class);
-                //  editActivity.putStringArrayListExtra("listaProfili", profili);
                 startActivity(editActivity);
 
             }
@@ -66,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(modifyProfile);
             }
         });
-
-
 
     }
 }
