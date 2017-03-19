@@ -67,6 +67,15 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion) {
+            /**
+            * devo prendere i dati aggiunti dalle varie posizioni o l'app selezionata nella lista delle app installate
+            * estendere il Profilo con i vari campi seguenti? o gestire i dati aggiuntivi direttamente dalla view?
+            * una volta presi i dati e salvati a db come faccio a creare un collegamento tra l'id della tupla del db
+            * con gli altri campi aggiunti direttamente della view? è possibile una cosa del genere?
+            * è logico che una volta presi i dati aggiuntivi, è consono fare un aggiornamento della classe profilo(secondo me)
+            * verificare le condizioni seguenti con le condizioni reali gli attuali sono solo per prendere come modellol'upgrade
+            *
+            * */
             if((LATITUDE!=null && !LATITUDE.isEmpty()) && (LONGITUDE!=null && !LONGITUDE.isEmpty())) {
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LONGITUDE + " DOUBLE");
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LATITUDE + " DOUBLE");
