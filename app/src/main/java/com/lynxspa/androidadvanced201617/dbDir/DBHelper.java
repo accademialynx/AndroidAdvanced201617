@@ -25,14 +25,18 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BRIGHTNESS_VOLUME_NOTIFICATION = "volumeNotification";
     public static final String BLUETOOTH_SWITCH = "bluetoothSwitch";
     public static final String WIFI_SWITCH = "wifiSwitch";
+    public static final String LONGITUDE = "longitude";
+    public static final String LATITUDE = "latitude";
+    public static final String NFC_TAG_ID = "nfcTagId";
+    public static final String WIFI_SSID = "wifiSSID";
+    public static final String BEACON_ID = "beaconId";
+    public static final String APP_NAME="appName";
 
-    public static final int VERSION_DB=1;
-
-    private static final int DATABASE_CURRENT_VERSION = VERSION_DB;
+    public static int VERSION_DB=1;
 
     private static DBHelper newInstance;
     private DBHelper(Context context){
-        super(context,DATABASE_NAME,null,DATABASE_CURRENT_VERSION);
+        super(context,DATABASE_NAME,null,VERSION_DB);
     }
 
     public static DBHelper getInstance(Context context){
@@ -62,10 +66,29 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-      /*  String upgradeQuery = "ALTER TABLE "+PROFILES_TABLE_NAME+" ADD COLUMN "++" TEXT";
-        if (oldVersion == 1 && newVersion == 2)
-            db.execSQL(upgradeQuery);*/
+        if (newVersion > oldVersion) {
+            if((LATITUDE!=null && !LATITUDE.isEmpty()) && (LONGITUDE!=null && !LONGITUDE.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LONGITUDE + " DOUBLE");
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LATITUDE + " DOUBLE");
+                VERSION_DB=newVersion;
+            }
+            if((WIFI_SSID!=null && !WIFI_SSID.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_SSID + " TEXT");
+                VERSION_DB=newVersion;
+            }
+            if((NFC_TAG_ID!=null && !NFC_TAG_ID.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + NFC_TAG_ID + " TEXT");
+                VERSION_DB=newVersion;
+            }
+            if((BEACON_ID!=null && !BEACON_ID.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_ID + " TEXT");
+                VERSION_DB=newVersion;
+            }
+            if((APP_NAME!=null && !APP_NAME.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + APP_NAME + " TEXT");
+                VERSION_DB=newVersion;
+            }
+        }
     }
 
     public boolean insertOrUpdateProfile (Profilo profilo) {
