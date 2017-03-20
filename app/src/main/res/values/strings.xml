@@ -11,6 +11,7 @@
     <string name="wifi">WI-FI</string>
     <string name="nfc">NFC</string>
     <string name="beacon">Beacon</string>
+    <string name="name">Nome</string>
     <string name="brightness">Luminosità</string>
     <string name="volume">Volumi</string>
     <string name="volumeRing">Suoneria</string>
@@ -24,4 +25,5 @@
     <string name="other">Altro</string>
     <string name="id">Tag ID</string>
     <string name="techSupported">Tecnologie Supportate</string>
+    <string name="address">Indirizzo</string>
 </resources>

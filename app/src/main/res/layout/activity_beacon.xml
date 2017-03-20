@@ -12,10 +12,13 @@
         />
 
     <Button
-        android:id="@+id/buttonSetBeacon"
+        android:id="@+id/confirmButtonBeacon"
+        android:text="@string/set"
+        android:background="@color/buttonColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="IMPOSTA"
+        android:textAlignment="center"
+        android:textColor="#FFF"
         android:layout_gravity="bottom"
         />
 </LinearLayout>
