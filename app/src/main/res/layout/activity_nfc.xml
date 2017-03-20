@@ -14,22 +14,29 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
-
     <TextView
         android:text="@string/id"
+        android:textSize="@dimen/marginTop"
+        android:textColor="@color/textColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/info"
+        android:layout_marginLeft="@dimen/marginTop"
+        android:layout_marginTop="@dimen/marginTop"
+        android:textColor="@color/textColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="@dimen/marginTop"
         android:textColor="@color/textColor"
-        android:id="@string/techSupported"
+        android:textSize="@dimen/marginTop"
+        android:text="@string/techSupported"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ListView
+        android:layout_marginTop="@dimen/marginTop"
         android:id="@+id/nfcTechList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,9 +48,8 @@
         android:background="@color/buttonColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:textAlignment="center"
         android:textColor="#FFF"
         android:layout_gravity="bottom"
-        />
+    />
 </LinearLayout>

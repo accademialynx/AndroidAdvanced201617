@@ -21,9 +21,6 @@ import android.widget.Toast;
 import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 
-/**
- * Created by Esami on 14/03/2017.
- */
 public class NFCActivity extends AppCompatActivity {
 
     private NfcAdapter mAdapter;
@@ -31,7 +28,6 @@ public class NFCActivity extends AppCompatActivity {
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
     private TextView mText;
-    private int mCount = 0;
 
     @Override
     public void onCreate(Bundle savedState) {
@@ -75,23 +71,20 @@ public class NFCActivity extends AppCompatActivity {
         if (tag == null) {
             mText.setText("tag == null");
         } else {
-            String tagInfo = tag.toString() + "\n";
+            String tagInfo = "";
 
-            tagInfo += "\nTag Id: \n";
             byte[] tagId = tag.getId();
-            tagInfo += "length = " + tagId.length + "\n";
             for (int i = 0; i < tagId.length; i++) {
-                tagInfo += Integer.toHexString(tagId[i] & 0xFF) + " ";
+                tagInfo += Integer.toHexString(tagId[i] & 0xFF) + ":";
             }
-            tagInfo += "\n";
 
             String[] techList = tag.getTechList();
-            tagInfo += "\nTech List\n";
+         /*   tagInfo += "\nTech List\n";
             tagInfo += "length = " + techList.length + "\n";
             for (int i = 0; i < techList.length; i++) {
                 tagInfo += techList[i] + "\n ";
-            }
-            mText.setText(tagId.toString());
+            }*/
+            mText.setText(tagInfo.substring(0,tagInfo.length()-1));
 
 
             ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, techList);

@@ -19,14 +19,13 @@
         />
 
     <Button
-        android:id="@+id/buttonSetWifi"
+        android:id="@+id/confirmButtonWifi"
+        android:text="@string/set"
+        android:background="@color/buttonColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/set"
-        android:layout_gravity="bottom"
-        android:background="@color/buttonColor"
-        android:layout_weight="1"
+        android:textAlignment="center"
         android:textColor="#FFF"
-        android:layout_marginTop="@dimen/marginTop"
+        android:layout_gravity="bottom"
         />
 </LinearLayout>
