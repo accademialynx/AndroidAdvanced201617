@@ -17,30 +17,43 @@ import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.AppListDir.ListAppActivity;
 import com.lynxspa.androidadvanced201617.BeaconDir.BeaconActivity;
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.MainActivity;
 import com.lynxspa.androidadvanced201617.R;
+import com.lynxspa.androidadvanced201617.WifiDir.WifiList;
 import com.lynxspa.androidadvanced201617.WifiDir.WifiListActivity;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 import com.lynxspa.androidadvanced201617.mapDir.MapsActivity;
 import com.lynxspa.androidadvanced201617.nfcDir.NFCActivity;
 
+import java.util.ArrayList;
+
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 
-    DBHelper mydb;
-    EditText editText;
-    SeekBar brightnessBar;
-    CheckBox brightnessCheckBox;
-    SeekBar volumeBarRing;
-    SeekBar volumeBarMusic;
-    SeekBar volumeBarNotification;
-    Switch bluetoothSwitch;
-    Switch wifiSwitch;
-    RadioButton gpsButton;
-    RadioButton wifiButton;
-    RadioButton nfcButton;
-    RadioButton beaconButton;
-    RadioGroup radioGroup;
-    TextView appList;
+    private DBHelper mydb;
+    private EditText editText;
+    private SeekBar brightnessBar;
+    private CheckBox brightnessCheckBox;
+    private SeekBar volumeBarRing;
+    private SeekBar volumeBarMusic;
+    private SeekBar volumeBarNotification;
+    private Switch bluetoothSwitch;
+    private Switch wifiSwitch;
+    private RadioButton gpsButton;
+    private RadioButton wifiButton;
+    private RadioButton nfcButton;
+    private RadioButton beaconButton;
+    private RadioGroup radioGroup;
+    private TextView appList;
+    private TextView longitude;
+    private TextView latitude;
+    private TextView wifiSSID;
+    private TextView wifiBSSID;
+    private TextView wifiSignal;
+    private TextView nfcTagId;
+    private TextView beaconName;
+    private TextView beaconSignal;
+    private TextView beaconId;
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
@@ -87,36 +100,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         appList = (TextView) findViewById(R.id.appList);
 
         final Button confirmButton = (Button) findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty() && !editText.getText().toString().equals("Inserisci nome profilo")) {
-                    int id = DBHelper.getInstance(getApplicationContext()).getAllProfiles().size() + 1;
-
-                    int checkBoxBrightness = 0;
-                    if (brightnessCheckBox.isChecked()) {
-                        checkBoxBrightness = 1;
-                    }
-
-                    int switchBluetooth = 0;
-                    if (bluetoothSwitch.isChecked()) {
-                        switchBluetooth = 1;
-                    }
-
-                    int switchWifi = 0;
-                    if (wifiSwitch.isChecked()) {
-                        switchWifi = 1;
-                    }
-
-
-                    Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),volumeBarNotification.getProgress(), switchBluetooth, switchWifi);
-                    mydb.insertOrUpdateProfile(profilo);
-                } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
-                }
-                finish();
-            }
-        });
 
         appList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +122,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
                 startActivityForResult(wifiActivity, WIFI_LIST_ACTIVITY);
+                //ArrayList<WifiList> wifi=wifiActivity.getParcelableArrayListExtra("wifi");
             }
         });
 
@@ -155,6 +139,45 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         public void onClick(View v){
                 Intent beaconActivity=new Intent(ProfileDetail.this, BeaconActivity.class);
                 startActivityForResult(beaconActivity, BEACON_ACTIVITY);
+            }
+        });
+
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty() && !editText.getText().toString().equals("Inserisci nome profilo")) {
+                    int id = DBHelper.getInstance(getApplicationContext()).getAllProfiles().size() + 1;
+
+                    int checkBoxBrightness = 0;
+                    if (brightnessCheckBox.isChecked()) {
+                        checkBoxBrightness = 1;
+                    }
+
+                    int switchBluetooth = 0;
+                    if (bluetoothSwitch.isChecked()) {
+                        switchBluetooth = 1;
+                    }
+
+                    int switchWifi = 0;
+                    if (wifiSwitch.isChecked()) {
+                        switchWifi = 1;
+                    }
+
+
+
+                    Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
+                            brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),
+                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,longitude.toString(),latitude.toString(),
+                            wifiSSID.toString(),wifiBSSID.toString(),wifiSignal.toString(), nfcTagId.toString(),
+                            beaconName.toString(),beaconId.toString(),beaconSignal.toString(),appList.toString());
+                    mydb.insertOrUpdateProfile(profilo);
+
+
+                } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
+                }
+                finish();
             }
         });
     }
@@ -247,46 +270,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             wifiSwitch.setChecked(false);
         }
 
-        deleteProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mydb.delete(currentProfile.getId());
-                Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
-                startActivity(mainActivity);
-            }
-        });
-
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty() && !editText.getText().toString().equals("Inserisci nome profilo")) {
-                    int checkBoxBrightness = 0;
-                    if (brightnessCheckBox.isChecked()) {
-                        checkBoxBrightness = 1;
-                    }
-
-                    int switchBluetooth = 0;
-                    if (bluetoothSwitch.isChecked()) {
-                        switchBluetooth = 1;
-                    }
-
-                    int switchWifi = 0;
-                    if (wifiSwitch.isChecked()) {
-                        switchWifi = 1;
-                    }
-
-                    currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(), brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),volumeBarNotification.getProgress(), switchBluetooth, switchWifi);
-                    mydb.insertOrUpdateProfile(currentProfile);
-                    Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
-                    startActivity(mainActivity);
-                } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         appList = (TextView) findViewById(R.id.appList);
 
         appList.setOnClickListener(new View.OnClickListener() {
@@ -326,6 +309,50 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v){
                 Intent beaconActivity=new Intent(ProfileDetail.this, BeaconActivity.class);
                 startActivityForResult(beaconActivity, BEACON_ACTIVITY);
+            }
+        });
+
+
+        deleteProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mydb.delete(currentProfile.getId());
+                Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
+                startActivity(mainActivity);
+            }
+        });
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (editText.getText().toString() != null && !editText.getText().toString().isEmpty() && !editText.getText().toString().equals("Inserisci nome profilo")) {
+                    int checkBoxBrightness = 0;
+                    if (brightnessCheckBox.isChecked()) {
+                        checkBoxBrightness = 1;
+                    }
+
+                    int switchBluetooth = 0;
+                    if (bluetoothSwitch.isChecked()) {
+                        switchBluetooth = 1;
+                    }
+
+                    int switchWifi = 0;
+                    if (wifiSwitch.isChecked()) {
+                        switchWifi = 1;
+                    }
+
+                   /* currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
+                            brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),
+                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,longitude,latitude,wifiSSID,wifiBSSID,wifiSignal,nfcTagId,
+                            beaconName,beaconId,beaconSignal,appList);*/
+                    mydb.insertOrUpdateProfile(currentProfile);
+                    Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
+                    startActivity(mainActivity);
+                } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

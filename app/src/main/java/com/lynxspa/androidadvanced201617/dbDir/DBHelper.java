@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String LATITUDE = "latitude";
     public static final String NFC_TAG_ID = "nfcTagId";
     public static final String WIFI_SSID = "wifiSSID";
+    public static final String WIFI_BSSID = "wifiBssid";
+    public static final String WIFI_SIGNAL = "wifiSignal";
+    public static final String BEACON_NAME = "beaconName";
     public static final String BEACON_ID = "beaconId";
+    public static final String BEACON_SIGNAL = "beaconSignal";
     public static final String APP_NAME="appName";
+
 
     public static int VERSION_DB=1;
 
@@ -49,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(
                 "CREATE TABLE "+ PROFILES_TABLE_NAME +" " +"("
                           + PROFILES_COLUMN_ID +" INTEGER PRIMARY KEY," +
@@ -66,66 +75,79 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion) {
-            /**
-            * devo prendere i dati aggiunti dalle varie posizioni o l'app selezionata nella lista delle app installate
-            * estendere il Profilo con i vari campi seguenti? o gestire i dati aggiuntivi direttamente dalla view?
-            * una volta presi i dati e salvati a db come faccio a creare un collegamento tra l'id della tupla del db
-            * con gli altri campi aggiunti direttamente della view? è possibile una cosa del genere?
-            * è logico che una volta presi i dati aggiuntivi, è consono fare un aggiornamento della classe profilo(secondo me)
-            * verificare le condizioni seguenti con le condizioni reali gli attuali sono solo per prendere come modellol'upgrade
-            *
-            * */
-            if((LATITUDE!=null && !LATITUDE.isEmpty()) && (LONGITUDE!=null && !LONGITUDE.isEmpty())) {
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LONGITUDE + " DOUBLE");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LATITUDE + " DOUBLE");
-                VERSION_DB=newVersion;
-            }
-            if((WIFI_SSID!=null && !WIFI_SSID.isEmpty())) {
+        if (newVersion < 2) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LONGITUDE + " TEXT");
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LATITUDE + " TEXT");
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_SSID + " TEXT");
-                VERSION_DB=newVersion;
-            }
-            if((NFC_TAG_ID!=null && !NFC_TAG_ID.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_BSSID + " TEXT");
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_SIGNAL + " TEXT");
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + NFC_TAG_ID + " TEXT");
-                VERSION_DB=newVersion;
-            }
-            if((BEACON_ID!=null && !BEACON_ID.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_NAME + " TEXT");
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_ID + " TEXT");
-                VERSION_DB=newVersion;
-            }
-            if((APP_NAME!=null && !APP_NAME.isEmpty())) {
+                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_SIGNAL+ " TEXT");
                 db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + APP_NAME + " TEXT");
                 VERSION_DB=newVersion;
-            }
+        }
+
+        if(newVersion<3){
+            //TODO do something onUpgrade
+            VERSION_DB=newVersion;
         }
     }
 
     public boolean insertOrUpdateProfile (Profilo profilo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        if(getProfileById(profilo.getId()) == null){
-            contentValues.put(NAME_PROFILE, profilo.getName());
-            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
-            contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
-            contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
-            contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
-            contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
-            contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
-            contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
-            contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
-            db.insert(PROFILES_TABLE_NAME, null, contentValues);
-        }else if(getProfileById(profilo.getId()) != null){
-            contentValues.put(NAME_PROFILE, profilo.getName());
-            contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
-            contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
-            contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
-            contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
-            contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
-            contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
-            contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
-            contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
-            db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
+        byte[] raw=new byte[16];
+        ProfiloEncrypted profiloEncrypted=null;
+        try {
+            profiloEncrypted = EncryptDecryptClass.encrypt(raw, profilo);
+            if(getProfileById(profilo.getId()) == null){
+                contentValues.put(NAME_PROFILE, profiloEncrypted.getName());
+                contentValues.put(RADIO_BUTTON_VALUE, profiloEncrypted.getRadioButton());
+                contentValues.put(BRIGHTNESS_BAR_VALUE, profiloEncrypted.getBrigthnesBar());
+                contentValues.put(CHECK_BRIGHTNESS, profiloEncrypted.getBrightnessCheckBox());
+                contentValues.put(BRIGHTNESS_VOLUME_RING, profiloEncrypted.getVolumeBarRing());
+                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profiloEncrypted.getVolumeBarMusic());
+                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
+                contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
+                contentValues.put(LONGITUDE, profiloEncrypted.getLongitude());
+                contentValues.put(LATITUDE, profiloEncrypted.getLatitude());
+                contentValues.put(WIFI_SSID, profiloEncrypted.getWifiSSID());
+                contentValues.put(WIFI_BSSID, profiloEncrypted.getWifiBSSID());
+                contentValues.put(WIFI_SIGNAL, profiloEncrypted.getWifiSignal());
+                contentValues.put(NFC_TAG_ID, profiloEncrypted.getNfcTagId());
+                contentValues.put(BEACON_NAME, profiloEncrypted.getBeaconName());
+                contentValues.put(BEACON_ID, profiloEncrypted.getBeaconId());
+                contentValues.put(BEACON_SIGNAL, profiloEncrypted.getBeaconSignal());
+                contentValues.put(APP_NAME, profiloEncrypted.getAppName());
+                db.insert(PROFILES_TABLE_NAME, null, contentValues);
+            }else if(getProfileById(profilo.getId()) != null){
+                contentValues.put(NAME_PROFILE, profiloEncrypted.getName());
+                contentValues.put(RADIO_BUTTON_VALUE, profiloEncrypted.getRadioButton());
+                contentValues.put(BRIGHTNESS_BAR_VALUE, profiloEncrypted.getBrigthnesBar());
+                contentValues.put(CHECK_BRIGHTNESS, profiloEncrypted.getBrightnessCheckBox());
+                contentValues.put(BRIGHTNESS_VOLUME_RING, profiloEncrypted.getVolumeBarRing());
+                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profiloEncrypted.getVolumeBarMusic());
+                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
+                contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
+                contentValues.put(WIFI_SWITCH, profiloEncrypted.getWifiSwitch());
+                contentValues.put(LONGITUDE, profiloEncrypted.getLongitude());
+                contentValues.put(LATITUDE, profiloEncrypted.getLatitude());
+                contentValues.put(WIFI_SSID, profiloEncrypted.getWifiSSID());
+                contentValues.put(WIFI_BSSID, profiloEncrypted.getWifiBSSID());
+                contentValues.put(WIFI_SIGNAL, profiloEncrypted.getWifiSignal());
+                contentValues.put(NFC_TAG_ID, profiloEncrypted.getNfcTagId());
+                contentValues.put(BEACON_NAME, profiloEncrypted.getBeaconName());
+                contentValues.put(BEACON_ID, profiloEncrypted.getBeaconId());
+                contentValues.put(BEACON_SIGNAL, profiloEncrypted.getBeaconSignal());
+                contentValues.put(APP_NAME, profiloEncrypted.getAppName());
+                db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return true;
     }
 
@@ -165,7 +187,17 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_MUSIC)),
                     res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_NOTIFICATION)),
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
-                    res.getInt(res.getColumnIndex(WIFI_SWITCH)));
+                    res.getInt(res.getColumnIndex(WIFI_SWITCH)),
+                    res.getString(res.getColumnIndex(LONGITUDE)),
+                    res.getString(res.getColumnIndex(LATITUDE)),
+                    res.getString(res.getColumnIndex(WIFI_SSID)),
+                    res.getString(res.getColumnIndex(WIFI_BSSID)),
+                    res.getString(res.getColumnIndex(WIFI_SIGNAL)),
+                    res.getString(res.getColumnIndex(NFC_TAG_ID)),
+                    res.getString(res.getColumnIndex(BEACON_NAME)),
+                    res.getString(res.getColumnIndex(BEACON_ID)),
+                    res.getString(res.getColumnIndex(BEACON_SIGNAL)),
+                    res.getString(res.getColumnIndex(APP_NAME)));
             array_list.add(profilo);
             res.moveToNext();
         }
