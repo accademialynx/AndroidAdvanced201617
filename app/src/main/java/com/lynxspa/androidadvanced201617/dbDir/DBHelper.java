@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.WifiDir.WifiList;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
 
@@ -28,16 +29,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BRIGHTNESS_VOLUME_NOTIFICATION = "volumeNotification";
     public static final String BLUETOOTH_SWITCH = "bluetoothSwitch";
     public static final String WIFI_SWITCH = "wifiSwitch";
+    public static final String MAPS_TABLE_NAME="Maps";
+    public static final String NAME_MAP="Map";
+    public static final String MAP_COLUMN_ID="id";
     public static final String LONGITUDE = "longitude";
     public static final String LATITUDE = "latitude";
-    public static final String NFC_TAG_ID = "nfcTagId";
+    public static final String WIFI_TABLE_NAME="Maps";
+    public static final String WIFI_COLUMN_ID="id";
     public static final String WIFI_SSID = "wifiSSID";
     public static final String WIFI_BSSID = "wifiBssid";
     public static final String WIFI_SIGNAL = "wifiSignal";
+    public static final String NFC_TABLE_NAME = "NFC";
+    public static final String NFC_COLUMN_ID = "id";
+    public static final String NFC_TAG_ID = "nfcTagId";
+    public static final String NFC_TAG_NAME = "nfcTagName";
+    public static final String BEACON_TABLE_NAME = "Beacon";
+    public static final String BEACON_COLUMN_ID = "id";
     public static final String BEACON_NAME = "beaconName";
     public static final String BEACON_ID = "beaconId";
     public static final String BEACON_SIGNAL = "beaconSignal";
     public static final String APP_NAME="appName";
+    public static final String PROFILE_ID="profileId";
+
 
 
     public static int VERSION_DB=1;
@@ -69,24 +82,50 @@ public class DBHelper extends SQLiteOpenHelper {
                         ""+ BRIGHTNESS_VOLUME_MUSIC +" INTEGER," +
                         ""+ BRIGHTNESS_VOLUME_NOTIFICATION+" INTEGER," +
                         ""+ BLUETOOTH_SWITCH +" INTEGER," +
-                        ""+ WIFI_SWITCH +" INTEGER)"
+                        ""+ WIFI_SWITCH +" INTEGER,"+
+                        ""+ APP_NAME +" TEXT)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion < 2) {
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LONGITUDE + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + LATITUDE + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_SSID + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_BSSID + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + WIFI_SIGNAL + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + NFC_TAG_ID + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_NAME + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_ID + " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + BEACON_SIGNAL+ " TEXT");
-                db.execSQL("ALTER TABLE " + PROFILES_TABLE_NAME + " ADD COLUMN " + APP_NAME + " TEXT");
-                VERSION_DB=newVersion;
+            db.execSQL(
+                    "CREATE TABLE "+ MAPS_TABLE_NAME +" " +"("
+                            + MAP_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            ""+ NAME_MAP+" TEXT," +
+                            ""+ LONGITUDE+" TEXT," +
+                            ""+ LATITUDE+" TEXT," +
+                            ""+ PROFILE_ID +" INTEGER,"+
+                            " FOREIGN KEY ("+PROFILE_ID+") REFERENCES "+PROFILES_TABLE_NAME+"("+PROFILES_COLUMN_ID+"));"
+            );
+            db.execSQL(
+                    "CREATE TABLE "+ WIFI_TABLE_NAME +" " +"("
+                            + WIFI_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            ""+ WIFI_SSID+" TEXT," +
+                            ""+ WIFI_BSSID+" TEXT," +
+                            ""+ WIFI_SIGNAL+" TEXT," +
+                            ""+ PROFILE_ID +" INTEGER,"+
+                            " FOREIGN KEY ("+PROFILE_ID+") REFERENCES "+PROFILES_TABLE_NAME+"("+PROFILES_COLUMN_ID+"));"
+            );
+            db.execSQL(
+                    "CREATE TABLE "+ NFC_TABLE_NAME +" " +"("
+                            + NFC_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            ""+ NFC_TAG_NAME+" TEXT," +
+                            ""+ NFC_TAG_ID+" TEXT," +
+                            ""+ PROFILE_ID +" INTEGER,"+
+                            " FOREIGN KEY ("+PROFILE_ID+") REFERENCES "+PROFILES_TABLE_NAME+"("+PROFILES_COLUMN_ID+"));"
+            );
+            db.execSQL(
+                    "CREATE TABLE "+ BEACON_TABLE_NAME +" " +"("
+                            + BEACON_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            ""+ BEACON_NAME+" TEXT," +
+                            ""+ BEACON_ID+" TEXT," +
+                            ""+ BEACON_SIGNAL+" TEXT," +
+                            ""+ PROFILES_COLUMN_ID +" INTEGER,"+
+                            " FOREIGN KEY ("+PROFILE_ID+") REFERENCES "+PROFILES_TABLE_NAME+"("+PROFILES_COLUMN_ID+"));"
+            );
+            VERSION_DB=newVersion;
         }
 
         if(newVersion<3){
@@ -111,15 +150,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profiloEncrypted.getVolumeBarMusic());
                 contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
                 contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
-                contentValues.put(LONGITUDE, profiloEncrypted.getLongitude());
-                contentValues.put(LATITUDE, profiloEncrypted.getLatitude());
-                contentValues.put(WIFI_SSID, profiloEncrypted.getWifiSSID());
-                contentValues.put(WIFI_BSSID, profiloEncrypted.getWifiBSSID());
-                contentValues.put(WIFI_SIGNAL, profiloEncrypted.getWifiSignal());
-                contentValues.put(NFC_TAG_ID, profiloEncrypted.getNfcTagId());
-                contentValues.put(BEACON_NAME, profiloEncrypted.getBeaconName());
-                contentValues.put(BEACON_ID, profiloEncrypted.getBeaconId());
-                contentValues.put(BEACON_SIGNAL, profiloEncrypted.getBeaconSignal());
                 contentValues.put(APP_NAME, profiloEncrypted.getAppName());
                 db.insert(PROFILES_TABLE_NAME, null, contentValues);
             }else if(getProfileById(profilo.getId()) != null){
@@ -132,15 +162,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
                 contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
                 contentValues.put(WIFI_SWITCH, profiloEncrypted.getWifiSwitch());
-                contentValues.put(LONGITUDE, profiloEncrypted.getLongitude());
-                contentValues.put(LATITUDE, profiloEncrypted.getLatitude());
-                contentValues.put(WIFI_SSID, profiloEncrypted.getWifiSSID());
-                contentValues.put(WIFI_BSSID, profiloEncrypted.getWifiBSSID());
-                contentValues.put(WIFI_SIGNAL, profiloEncrypted.getWifiSignal());
-                contentValues.put(NFC_TAG_ID, profiloEncrypted.getNfcTagId());
-                contentValues.put(BEACON_NAME, profiloEncrypted.getBeaconName());
-                contentValues.put(BEACON_ID, profiloEncrypted.getBeaconId());
-                contentValues.put(BEACON_SIGNAL, profiloEncrypted.getBeaconSignal());
                 contentValues.put(APP_NAME, profiloEncrypted.getAppName());
                 db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
             }
@@ -151,16 +172,51 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean insertOrUpdateWifiList (WifiList wifiList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        byte[] raw=new byte[16];
+        //WifiEncrypted wifiEncrypted=null;
+        try {
+            //wifiEncrypted = EncryptDecryptClass.encrypt(raw, wifiList);
+            if(getWifiByBssid(wifiList.getBssid()) == null){
+                contentValues.put(WIFI_SSID, wifiList.getSsid());
+                contentValues.put(WIFI_BSSID, wifiList.getBssid());
+                contentValues.put(WIFI_SIGNAL, wifiList.getSignal());
+                contentValues.put(PROFILE_ID, wifiList.getProfileId());
+                db.insert(WIFI_TABLE_NAME, null, contentValues);
+            }else if(getWifiByBssid(wifiList.getBssid()) != null){
+                contentValues.put(WIFI_SSID, wifiList.getSsid());
+                contentValues.put(WIFI_BSSID, wifiList.getBssid());
+                contentValues.put(WIFI_SIGNAL, wifiList.getSignal());
+                contentValues.put(PROFILE_ID, wifiList.getProfileId());
+                db.update(WIFI_TABLE_NAME, contentValues, WIFI_BSSID+"= " + wifiList.getBssid(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
     public int delete(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID + "=" + id, null);
     }
 
     public Profilo getProfileById(int id) {
-        List<Profilo> profileList = getProfilesBySql("SELECT * FROM "+PROFILES_TABLE_NAME+" WHERE "+PROFILES_COLUMN_ID+"= "+ id);
+        List<Profilo> profileList = getProfilesBySql("SELECT * FROM " + PROFILES_TABLE_NAME + " WHERE " + PROFILES_COLUMN_ID + "= " + id);
 
         if (profileList != null && profileList.size() > 0) {
             return profileList.get(0);
+        }
+        return null;
+    }
+
+    public WifiList getWifiByBssid(String bssid) {
+        List<WifiList> wifiList= getWifiBySql("SELECT * FROM " + WIFI_TABLE_NAME + " WHERE " + WIFI_BSSID + "= " + bssid);
+
+        if (wifiList != null && wifiList.size() > 0) {
+            return wifiList.get(0);
         }
         return null;
     }
@@ -188,15 +244,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_NOTIFICATION)),
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
                     res.getInt(res.getColumnIndex(WIFI_SWITCH)),
-                    res.getString(res.getColumnIndex(LONGITUDE)),
-                    res.getString(res.getColumnIndex(LATITUDE)),
-                    res.getString(res.getColumnIndex(WIFI_SSID)),
-                    res.getString(res.getColumnIndex(WIFI_BSSID)),
-                    res.getString(res.getColumnIndex(WIFI_SIGNAL)),
-                    res.getString(res.getColumnIndex(NFC_TAG_ID)),
-                    res.getString(res.getColumnIndex(BEACON_NAME)),
-                    res.getString(res.getColumnIndex(BEACON_ID)),
-                    res.getString(res.getColumnIndex(BEACON_SIGNAL)),
                     res.getString(res.getColumnIndex(APP_NAME)));
             array_list.add(profilo);
             res.moveToNext();
@@ -204,4 +251,22 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+    private List<WifiList> getWifiBySql(String sqlQuery) {
+        List<WifiList> array_list = new ArrayList<WifiList>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery(sqlQuery , null );
+        res.moveToFirst();
+
+
+        while(res.isAfterLast() == false){
+            WifiList wifi=new WifiList(
+                    res.getString(res.getColumnIndex(WIFI_SSID)),
+                    res.getString(res.getColumnIndex(WIFI_BSSID)),
+                    res.getString(res.getColumnIndex(WIFI_SIGNAL)),
+                    res.getInt(res.getColumnIndex(PROFILE_ID)));
+            array_list.add(wifi);
+            res.moveToNext();
+        }
+        return array_list;
+    }
 }

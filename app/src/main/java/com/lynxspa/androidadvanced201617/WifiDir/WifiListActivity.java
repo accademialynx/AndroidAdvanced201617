@@ -15,11 +15,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
+import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WifiListActivity extends Activity {
+
+    private DBHelper mydb;
     private WifiManager wifi;
     private ListView wifiListView;
     private int size = 0;
@@ -33,6 +36,7 @@ public class WifiListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mydb=DBHelper.getInstance(this);
         setContentView(R.layout.activity_wifi_list);
 
         wifiListView = (ListView)findViewById(R.id.listWifi);
@@ -51,12 +55,12 @@ public class WifiListActivity extends Activity {
 
                 arraylistWifi.clear();
                 wifi.startScan();
-
+                int idProfilo=mydb.getAllProfiles().iterator().next().getId();
                 try {
                     size = size - 1;
                     while (size >= 0) {
                         int signal=wifi.calculateSignalLevel(results.get(size).level,100);
-                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%");
+                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%",idProfilo);
                         arraylistWifi.add(wifiList);
                         size--;
                     }

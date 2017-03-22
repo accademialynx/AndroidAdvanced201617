@@ -45,15 +45,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     private RadioButton beaconButton;
     private RadioGroup radioGroup;
     private TextView appList;
-    private TextView longitude;
-    private TextView latitude;
-    private TextView wifiSSID;
-    private TextView wifiBSSID;
-    private TextView wifiSignal;
-    private TextView nfcTagId;
-    private TextView beaconName;
-    private TextView beaconSignal;
-    private TextView beaconId;
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
@@ -168,9 +159,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
 
                     Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
                             brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),
-                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,longitude.toString(),latitude.toString(),
-                            wifiSSID.toString(),wifiBSSID.toString(),wifiSignal.toString(), nfcTagId.toString(),
-                            beaconName.toString(),beaconId.toString(),beaconSignal.toString(),appList.toString());
+                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,appList.toString());
                     mydb.insertOrUpdateProfile(profilo);
 
 
@@ -343,10 +332,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                         switchWifi = 1;
                     }
 
-                   /* currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
+                   currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
                             brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),
-                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,longitude,latitude,wifiSSID,wifiBSSID,wifiSignal,nfcTagId,
-                            beaconName,beaconId,beaconSignal,appList);*/
+                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,appList.toString());
                     mydb.insertOrUpdateProfile(currentProfile);
                     Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
                     startActivity(mainActivity);

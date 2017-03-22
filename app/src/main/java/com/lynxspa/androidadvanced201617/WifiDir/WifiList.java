@@ -3,47 +3,22 @@ package com.lynxspa.androidadvanced201617.WifiDir;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class WifiList implements Parcelable {
+import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+
+public class WifiList{
 
     private String ssid;
     private String bssid;
     private String signal;
+    private int profileId;
 
-    public WifiList(String ssid, String bssid, String signal) {
+    public WifiList(String ssid, String bssid, String signal, int profileId) {
         this.ssid = ssid;
         this.bssid = bssid;
         this.signal = signal;
+        this.profileId=profileId;
     }
 
-    protected WifiList(Parcel in) {
-        ssid = in.readString();
-        bssid = in.readString();
-        signal = in.readString();
-    }
-
-    public static final Creator<WifiList> CREATOR = new Creator<WifiList>() {
-        @Override
-        public WifiList createFromParcel(Parcel in) {
-            return new WifiList(in);
-        }
-
-        @Override
-        public WifiList[] newArray(int size) {
-            return new WifiList[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(ssid);
-        dest.writeString(bssid);
-        dest.writeString(signal);
-    }
 
     public String getSsid() {
         return ssid;
@@ -67,5 +42,13 @@ public class WifiList implements Parcelable {
 
     public void setSignal(String signal) {
         this.signal = signal;
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 }
