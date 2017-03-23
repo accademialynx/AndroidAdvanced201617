@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
+import com.lynxspa.androidadvanced201617.BeaconDir.BeaconList;
 import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.WifiDir.WifiList;
+import com.lynxspa.androidadvanced201617.mapDir.Mappa;
+import com.lynxspa.androidadvanced201617.nfcDir.NFC;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
 
@@ -43,7 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String NFC_COLUMN_ID = "id";
     public static final String NFC_TAG_ID = "nfcTagId";
     public static final String NFC_TAG_NAME = "nfcTagName";
-    public static final String BEACON_TABLE_NAME = "Beacon";
+    public static final String BEACON_TABLE_NAME = "BeaconList";
     public static final String BEACON_COLUMN_ID = "id";
     public static final String BEACON_NAME = "beaconName";
     public static final String BEACON_ID = "beaconId";
@@ -142,28 +144,55 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             profiloEncrypted = EncryptDecryptClass.encrypt(raw, profilo);
             if(getProfileById(profilo.getId()) == null){
-                contentValues.put(NAME_PROFILE, profiloEncrypted.getName());
-                contentValues.put(RADIO_BUTTON_VALUE, profiloEncrypted.getRadioButton());
-                contentValues.put(BRIGHTNESS_BAR_VALUE, profiloEncrypted.getBrigthnesBar());
-                contentValues.put(CHECK_BRIGHTNESS, profiloEncrypted.getBrightnessCheckBox());
-                contentValues.put(BRIGHTNESS_VOLUME_RING, profiloEncrypted.getVolumeBarRing());
-                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profiloEncrypted.getVolumeBarMusic());
-                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
-                contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
-                contentValues.put(APP_NAME, profiloEncrypted.getAppName());
+                contentValues.put(NAME_PROFILE, profilo.getName());
+                contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
+                contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
+                contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
+                contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
+                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
+                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
+                contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
+                contentValues.put(APP_NAME, profilo.getAppName());
                 db.insert(PROFILES_TABLE_NAME, null, contentValues);
             }else if(getProfileById(profilo.getId()) != null){
-                contentValues.put(NAME_PROFILE, profiloEncrypted.getName());
-                contentValues.put(RADIO_BUTTON_VALUE, profiloEncrypted.getRadioButton());
-                contentValues.put(BRIGHTNESS_BAR_VALUE, profiloEncrypted.getBrigthnesBar());
-                contentValues.put(CHECK_BRIGHTNESS, profiloEncrypted.getBrightnessCheckBox());
-                contentValues.put(BRIGHTNESS_VOLUME_RING, profiloEncrypted.getVolumeBarRing());
-                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profiloEncrypted.getVolumeBarMusic());
-                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profiloEncrypted.getVolumeBarNotification());
-                contentValues.put(BLUETOOTH_SWITCH, profiloEncrypted.getBluetoothSwitch());
-                contentValues.put(WIFI_SWITCH, profiloEncrypted.getWifiSwitch());
-                contentValues.put(APP_NAME, profiloEncrypted.getAppName());
+                contentValues.put(NAME_PROFILE, profilo.getName());
+                contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
+                contentValues.put(BRIGHTNESS_BAR_VALUE, profilo.getBrigthnesBar());
+                contentValues.put(CHECK_BRIGHTNESS, profilo.getBrightnessCheckBox());
+                contentValues.put(BRIGHTNESS_VOLUME_RING, profilo.getVolumeBarRing());
+                contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
+                contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
+                contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
+                contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
+                contentValues.put(APP_NAME, profilo.getAppName());
                 db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public boolean insertOrUpdateMap (Mappa mappa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        byte[] raw=new byte[16];
+        //MapEncrypted mapEncrypted=null;
+        try {
+            //mapEncrypted = EncryptDecryptClass.encrypt(raw, mappa);
+            if(getMapByName(mappa.getName()) == null){
+                contentValues.put(NAME_MAP, mappa.getName());
+                contentValues.put(LONGITUDE, mappa.getLon());
+                contentValues.put(LATITUDE, mappa.getLat());
+                contentValues.put(PROFILE_ID, mappa.getProfileId());
+                db.insert(WIFI_TABLE_NAME, null, contentValues);
+            }else if(getMapByName(mappa.getName()) != null){
+                contentValues.put(NAME_MAP, mappa.getName());
+                contentValues.put(LONGITUDE, mappa.getLon());
+                contentValues.put(LATITUDE, mappa.getLat());
+                contentValues.put(PROFILE_ID, mappa.getProfileId());
+                db.update(MAPS_TABLE_NAME, contentValues, NAME_MAP+"= " + mappa.getName(), null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,7 +227,60 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return true;
     }
-    public int delete(int id) {
+
+    public boolean insertOrUpdateBeacons (BeaconList beacon) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        byte[] raw=new byte[16];
+        //BeaconEncrypted wifiEncrypted=null;
+        try {
+            //beaconEncrypted = EncryptDecryptClass.encrypt(raw, beacon);
+            if(getBeaconByName(beacon.getNameBeacon()) == null){
+                contentValues.put(BEACON_NAME, beacon.getNameBeacon());
+                contentValues.put(BEACON_ID, beacon.getAddressBeacon());
+                contentValues.put(BEACON_SIGNAL, beacon.getDistanceBeacon());
+                contentValues.put(PROFILE_ID, beacon.getProfileId());
+                db.insert(BEACON_TABLE_NAME, null, contentValues);
+            }else if(getBeaconByName(beacon.getNameBeacon()) != null){
+                contentValues.put(BEACON_NAME, beacon.getNameBeacon());
+                contentValues.put(BEACON_ID, beacon.getAddressBeacon());
+                contentValues.put(BEACON_SIGNAL, beacon.getDistanceBeacon());
+                contentValues.put(PROFILE_ID, beacon.getProfileId());
+                db.update(BEACON_TABLE_NAME, contentValues, BEACON_ID+"= " + beacon.getAddressBeacon(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public boolean insertOrUpdateNfc (NFC nfc) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        byte[] raw=new byte[16];
+        //NfcEncrypted nfcEncrypted=null;
+        try {
+            //nfcEncrypted = EncryptDecryptClass.encrypt(raw, nfc);
+            if(getNfcById(nfc.getTagId()) == null){
+                contentValues.put(NFC_TAG_NAME, nfc.getTagName());
+                contentValues.put(NFC_TAG_ID, nfc.getTagId());
+                contentValues.put(PROFILE_ID, nfc.getProfileId());
+                db.insert(NFC_TABLE_NAME, null, contentValues);
+            }else if(getNfcById(nfc.getTagId()) != null){
+                contentValues.put(NFC_TAG_NAME, nfc.getTagName());
+                contentValues.put(NFC_TAG_ID, nfc.getTagId());
+                contentValues.put(PROFILE_ID, nfc.getProfileId());
+                db.update(NFC_TABLE_NAME, contentValues, NFC_TAG_ID+"= " + nfc.getTagId(), null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public int deleteProfile(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.delete(PROFILES_TABLE_NAME, PROFILES_COLUMN_ID + "=" + id, null);
     }
@@ -212,6 +294,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public Mappa getMapByName(String name) {
+        List<Mappa> maps= getMapsBySql("SELECT * FROM " + MAPS_TABLE_NAME + " WHERE " + NAME_MAP + "= " + name);
+
+        if (maps != null && maps.size() > 0) {
+            return maps.get(0);
+        }
+        return null;
+    }
+
     public WifiList getWifiByBssid(String bssid) {
         List<WifiList> wifiList= getWifiBySql("SELECT * FROM " + WIFI_TABLE_NAME + " WHERE " + WIFI_BSSID + "= " + bssid);
 
@@ -221,8 +312,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public NFC getNfcById(String tagId) {
+        List<NFC> nfcs= getNfcsBySql("SELECT * FROM " + NFC_TABLE_NAME + " WHERE " + NFC_TAG_ID + "= " + tagId);
+
+        if (nfcs != null && nfcs.size() > 0) {
+            return nfcs.get(0);
+        }
+        return null;
+    }
+
+    public BeaconList getBeaconByName(String name) {
+        List<BeaconList> beacons= getBeaconsBySql("SELECT * FROM " + BEACON_TABLE_NAME + " WHERE " + BEACON_NAME + "= " + name);
+
+        if (beacons != null && beacons.size() > 0) {
+            return beacons.get(0);
+        }
+        return null;
+    }
+
     public List<Profilo> getAllProfiles() {
         return getProfilesBySql("SELECT * FROM "+PROFILES_TABLE_NAME);
+    }
+
+    public List<WifiList> getAllWifis() {
+        return getWifiBySql("SELECT * FROM "+WIFI_TABLE_NAME);
     }
 
     private List<Profilo> getProfilesBySql(String sqlQuery) {
@@ -230,7 +343,6 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery(sqlQuery , null );
         res.moveToFirst();
-
 
         while(res.isAfterLast() == false){
             Profilo profilo=new Profilo(
@@ -251,12 +363,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+    private List<Mappa> getMapsBySql(String sqlQuery) {
+        List<Mappa> array_list = new ArrayList<Mappa>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery(sqlQuery , null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            Mappa wifi=new Mappa(
+                    res.getString(res.getColumnIndex(NAME_MAP)),
+                    res.getString(res.getColumnIndex(LONGITUDE)),
+                    res.getString(res.getColumnIndex(LATITUDE)),
+                    res.getInt(res.getColumnIndex(PROFILE_ID)));
+            array_list.add(wifi);
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
     private List<WifiList> getWifiBySql(String sqlQuery) {
         List<WifiList> array_list = new ArrayList<WifiList>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery(sqlQuery , null );
         res.moveToFirst();
-
 
         while(res.isAfterLast() == false){
             WifiList wifi=new WifiList(
@@ -269,4 +398,40 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }
+
+    private List<NFC> getNfcsBySql(String sqlQuery) {
+        List<NFC> array_list = new ArrayList<NFC>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery(sqlQuery , null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            NFC nfc=new NFC(
+                    res.getString(res.getColumnIndex(NFC_TAG_NAME)),
+                    res.getString(res.getColumnIndex(NFC_TAG_ID)),
+                    res.getInt(res.getColumnIndex(PROFILE_ID)));
+            array_list.add(nfc);
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    private List<BeaconList> getBeaconsBySql(String sqlQuery) {
+        List<BeaconList> array_list = new ArrayList<BeaconList>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery(sqlQuery , null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            BeaconList beacon=new BeaconList(
+                    res.getString(res.getColumnIndex(BEACON_NAME)),
+                    res.getString(res.getColumnIndex(BEACON_ID)),
+                    res.getString(res.getColumnIndex(BEACON_SIGNAL)),
+                    res.getInt(res.getColumnIndex(PROFILE_ID)));
+            array_list.add(beacon);
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
 }

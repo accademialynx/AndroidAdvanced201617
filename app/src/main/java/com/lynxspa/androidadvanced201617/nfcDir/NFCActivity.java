@@ -1,5 +1,6 @@
 package com.lynxspa.androidadvanced201617.nfcDir;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,28 +14,36 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
+import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
 public class NFCActivity extends AppCompatActivity {
 
+    private DBHelper mydb;
     private NfcAdapter mAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mFilters;
     private String[][] mTechLists;
     private TextView mText;
+    private Button confirm;
 
     @Override
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
 
         setContentView(R.layout.activity_nfc);
+        mydb=DBHelper.getInstance(this);
+
         mText = (TextView) findViewById(R.id.info);
+        confirm=(Button)findViewById(R.id.confirmButtonNFC);
 
         mAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -55,6 +64,8 @@ public class NFCActivity extends AppCompatActivity {
         String action = intent.getAction();
 
         mTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+
+
     }
 
     @Override
@@ -67,7 +78,7 @@ public class NFCActivity extends AppCompatActivity {
     public void onNewIntent(Intent intent) {
         ListView techListView=(ListView)findViewById(R.id.nfcTechList);;
         Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        final Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         if (tag == null) {
             mText.setText("tag == null");
         } else {
@@ -84,12 +95,27 @@ public class NFCActivity extends AppCompatActivity {
             for (int i = 0; i < techList.length; i++) {
                 tagInfo += techList[i] + "\n ";
             }*/
-            mText.setText(tagInfo.substring(0,tagInfo.length()-1));
+            mText.setText(tagInfo.substring(0, tagInfo.length() - 1));
 
 
             ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, techList);
 
             techListView.setAdapter(adapter);
+
+            final String finalTagInfo = tagInfo;
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent();
+                    final Bundle profilo = getIntent().getExtras();
+                    Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+                    NFC nfc=new NFC(tag.toString(), finalTagInfo,currentProfile.getId());
+                    mydb.insertOrUpdateNfc(nfc);
+                    intent.putExtra("nfc", (Parcelable) nfc);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+                }
+            });
         }
     }
 

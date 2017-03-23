@@ -36,7 +36,6 @@ public class ListAppActivity extends AppCompatActivity {
                 intent.putExtra("App", app);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
-
             }
         });
     }

@@ -34,23 +34,12 @@ public class EncryptDecryptClass {
         byte[] volumeNotificationEncrypted = cipher.doFinal(String.valueOf(profilo.getVolumeBarNotification()).getBytes());
         byte[] bluetoothSwitchEncrypted = cipher.doFinal(String.valueOf(profilo.getBluetoothSwitch()).getBytes());
         byte[] wifiSwitchEncrypted = cipher.doFinal(String.valueOf(profilo.getWifiSwitch()).getBytes());
-        byte[] longitudeEncrypted = cipher.doFinal(String.valueOf(profilo.getLongitude()).getBytes());
-        byte[] latitudeEncrypted = cipher.doFinal(String.valueOf(profilo.getLatitude()).getBytes());
-        byte[] wifiSSIDEncrypted = cipher.doFinal(String.valueOf(profilo.getWifiSSID()).getBytes());
-        byte[] wifiBSSIDEncrypted = cipher.doFinal(String.valueOf(profilo.getWifiBSSID()).getBytes());
-        byte[] wifiSignalEncrypted = cipher.doFinal(String.valueOf(profilo.getWifiSignal()).getBytes());
-        byte[] nfcEncrypted = cipher.doFinal(String.valueOf(profilo.getNfcTagId()).getBytes());
-        byte[] beaconNameEncrypted = cipher.doFinal(String.valueOf(profilo.getBeaconName()).getBytes());
-        byte[] beaconIdEncrypted = cipher.doFinal(String.valueOf(profilo.getBeaconId()).getBytes());
-        byte[] beaconSignalEncrypted = cipher.doFinal(String.valueOf(profilo.getBeaconSignal()).getBytes());
         byte[] appEncrypted = cipher.doFinal(String.valueOf(profilo.getAppName()).getBytes());
 
 
         ProfiloEncrypted profiloEncrypted=new ProfiloEncrypted(profilo.getId(),nameEncrypted.toString(),radioButtonEncrypted.toString(),brightnessEncrypted.toString(),
                 brightnessCheckEncrypted.toString(),volumeRingEncrypted.toString(),volumeMusicEncrypted.toString(),volumeNotificationEncrypted.toString(),
-                bluetoothSwitchEncrypted.toString(),wifiSwitchEncrypted.toString(),longitudeEncrypted.toString(),latitudeEncrypted.toString(),
-                wifiSSIDEncrypted.toString(),wifiBSSIDEncrypted.toString(),wifiSignalEncrypted.toString(),nfcEncrypted.toString(),beaconNameEncrypted.toString(),
-                beaconIdEncrypted.toString(),beaconSignalEncrypted.toString(),appEncrypted.toString());
+                bluetoothSwitchEncrypted.toString(),wifiSwitchEncrypted.toString(),appEncrypted.toString());
         return profiloEncrypted;
     }
 
@@ -67,24 +56,13 @@ public class EncryptDecryptClass {
         byte[] volumeNotificationDecrypted = cipher.doFinal(profiloEncrypted.getVolumeBarNotification().getBytes());
         byte[] bluetoothSwitchDecrypted = cipher.doFinal(profiloEncrypted.getBluetoothSwitch().getBytes());
         byte[] wifiSwitchDecrypted = cipher.doFinal(profiloEncrypted.getWifiSwitch().getBytes());
-        byte[] longitudeDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getLongitude()).getBytes());
-        byte[] latitudeDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getLatitude()).getBytes());
-        byte[] wifiSSIDDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getWifiSSID()).getBytes());
-        byte[] wifiBSSIDDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getWifiBSSID()).getBytes());
-        byte[] wifiSignalDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getWifiSignal()).getBytes());
-        byte[] nfcDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getNfcTagId()).getBytes());
-        byte[] beaconNameDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getBeaconName()).getBytes());
-        byte[] beaconIdDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getBeaconId()).getBytes());
-        byte[] beaconSignalDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getBeaconSignal()).getBytes());
         byte[] appDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getAppName()).getBytes());
 
         Profilo profilo=new Profilo(profiloEncrypted.getId(),nameDecrypted.toString(),Integer.valueOf(radioButtonDecrypted.toString()),
                 Integer.valueOf(brightnessDecrypted.toString()),Integer.valueOf(brightnessCheckDecrypted.toString()),
                 Integer.valueOf(volumeRingDecrypted.toString()),Integer.valueOf(volumeMusicDecrypted.toString()),
                 Integer.valueOf(volumeNotificationDecrypted.toString()),Integer.valueOf(bluetoothSwitchDecrypted.toString()),
-                Integer.valueOf(wifiSwitchDecrypted.toString()),longitudeDecrypted.toString(),
-                latitudeDecrypted.toString(),wifiSSIDDecrypted.toString(),wifiBSSIDDecrypted.toString(),wifiSignalDecrypted.toString(),
-                nfcDecrypted.toString(),beaconNameDecrypted.toString(),beaconIdDecrypted.toString(),beaconSignalDecrypted.toString(),appDecrypted.toString());
+                Integer.valueOf(wifiSwitchDecrypted.toString()),appDecrypted.toString());
         return profilo;
     }
 }

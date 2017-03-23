@@ -273,6 +273,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent mapsActivity=new Intent(ProfileDetail.this, MapsActivity.class);
+                mapsActivity.putExtra("Profilo", currentProfile.getId());
                 startActivity(mapsActivity);
             }
         });
@@ -281,6 +282,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent wifiActivity=new Intent(ProfileDetail.this, WifiListActivity.class);
+                wifiActivity.putExtra("Profilo", currentProfile.getId());
                 startActivityForResult(wifiActivity, WIFI_LIST_ACTIVITY);
             }
         });
@@ -289,6 +291,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent nfcActivity=new Intent(ProfileDetail.this, NFCActivity.class);
+                nfcActivity.putExtra("Profilo", currentProfile.getId());
                 startActivityForResult(nfcActivity, NFC_ACTIVITY);
             }
         });
@@ -297,6 +300,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v){
                 Intent beaconActivity=new Intent(ProfileDetail.this, BeaconActivity.class);
+                beaconActivity.putExtra("Profilo", currentProfile.getId());
                 startActivityForResult(beaconActivity, BEACON_ACTIVITY);
             }
         });
@@ -306,7 +310,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                mydb.delete(currentProfile.getId());
+                mydb.deleteProfile(currentProfile.getId());
                 Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
                 startActivity(mainActivity);
             }

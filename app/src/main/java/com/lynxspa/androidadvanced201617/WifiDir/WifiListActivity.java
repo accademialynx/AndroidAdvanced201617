@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
+import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +56,17 @@ public class WifiListActivity extends Activity {
 
                 arraylistWifi.clear();
                 wifi.startScan();
-                int idProfilo=mydb.getAllProfiles().iterator().next().getId();
+                final Bundle profilo = getIntent().getExtras();
+                Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+                if(currentProfile==null){
+                    currentProfile.setId(1);
+                }
+
                 try {
                     size = size - 1;
                     while (size >= 0) {
                         int signal=wifi.calculateSignalLevel(results.get(size).level,100);
-                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%",idProfilo);
+                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%",currentProfile.getId());
                         arraylistWifi.add(wifiList);
                         size--;
                     }
@@ -78,9 +84,20 @@ public class WifiListActivity extends Activity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent();
-                intent.putParcelableArrayListExtra("wifi", (ArrayList<? extends Parcelable>) arraylistWifi);
-                setResult(Activity.RESULT_OK,intent);
+                Intent intent = new Intent();
+                final Bundle profilo = getIntent().getExtras();
+                Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
+                WifiList wifi = null;
+                for (int i = 0; i < arraylistWifi.size(); i++) {
+                    String ssid = arraylistWifi.get(i).getSsid();
+                    String bssid = arraylistWifi.get(i).getBssid();
+                    String signal = arraylistWifi.get(i).getSignal();
+                    wifi = new WifiList(ssid, bssid, signal, currentProfile.getId());
+                    mydb.insertOrUpdateWifiList(wifi);
+                }
+                mydb.getAllWifis();
+                // intent.putParcelableArrayListExtra("wifi", (ArrayList<? extends Parcelable>) arraylistWifi);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         });

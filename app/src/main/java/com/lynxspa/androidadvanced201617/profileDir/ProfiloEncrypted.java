@@ -12,19 +12,10 @@ public class ProfiloEncrypted {
     private String volumeBarNotification;
     private String bluetoothSwitch;
     private String wifiSwitch;
-    private String longitude;
-    private String latitude;
-    private String wifiSSID;
-    private String wifiBSSID;
-    private String wifiSignal;
-    private String nfcTagId;
-    private String beaconId;
-    private String beaconName;
-    private String beaconSignal;
     private String appName;
 
-    public ProfiloEncrypted(int id, String name, String radioButton, String brigthnesBar, String brightnessCheckBox, String volumeBarRing, String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch
-            ,String longitude,String latitude,String wifiSSID,String wifiBSSID,String wifiSignal,String nfcTagId,String beaconName,String beaconId,String beaconSignal,String appName) {
+    public ProfiloEncrypted(int id, String name, String radioButton, String brigthnesBar, String brightnessCheckBox, String volumeBarRing,
+                            String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch,String appName) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
@@ -35,15 +26,6 @@ public class ProfiloEncrypted {
         this.volumeBarNotification=volumeBarNotification;
         this.bluetoothSwitch = bluetoothSwitch;
         this.wifiSwitch = wifiSwitch;
-        this.longitude=longitude;
-        this.latitude=latitude;
-        this.wifiSSID=wifiSSID;
-        this.wifiBSSID=wifiBSSID;
-        this.wifiSignal=wifiSignal;
-        this.nfcTagId=nfcTagId;
-        this.beaconId=beaconId;
-        this.beaconName=beaconName;
-        this.beaconSignal=beaconSignal;
         this.appName=appName;
     }
 
@@ -133,77 +115,5 @@ public class ProfiloEncrypted {
 
     public void setAppName(String appName) {
         this.appName = appName;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getWifiSSID() {
-        return wifiSSID;
-    }
-
-    public void setWifiSSID(String wifiSSID) {
-        this.wifiSSID = wifiSSID;
-    }
-
-    public String getWifiBSSID() {
-        return wifiBSSID;
-    }
-
-    public void setWifiBSSID(String wifiBSSID) {
-        this.wifiBSSID = wifiBSSID;
-    }
-
-    public String getWifiSignal() {
-        return wifiSignal;
-    }
-
-    public void setWifiSignal(String wifiSignal) {
-        this.wifiSignal = wifiSignal;
-    }
-
-    public String getNfcTagId() {
-        return nfcTagId;
-    }
-
-    public void setNfcTagId(String nfcTagId) {
-        this.nfcTagId = nfcTagId;
-    }
-
-    public String getBeaconId() {
-        return beaconId;
-    }
-
-    public void setBeaconId(String beaconId) {
-        this.beaconId = beaconId;
-    }
-
-    public String getBeaconName() {
-        return beaconName;
-    }
-
-    public void setBeaconName(String beaconName) {
-        this.beaconName = beaconName;
-    }
-
-    public String getBeaconSignal() {
-        return beaconSignal;
-    }
-
-    public void setBeaconSignal(String beaconSignal) {
-        this.beaconSignal = beaconSignal;
     }
 }
