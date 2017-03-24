@@ -334,10 +334,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return getProfilesBySql("SELECT * FROM "+PROFILES_TABLE_NAME);
     }
 
-    public List<WifiList> getAllWifis() {
-        return getWifiBySql("SELECT * FROM "+WIFI_TABLE_NAME);
-    }
-
     private List<Profilo> getProfilesBySql(String sqlQuery) {
         List<Profilo> array_list = new ArrayList<Profilo>();
         SQLiteDatabase db = this.getReadableDatabase();

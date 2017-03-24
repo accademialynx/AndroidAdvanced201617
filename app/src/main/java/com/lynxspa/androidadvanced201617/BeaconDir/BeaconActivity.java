@@ -112,6 +112,7 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
                     mydb.insertOrUpdateBeacons(beacon);
                 }
 
+                /* devo implementare la parcelable? */
                // intent.putParcelableArrayListExtra("beacon", (ArrayList<? extends Parcelable>) arrayListBeacons);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

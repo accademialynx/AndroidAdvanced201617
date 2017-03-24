@@ -105,6 +105,7 @@ public class WifiListActivity extends Activity {
                     wifi = new WifiList(ssid, bssid, signal, idprofilo);
                     mydb.insertOrUpdateWifiList(wifi);
                 }
+                /* devo implementare la parcelable? */
                 // intent.putParcelableArrayListExtra("wifi", (ArrayList<? extends Parcelable>) arraylistWifi);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

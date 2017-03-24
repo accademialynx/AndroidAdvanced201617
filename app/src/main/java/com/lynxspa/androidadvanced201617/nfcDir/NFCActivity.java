@@ -10,6 +10,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.nfc.Tag;
 import android.nfc.tech.NfcF;
+import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -31,16 +32,14 @@ public class NFCActivity extends AppCompatActivity {
 
     private DBHelper mydb;
     private NfcAdapter mAdapter;
-    private PendingIntent mPendingIntent;
-    private IntentFilter[] mFilters;
-    private String[][] mTechLists;
     private TextView mText;
     private Button confirm;
     private int idprofilo=0;
+    private static final String MIME_TEXT_PLAIN = "text/plain";
 
     @Override
-    public void onCreate(Bundle savedState) {
-        super.onCreate(savedState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_nfc);
         mydb=DBHelper.getInstance(this);
@@ -48,44 +47,42 @@ public class NFCActivity extends AppCompatActivity {
         mText = (TextView) findViewById(R.id.info);
         confirm=(Button)findViewById(R.id.confirmButtonNFC);
 
-        mAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        mPendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-
-        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        try {
-            ndef.addDataType("*/*");
-        } catch (IntentFilter.MalformedMimeTypeException e) {
-            throw new RuntimeException("fail", e);
-        }
-        mFilters = new IntentFilter[] {
-                ndef,
-        };
-
-        Intent intent = getIntent();
-        String action = intent.getAction();
-
-        mTechLists = new String[][] { new String[] { NfcF.class.getName() } };
-
+        mAdapter = NfcAdapter.getDefaultAdapter(NFCActivity.this);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.enableForegroundDispatch(this, mPendingIntent, mFilters, mTechLists);
+        final Intent intent = new Intent(this, NFCActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        String[][] techList = new String[][] { new String[] { NfcV.class.getName() } };
+
+        filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        try {
+            filter.addDataType(MIME_TEXT_PLAIN);
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        IntentFilter[] filters=new IntentFilter[]{filter};
+        mAdapter.enableForegroundDispatch(this, pendingIntent, filters, techList);
     }
 
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
         ListView techListView=(ListView)findViewById(R.id.nfcTechList);;
         Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
         final Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
         if (tag == null) {
-            mText.setText("tag == null");
+            mText.setText("null tag");
         } else {
             String tagInfo = "";
 
@@ -95,11 +92,7 @@ public class NFCActivity extends AppCompatActivity {
             }
 
             String[] techList = tag.getTechList();
-         /*   tagInfo += "\nTech List\n";
-            tagInfo += "length = " + techList.length + "\n";
-            for (int i = 0; i < techList.length; i++) {
-                tagInfo += techList[i] + "\n ";
-            }*/
+
             mText.setText(tagInfo.substring(0, tagInfo.length() - 1));
 
 
@@ -129,7 +122,9 @@ public class NFCActivity extends AppCompatActivity {
                     }
                     NFC nfc=new NFC(tag.toString(), finalTagInfo,idprofilo);
                     mydb.insertOrUpdateNfc(nfc);
-                    intent.putExtra("nfc", (Parcelable) nfc);
+                    /*
+                    * devo implementare la parcelable? */
+                   // intent.putExtra("nfc", (Parcelable) nfc);
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }
@@ -142,4 +137,5 @@ public class NFCActivity extends AppCompatActivity {
         super.onPause();
         mAdapter.disableForegroundDispatch(this);
     }
+
 }

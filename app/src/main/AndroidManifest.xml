@@ -29,16 +29,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <activity android:name=".profileDir.ProfileDetail" />
         <activity android:name=".AppListDir.ListAppActivity"/>
         <activity android:name=".WifiDir.WifiListActivity"/>
         <activity android:name=".mapDir.MapsActivity" android:label="Map"/>
-        <activity android:name=".nfcDir.NFCActivity"/>
+        <activity android:name=".nfcDir.NFCActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".BeaconDir.BeaconActivity"/>
 
         <meta-data
