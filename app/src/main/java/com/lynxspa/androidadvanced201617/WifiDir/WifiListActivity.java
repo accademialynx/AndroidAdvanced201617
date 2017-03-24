@@ -29,7 +29,7 @@ public class WifiListActivity extends Activity {
     private int size = 0;
     private List<ScanResult> results;
     private Button confirm;
-
+    private int idprofilo=0;
     private List<WifiList> arraylistWifi=new ArrayList<>();
     private WifiAdapter wifiAdapter;
 
@@ -50,23 +50,35 @@ public class WifiListActivity extends Activity {
             wifi.setWifiEnabled(true);
         }
 
+
+        final Bundle profilo = getIntent().getExtras();
+        if(profilo!=null){
+            Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+            idprofilo=currentProfile.getId();
+        }else{
+            List<Profilo> profili = mydb.getAllProfiles();
+            if(!profili.isEmpty() || profili!=null) {
+                for (int i = 0; i < profili.size(); i++) {
+                    idprofilo = profili.get(i).getId() + 1;
+                }
+            }
+            else{
+                idprofilo=1;
+            }
+        }
+
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent intent) {
 
                 arraylistWifi.clear();
                 wifi.startScan();
-                final Bundle profilo = getIntent().getExtras();
-                Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
-                if(currentProfile==null){
-                    currentProfile.setId(1);
-                }
 
                 try {
                     size = size - 1;
                     while (size >= 0) {
                         int signal=wifi.calculateSignalLevel(results.get(size).level,100);
-                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%",currentProfile.getId());
+                        WifiList wifiList=new WifiList(results.get(size).SSID,results.get(size).BSSID,signal+"%",idprofilo);
                         arraylistWifi.add(wifiList);
                         size--;
                     }
@@ -85,17 +97,14 @@ public class WifiListActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                final Bundle profilo = getIntent().getExtras();
-                Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
                 WifiList wifi = null;
                 for (int i = 0; i < arraylistWifi.size(); i++) {
                     String ssid = arraylistWifi.get(i).getSsid();
                     String bssid = arraylistWifi.get(i).getBssid();
                     String signal = arraylistWifi.get(i).getSignal();
-                    wifi = new WifiList(ssid, bssid, signal, currentProfile.getId());
+                    wifi = new WifiList(ssid, bssid, signal, idprofilo);
                     mydb.insertOrUpdateWifiList(wifi);
                 }
-                mydb.getAllWifis();
                 // intent.putParcelableArrayListExtra("wifi", (ArrayList<? extends Parcelable>) arraylistWifi);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

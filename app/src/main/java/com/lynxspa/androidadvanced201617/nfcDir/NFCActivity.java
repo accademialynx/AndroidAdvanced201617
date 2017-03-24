@@ -25,6 +25,8 @@ import com.lynxspa.androidadvanced201617.R;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
+import java.util.List;
+
 public class NFCActivity extends AppCompatActivity {
 
     private DBHelper mydb;
@@ -34,6 +36,7 @@ public class NFCActivity extends AppCompatActivity {
     private String[][] mTechLists;
     private TextView mText;
     private Button confirm;
+    private int idprofilo=0;
 
     @Override
     public void onCreate(Bundle savedState) {
@@ -76,6 +79,8 @@ public class NFCActivity extends AppCompatActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
         ListView techListView=(ListView)findViewById(R.id.nfcTechList);;
         Log.i("Foreground dispatch", "Discovered tag with intent: " + intent);
         final Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -108,8 +113,21 @@ public class NFCActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent= new Intent();
                     final Bundle profilo = getIntent().getExtras();
-                    Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
-                    NFC nfc=new NFC(tag.toString(), finalTagInfo,currentProfile.getId());
+                    if(profilo!=null){
+                        Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+                        idprofilo=currentProfile.getId();
+                    }else{
+                        List<Profilo> profili = mydb.getAllProfiles();
+                        if(!profili.isEmpty() || profili!=null) {
+                            for (int i = 0; i < profili.size(); i++) {
+                                idprofilo = profili.get(i).getId() + 1;
+                            }
+                        }
+                        else{
+                            idprofilo=1;
+                        }
+                    }
+                    NFC nfc=new NFC(tag.toString(), finalTagInfo,idprofilo);
                     mydb.insertOrUpdateNfc(nfc);
                     intent.putExtra("nfc", (Parcelable) nfc);
                     setResult(Activity.RESULT_OK,intent);

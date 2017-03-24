@@ -92,82 +92,80 @@
             android:textColor="@color/textColor"
             />
     </LinearLayout>
-
     <LinearLayout
-        android:layout_marginTop="@dimen/marginTop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-        <TextView
-            android:id="@+id/volume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/volume"
-            android:textColor="#000"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/marginTopButtons"
-            android:orientation="vertical">
+            <TextView
+                android:id="@+id/volume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/volume"
+                android:textColor="#000"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marginTopButtons"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/marginTop"
                 >
-            <TextView
-                android:id="@+id/volumeRing"
-                android:layout_width="@dimen/widthLayout"
-                android:layout_height="wrap_content"
-                android:text="@string/volumeRing"
-                android:textColor="@color/textColor"/>
-            <SeekBar
-                android:id="@+id/volumeBarRing"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/volumeRing" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/marginTop"
-                >
-            <TextView
-                android:id="@+id/volumeMusic"
-                android:layout_width="@dimen/widthLayout"
-                android:layout_height="wrap_content"
-                android:text="@string/volumeMusic"
-                android:textColor="@color/textColor"/>
-            <SeekBar
-                android:id="@+id/volumeBarMusic"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/volumeMusic" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/marginTop"
-                >
-            <TextView
-                android:id="@+id/volumeNotification"
-                android:layout_width="@dimen/widthLayout"
-                android:layout_height="wrap_content"
-                android:text="@string/volumeNotification"
-                android:textColor="@color/textColor"/>
-            <SeekBar
-                android:id="@+id/volumeBarNotification"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/volumeNotification" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/marginTop"
+                    >
+                    <TextView
+                        android:id="@+id/volumeRing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/volumeRing"
+                        android:textColor="@color/textColor"
+                        />
+                    <TextView
+                        android:id="@+id/volumeMusic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/volumeMusic"
+                        android:textColor="@color/textColor"
+                        />
+                    <TextView
+                        android:id="@+id/volumeNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/volumeNotification"
+                        android:textColor="@color/textColor"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/marginTop"
+                    >
+                    <SeekBar
+                        android:id="@+id/volumeBarRing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/volumeRing" />
+                    <SeekBar
+                        android:id="@+id/volumeBarMusic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/volumeMusic"
+                        />
+                    <SeekBar
+                        android:id="@+id/volumeBarNotification"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/volumeNotification"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/marginTop"

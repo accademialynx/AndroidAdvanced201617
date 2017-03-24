@@ -34,6 +34,7 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
     private List<BeaconList> arrayListBeacons=new ArrayList<>();
     private Button confirm;
     private BeaconAdapter beaconAdapter;
+    private int idprofilo=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,26 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, org.altbeacon.beacon.Region region) {
                 arrayListBeacons.clear();
                 final Bundle profilo = getIntent().getExtras();
-                Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
+                if(profilo!=null){
+                    Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
+                    idprofilo=currentProfile.getId();
+                }else{
+                    List<Profilo> profili = mydb.getAllProfiles();
+                    if(!profili.isEmpty() || profili!=null) {
+                        for (int i = 0; i < profili.size(); i++) {
+                            idprofilo = profili.get(i).getId() + 1;
+                        }
+                    }
+                    else{
+                        idprofilo=1;
+                    }
+                }
                 BeaconList beacon = null;
                 for (Beacon b : collection) {
                     String address = b.getBluetoothAddress();
                     String name = b.getBluetoothName();
                     double distance = b.getDistance();
-                    beacon = new BeaconList(name, address, String.valueOf(distance), currentProfile.getId());
+                    beacon = new BeaconList(name, address, String.valueOf(distance), idprofilo);
                     arrayListBeacons.add(beacon);
                     Log.d("AAAAAAAAAAAAAAAAAAA", address + name + distance);
                 }
@@ -89,14 +103,12 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                final Bundle profilo = getIntent().getExtras();
-                Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
                 BeaconList beacon = null;
                 for (int i = 0; i < arrayListBeacons.size(); i++) {
                     String name = arrayListBeacons.get(i).getNameBeacon();
                     String addressBeacon = arrayListBeacons.get(i).getAddressBeacon();
                     String distance = arrayListBeacons.get(i).getDistanceBeacon();
-                    beacon = new BeaconList(name, addressBeacon, distance, currentProfile.getId());
+                    beacon = new BeaconList(name, addressBeacon, distance, idprofilo);
                     mydb.insertOrUpdateBeacons(beacon);
                 }
 
