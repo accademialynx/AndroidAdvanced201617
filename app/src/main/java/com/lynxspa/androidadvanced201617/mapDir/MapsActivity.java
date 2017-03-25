@@ -1,6 +1,8 @@
 package com.lynxspa.androidadvanced201617.mapDir;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Camera;
 import android.graphics.Color;
@@ -19,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.view.Display;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,20 +39,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lynxspa.androidadvanced201617.R;
+import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
+import com.lynxspa.androidadvanced201617.profileDir.Profilo;
 
+import java.util.List;
 import java.util.jar.Manifest;
 
 public class MapsActivity extends FragmentActivity implements  OnMapReadyCallback {
 
+    private DBHelper mydb;
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
     private Marker mMarker;
-    private Location mLastLocation;
-    SeekBar circleZoom;
     private Circle circle;
-    LatLng myPosition = new LatLng(0, 0);
-
+    private LatLng myPosition;
+    private SeekBar seekBar;
+    private Mappa mappa;
+    private int idprofilo=0;
 
     public int getZoomLevel(Circle circle){
         int zoomLevel = 11;
@@ -65,23 +72,118 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFragment);
+        mydb=DBHelper.getInstance(this);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        SeekBar seekBar = (SeekBar) findViewById(R.id.circleZoom);
+        seekBar = (SeekBar) findViewById(R.id.circleZoom);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        final Bundle profilo = getIntent().getExtras();
+        if (profilo != null) {
+            Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
+            idprofilo = currentProfile.getId();
+        } else {
+            List<Profilo> profili = mydb.getAllProfiles();
+            if (!profili.isEmpty() || profili != null) {
+                for (int i = 0; i < profili.size(); i++) {
+                    idprofilo = profili.get(i).getId() + 1;
+                }
+            } else {
+                idprofilo = 1;
+            }
+            mappa = new Mappa(myPosition.toString(), String.valueOf(longitude),String.valueOf(latitude), idprofilo);
+        }
+        mydb.insertOrUpdateMap(mappa);
+        setResult(Activity.RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+        mMap = googleMap;
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         return;
+        }
+
+        mMap.setMyLocationEnabled(true);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+
+                myPosition = latLng;//new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, mMap.getMaxZoomLevel() - 5));
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
+
+                if (mMarker != null) {
+                    mMarker.remove();
+                    mMarker = mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
+                    if (circle != null)
+                        circle.remove();
+                    circle = mMap.addCircle((new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED)));
+                } else {
+                    mMarker = mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
+                    mMarker.setTag(myPosition.toString());
+                }
+
+                Toast.makeText(getApplicationContext(), "" + latitude + " " + longitude, Toast.LENGTH_LONG).show();
+            }
+    });
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+
+                myPosition = latLng;//new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, mMap.getMaxZoomLevel() - 5));
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
+
+                if (mMarker != null) {
+                    mMarker.remove();
+                    mMarker = mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
+                    if (circle != null)
+                        circle.remove();
+                    circle = mMap.addCircle((new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED)));
+                } else {
+                    mMarker = mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
+                    mMarker.setTag(myPosition.toString());
+                }
+
+                Toast.makeText(getApplicationContext(), "" + latitude + " " + longitude, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                circle.setRadius(progress+ 200);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom( myPosition,getZoomLevel(circle)));
+                if (circle != null)
+                    circle.remove();
+                if(mMarker!=null)
+                    circle = mMap.addCircle((new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED)));
+                circle.setRadius(progress + 200);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
                 seekBar.setMax(1000);
-
 
             }
 
@@ -90,47 +192,5 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
 
             }
         });
-
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-
-        // Add a marker in Sydney, Australia, and move the camera.
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-         return;
-        }
-        mMap.setMyLocationEnabled(true);
-
-
-        LocationManager locationManager= (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        final Location userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (userLocation != null) {
-            myPosition = new LatLng(userLocation.getLatitude(),
-                    userLocation.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition,
-                    mMap.getMaxZoomLevel() - 5));
-
-
-            ;
-
-            circle = mMap.addCircle((new CircleOptions().center(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())).radius(200).strokeColor(Color.RED)));
-
-
-            mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
-        }
     }
 }

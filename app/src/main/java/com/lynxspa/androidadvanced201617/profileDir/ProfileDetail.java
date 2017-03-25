@@ -49,6 +49,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
+    final static private int GPS_ACTIVITY=1;
     final static private int NFC_ACTIVITY=1;
     final static private int BEACON_ACTIVITY=1;
 
@@ -107,7 +108,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent mapsActivity=new Intent(ProfileDetail.this, MapsActivity.class);
-                startActivity(mapsActivity);
+                startActivityForResult(mapsActivity,GPS_ACTIVITY);
             }
         });
 
@@ -205,12 +206,12 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         });
         editText.setOnClickListener(this);
 
-        final Button confirmButton=(Button)findViewById(R.id.modifyButton);
-        final Button deleteProfile=(Button)findViewById(R.id.deleteProfile);
-        final RadioButton gpsButton=(RadioButton) findViewById(R.id.gpsButton);
-        final RadioButton wifiButton=(RadioButton) findViewById(R.id.wifiButton);
-        final RadioButton nfcButton=(RadioButton) findViewById(R.id.nfcButton);
-        final RadioButton beaconButton=(RadioButton) findViewById(R.id.beaconButton);
+        Button confirmButton=(Button)findViewById(R.id.modifyButton);
+        Button deleteProfile=(Button)findViewById(R.id.deleteProfile);
+        gpsButton=(RadioButton) findViewById(R.id.gpsButton);
+        wifiButton=(RadioButton) findViewById(R.id.wifiButton);
+        nfcButton=(RadioButton) findViewById(R.id.nfcButton);
+        RadioButton beaconButton=(RadioButton) findViewById(R.id.beaconButton);
         brightnessBar=(SeekBar)findViewById(R.id.brightnessBar);
         brightnessCheckBox=(CheckBox)findViewById(R.id.brightnessCheckBox);
         volumeBarRing = (SeekBar) findViewById(R.id.volumeBarRing);
@@ -279,7 +280,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             public void onClick(View v) {
                 Intent mapsActivity=new Intent(ProfileDetail.this, MapsActivity.class);
                 mapsActivity.putExtra("Profilo", currentProfile.getId());
-                startActivity(mapsActivity);
+                startActivityForResult(mapsActivity,GPS_ACTIVITY);
             }
         });
 
