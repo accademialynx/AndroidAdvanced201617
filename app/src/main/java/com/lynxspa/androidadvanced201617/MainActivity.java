@@ -1,6 +1,11 @@
 package com.lynxspa.androidadvanced201617;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }*/
-                listaProfili.add(mydb.getAllProfiles().get(i).getName());
+                String nameProfilo=mydb.getAllProfiles().get(i).getName();
+                listaProfili.add(nameProfilo);
             }
         }
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listaProfili);
-
         listView.setAdapter(adapter);
 
         Button addProfileButton=(Button)findViewById(R.id.addProfile);
