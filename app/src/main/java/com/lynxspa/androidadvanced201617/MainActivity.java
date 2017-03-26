@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
 import com.lynxspa.androidadvanced201617.profileDir.ProfileDetail;
 import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
 
 import java.util.ArrayList;
 /*
@@ -37,9 +39,24 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> listaProfili=new ArrayList<>();
 
         if(mydb.getAllProfiles()!=null){
-        for(int i=0;i<mydb.getAllProfiles().size();i++){
-            listaProfili.add(mydb.getAllProfiles().get(i).getName());
-        }}
+            byte[] raw=new byte[16];
+            for(int i=0;i<mydb.getAllProfiles().size();i++){
+                /*ProfiloEncrypted profiloEncrypted=new ProfiloEncrypted(mydb.getAllProfiles().get(i).getId(),
+                        mydb.getAllProfiles().get(i).getName().toString(),String.valueOf(mydb.getAllProfiles().get(i).getRadioButton()),
+                        String.valueOf(mydb.getAllProfiles().get(i).getBrightnessCheckBox()), String.valueOf(mydb.getAllProfiles().get(i).getBrightnessCheckBox()),
+                        String.valueOf(mydb.getAllProfiles().get(i).getVolumeBarRing()), String.valueOf(mydb.getAllProfiles().get(i).getVolumeBarMusic()),
+                        String.valueOf(mydb.getAllProfiles().get(i).getVolumeBarNotification()), String.valueOf(mydb.getAllProfiles().get(i).getBluetoothSwitch()),
+                        String.valueOf(mydb.getAllProfiles().get(i).getWifiSwitch()),mydb.getAllProfiles().get(i).getAppName().toString());
+
+                try {
+                    Profilo profilo=EncryptDecryptClass.decrypt(raw,profiloEncrypted);
+                    listaProfili.add(profilo.getName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }*/
+                listaProfili.add(mydb.getAllProfiles().get(i).getName());
+            }
+        }
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listaProfili);
 

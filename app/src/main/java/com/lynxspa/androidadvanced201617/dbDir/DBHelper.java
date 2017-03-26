@@ -31,29 +31,24 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BRIGHTNESS_VOLUME_NOTIFICATION = "volumeNotification";
     public static final String BLUETOOTH_SWITCH = "bluetoothSwitch";
     public static final String WIFI_SWITCH = "wifiSwitch";
+    public static final String COLUMN_ID = "id";
     public static final String MAPS_TABLE_NAME="Maps";
     public static final String NAME_MAP="Map";
-    public static final String MAP_COLUMN_ID="id";
     public static final String LONGITUDE = "longitude";
     public static final String LATITUDE = "latitude";
     public static final String WIFI_TABLE_NAME="Maps";
-    public static final String WIFI_COLUMN_ID="id";
     public static final String WIFI_SSID = "wifiSSID";
     public static final String WIFI_BSSID = "wifiBssid";
     public static final String WIFI_SIGNAL = "wifiSignal";
     public static final String NFC_TABLE_NAME = "NFC";
-    public static final String NFC_COLUMN_ID = "id";
     public static final String NFC_TAG_ID = "nfcTagId";
     public static final String NFC_TAG_NAME = "nfcTagName";
     public static final String BEACON_TABLE_NAME = "BeaconList";
-    public static final String BEACON_COLUMN_ID = "id";
     public static final String BEACON_NAME = "beaconName";
     public static final String BEACON_ID = "beaconId";
     public static final String BEACON_SIGNAL = "beaconSignal";
     public static final String APP_NAME="appName";
     public static final String PROFILE_ID="profileId";
-
-
 
     public static int VERSION_DB=1;
 
@@ -94,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (newVersion < 2) {
             db.execSQL(
                     "CREATE TABLE "+ MAPS_TABLE_NAME +" " +"("
-                            + MAP_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            + COLUMN_ID +" INTEGER PRIMARY KEY," +
                             ""+ NAME_MAP+" TEXT," +
                             ""+ LONGITUDE+" TEXT," +
                             ""+ LATITUDE+" TEXT," +
@@ -103,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
             );
             db.execSQL(
                     "CREATE TABLE "+ WIFI_TABLE_NAME +" " +"("
-                            + WIFI_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            + COLUMN_ID +" INTEGER PRIMARY KEY," +
                             ""+ WIFI_SSID+" TEXT," +
                             ""+ WIFI_BSSID+" TEXT," +
                             ""+ WIFI_SIGNAL+" TEXT," +
@@ -112,7 +107,7 @@ public class DBHelper extends SQLiteOpenHelper {
             );
             db.execSQL(
                     "CREATE TABLE "+ NFC_TABLE_NAME +" " +"("
-                            + NFC_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            + COLUMN_ID +" INTEGER PRIMARY KEY," +
                             ""+ NFC_TAG_NAME+" TEXT," +
                             ""+ NFC_TAG_ID+" TEXT," +
                             ""+ PROFILE_ID +" INTEGER,"+
@@ -120,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
             );
             db.execSQL(
                     "CREATE TABLE "+ BEACON_TABLE_NAME +" " +"("
-                            + BEACON_COLUMN_ID +" INTEGER PRIMARY KEY," +
+                            + COLUMN_ID +" INTEGER PRIMARY KEY," +
                             ""+ BEACON_NAME+" TEXT," +
                             ""+ BEACON_ID+" TEXT," +
                             ""+ BEACON_SIGNAL+" TEXT," +
@@ -140,9 +135,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         byte[] raw=new byte[16];
-        ProfiloEncrypted profiloEncrypted=null;
+       // ProfiloEncrypted profiloEncrypted=null;
         try {
-            profiloEncrypted = EncryptDecryptClass.encrypt(raw, profilo);
+           // profiloEncrypted = EncryptDecryptClass.encrypt(raw, profilo);
             if(getProfileById(profilo.getId()) == null){
                 contentValues.put(NAME_PROFILE, profilo.getName());
                 contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
@@ -152,6 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(BRIGHTNESS_VOLUME_MUSIC, profilo.getVolumeBarMusic());
                 contentValues.put(BRIGHTNESS_VOLUME_NOTIFICATION, profilo.getVolumeBarNotification());
                 contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
+                contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
                 contentValues.put(APP_NAME, profilo.getAppName());
                 db.insert(PROFILES_TABLE_NAME, null, contentValues);
             }else if(getProfileById(profilo.getId()) != null){
@@ -353,6 +349,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
                     res.getInt(res.getColumnIndex(WIFI_SWITCH)),
                     res.getString(res.getColumnIndex(APP_NAME)));
+
             array_list.add(profilo);
             res.moveToNext();
         }

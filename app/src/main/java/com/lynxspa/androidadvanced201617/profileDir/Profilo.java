@@ -14,7 +14,6 @@ public class Profilo {
     private int wifiSwitch;
     private String appName;
 
-
     public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox,
                    int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch, int wifiSwitch,String appName) {
         this.id = id;
