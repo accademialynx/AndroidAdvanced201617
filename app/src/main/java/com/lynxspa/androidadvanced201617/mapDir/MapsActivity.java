@@ -1,11 +1,14 @@
 package com.lynxspa.androidadvanced201617.mapDir;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -103,6 +106,19 @@ public class MapsActivity extends FragmentActivity implements  OnMapReadyCallbac
                         (this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
          return;
         }
+
+        /*
+        LocationManager locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final Location userLocation= locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+
+        if(userLocation==null){
+            LatLng posizioneCorrente=new LatLng(userLocation.getLatitude(),userLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posizioneCorrente,mMap.getMaxZoomLevel()-5));
+            circle=mMap.addCircle(new CircleOptions().center(posizioneCorrente).radius(200).strokeColor(Color.RED));
+            mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
+                    icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
+        }*/
 
         mMap.setMyLocationEnabled(true);
 
