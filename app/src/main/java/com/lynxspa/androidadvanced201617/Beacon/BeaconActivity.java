@@ -34,7 +34,7 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
     private DBHelper mydb;
     public static final String TAG = "BeaconsEverywhere";
     private BeaconManager beaconManager;
-    private static String STR_PARSER="m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
+    private String STR_PARSER="m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
     private List<BeaconList> beaconLists=null;
     private int idprofilo=0;
     private BeaconAdapter beaconAdapter;
