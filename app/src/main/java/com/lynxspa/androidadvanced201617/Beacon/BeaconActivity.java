@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,7 +20,10 @@ import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,13 +32,13 @@ import java.util.List;
 public class BeaconActivity extends Activity implements BeaconConsumer{
 
     private DBHelper mydb;
-    private ScanSettings mScanSettings;
+    public static final String TAG = "BeaconsEverywhere";
     private BeaconManager beaconManager;
-    private ListView beaconListView;
-    private List<BeaconList> arrayListBeacons=new ArrayList<>();
-    private Button confirm;
-    private BeaconAdapter beaconAdapter;
+    private static String STR_PARSER="m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
+    private List<BeaconList> beaconLists=null;
     private int idprofilo=0;
+    private BeaconAdapter beaconAdapter;
+    private ListView beaconListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,83 +46,103 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
         setContentView(R.layout.activity_beacon);
 
         mydb=DBHelper.getInstance(this);
-        beaconListView=(ListView)findViewById(R.id.beaconList);
-        confirm=(Button)findViewById(R.id.confirmButtonBeacon);
-        beaconManager=BeaconManager.getInstanceForApplication(this);
-        mScanSettings=setScanSettings();
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+
+        beaconManager.getBeaconParsers().add(new BeaconParser()
+                .setBeaconLayout(STR_PARSER));
+
         beaconManager.bind(this);
+
+        beaconListView=(ListView)findViewById(R.id.beaconList);
+
     }
 
-    private ScanSettings setScanSettings(){
-        ScanSettings.Builder mBuilder=new ScanSettings.Builder();
-        mBuilder.setReportDelay(0);
-        mBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
-        mScanSettings = mBuilder.build();
-        return mScanSettings;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        final org.altbeacon.beacon.Region region=new org.altbeacon.beacon.Region("myMonitoringINiqueID",null,null,null);
-        beaconManager.addRangeNotifier(new RangeNotifier() {
+        final Bundle profilo = getIntent().getExtras();
+        if (profilo != null) {
+            Profilo currentProfile = mydb.getProfileById((Integer) profilo.get("Profilo"));
+            idprofilo = currentProfile.getId();
+        } else {
+            List<Profilo> profili = mydb.getAllProfiles();
+            if (!profili.isEmpty() || profili != null) {
+                for (int i = 0; i < profili.size(); i++) {
+                    idprofilo = profili.get(i).getId() + 1;
+                }
+            } else {
+                idprofilo = 1;
+            }
+        }
+
+        final Region region = new Region("myBeacons", Identifier.parse(STR_PARSER), null, null);
+
+        beaconManager.setMonitorNotifier(new MonitorNotifier() {
             @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> collection, org.altbeacon.beacon.Region region) {
-                arrayListBeacons.clear();
-                final Bundle profilo = getIntent().getExtras();
-                if(profilo!=null){
-                    Profilo currentProfile=mydb.getProfileById((Integer) profilo.get("Profilo"));
-                    idprofilo=currentProfile.getId();
-                }else{
-                    List<Profilo> profili = mydb.getAllProfiles();
-                    if(!profili.isEmpty() || profili!=null) {
-                        for (int i = 0; i < profili.size(); i++) {
-                            idprofilo = profili.get(i).getId() + 1;
-                        }
-                    }
-                    else{
-                        idprofilo=1;
-                    }
+            public void didEnterRegion(Region region) {
+                try {
+                    Log.d(TAG, "didEnterRegion");
+                    beaconManager.startRangingBeaconsInRegion(region);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
-                BeaconList beacon = null;
-                for (Beacon b : collection) {
-                    String address = b.getBluetoothAddress();
-                    String name = b.getBluetoothName();
-                    double distance = b.getDistance();
-                    beacon = new BeaconList(name, address, String.valueOf(distance), idprofilo);
-                    arrayListBeacons.add(beacon);
-                    Log.d("AAAAAAAAAAAAAAAAAAA", address + name + distance);
+            }
+
+            @Override
+            public void didExitRegion(Region region) {
+                try {
+                    Log.d(TAG, "didExitRegion");
+                    beaconManager.stopRangingBeaconsInRegion(region);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void didDetermineStateForRegion(int i, Region region) {
+
+            }
+        });
+
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                BeaconList myBeacon = null;
+                for (Beacon oneBeacon : beacons) {
+                    String nameBeacon = oneBeacon.getBluetoothName();
+                    String distanceBeacon = String.valueOf(oneBeacon.getDistance());
+                    String addressBeacon = oneBeacon.getBluetoothAddress();
+                    String distanza = String.valueOf(calculateDistance(oneBeacon.getTxPower(), oneBeacon.getRssi()));
+                    myBeacon = new BeaconList(nameBeacon, addressBeacon, distanza, idprofilo);
+                    beaconLists.add(myBeacon);
+                }
+
+                beaconAdapter = new BeaconAdapter(BeaconActivity.this, beaconLists);
+                beaconListView.setAdapter(beaconAdapter);
             }
         });
 
         try {
-            beaconManager.startRangingBeaconsInRegion(region);
-        }catch (RemoteException e){}
+            beaconManager.startMonitoringBeaconsInRegion(region);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
-        beaconAdapter= new BeaconAdapter(BeaconActivity.this, arrayListBeacons);
-        beaconListView.setAdapter(beaconAdapter);
+    }
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                BeaconList beacon = null;
-                for (int i = 0; i < arrayListBeacons.size(); i++) {
-                    String name = arrayListBeacons.get(i).getNameBeacon();
-                    String addressBeacon = arrayListBeacons.get(i).getAddressBeacon();
-                    String distance = arrayListBeacons.get(i).getDistanceBeacon();
-                    beacon = new BeaconList(name, addressBeacon, distance, idprofilo);
-                    mydb.insertOrUpdateBeacons(beacon);
-                }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
-                /* devo implementare la parcelable? */
-               // intent.putParcelableArrayListExtra("beacon", (ArrayList<? extends Parcelable>) arrayListBeacons);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        });
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return true;
     }
 
     public double calculateDistance(int txPower, double rssi) {
