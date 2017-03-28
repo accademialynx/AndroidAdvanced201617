@@ -25,6 +25,7 @@ import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -93,9 +94,8 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
                 arrayListBeacons = new ArrayList<BeaconList>();
                 for (Beacon oneBeacon : beacons) {
                     String nameBeacon = oneBeacon.getBluetoothName();
-                  //  String distanceBeacon = String.valueOf(oneBeacon.getDistance());
                     String addressBeacon = oneBeacon.getBluetoothAddress();
-                    String distanceBeacon = String.valueOf(calculateDistance(oneBeacon.getTxPower(), oneBeacon.getRssi()));
+                    String distanceBeacon = calculateDistance(oneBeacon.getDistance());
                     myBeacon = new BeaconList(nameBeacon, addressBeacon, distanceBeacon, idprofilo);
                     arrayListBeacons.add(myBeacon);
                 }
@@ -131,11 +131,9 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
                     String nameBeacon = arrayListBeacons.get(i).getNameBeacon();
                     String addressBeacon = arrayListBeacons.get(i).getAddressBeacon();
                     String distanceBeacon = arrayListBeacons.get(i).getDistanceBeacon();
-                    beacon= new BeaconList(nameBeacon, addressBeacon, distanceBeacon, idprofilo);
+                    beacon = new BeaconList(nameBeacon, addressBeacon, distanceBeacon, idprofilo);
                     mydb.insertOrUpdateBeacons(beacon);
                 }
-                /* devo implementare la parcelable? */
-                // intent.putParcelableArrayListExtra("wifi", (ArrayList<? extends Parcelable>) arraylistWifi);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -152,17 +150,9 @@ public class BeaconActivity extends Activity implements BeaconConsumer{
         return true;
     }
 
-    public double calculateDistance(int txPower, double rssi) {
-        if (rssi == 0) {
-            return -1.0; // if we cannot determine accuracy, return -1.
-        }
-
-        double ratio = rssi * 1.0 / txPower;
-        if (ratio < 1.0) {
-            return Math.pow(ratio, 10);
-        } else {
-            double accuracy = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
-            return accuracy;
-        }
+    public String calculateDistance(double doubleDistance) {
+        doubleDistance=doubleDistance/3.2;
+        DecimalFormat df=new DecimalFormat(String.valueOf("#.##"));
+      return String.valueOf(df.format(doubleDistance));
     }
 }
