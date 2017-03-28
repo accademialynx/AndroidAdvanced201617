@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String APP_NAME="appName";
     public static final String PROFILE_ID="profileId";
 
-    public static int VERSION_DB=1;
+    public static final int VERSION_DB=1;
 
     private static DBHelper newInstance;
     private DBHelper(Context context){
@@ -120,12 +120,10 @@ public class DBHelper extends SQLiteOpenHelper {
                             ""+ PROFILES_COLUMN_ID +" INTEGER,"+
                             " FOREIGN KEY ("+PROFILE_ID+") REFERENCES "+PROFILES_TABLE_NAME+"("+PROFILES_COLUMN_ID+"));"
             );
-            VERSION_DB=newVersion;
         }
 
         if(newVersion<3){
             //TODO do something onUpgrade
-            VERSION_DB=newVersion;
         }
     }
 
