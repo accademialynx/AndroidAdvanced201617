@@ -121,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             userLocation=mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             myPosition = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, mMap.getMaxZoomLevel() - 5));
-            mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
+            mMarker=mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
                     icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             circle = mMap.addCircle(new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
@@ -131,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onLocationChanged(Location location) {
                     myPosition= new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, mMap.getMaxZoomLevel() - 5));
-                    mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
+                    mMarker=mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
                             icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                     circle = mMap.addCircle(new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));

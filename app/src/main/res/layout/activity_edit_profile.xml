@@ -117,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/marginTopButtons"
                     android:orientation="horizontal"
+
                     >
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -130,6 +131,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/volumeRing"
                             android:textColor="@color/textColor"
+                            android:minHeight="30px"
                             />
                         <TextView
                             android:id="@+id/volumeMusic"
@@ -137,6 +139,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/volumeMusic"
                             android:textColor="@color/textColor"
+                            android:minHeight="30px"
                             />
                         <TextView
                             android:id="@+id/volumeNotification"
@@ -144,6 +147,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/volumeNotification"
                             android:textColor="@color/textColor"
+                            android:minHeight="30px"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -156,18 +160,21 @@
                             android:id="@+id/volumeBarRing"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/volumeRing" />
+                            android:layout_toRightOf="@+id/volumeRing"
+                            android:minHeight="30px"/>
                         <SeekBar
                             android:id="@+id/volumeBarMusic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/volumeMusic"
+                            android:minHeight="30px"
                             />
                         <SeekBar
                             android:id="@+id/volumeBarNotification"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/volumeNotification"
+                            android:minHeight="30px"
                             />
                     </LinearLayout>
                 </LinearLayout>
