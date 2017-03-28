@@ -126,15 +126,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             circle = mMap.addCircle(new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
         }else{
-            final Location finalUserLocation = userLocation;
             mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    LatLng posizioneCorrente = new LatLng(finalUserLocation.getLatitude(), finalUserLocation.getLongitude());
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posizioneCorrente, mMap.getMaxZoomLevel() - 5));
+                    myPosition= new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, mMap.getMaxZoomLevel() - 5));
                     mMap.addMarker(new MarkerOptions().position(myPosition).title(cityName).
                             icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                    circle = mMap.addCircle(new CircleOptions().center(posizioneCorrente).radius(200).strokeColor(Color.RED));
+                    circle = mMap.addCircle(new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
                 }
 
@@ -243,10 +242,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (circle != null)
                     circle.remove();
-                if (mMarker != null)
+                if (mMarker != null) {
                     circle = mMap.addCircle((new CircleOptions().center(myPosition).radius(200).strokeColor(Color.RED)));
-                circle.setRadius(progress + 200);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
+                    circle.setRadius(progress + 200);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myPosition, getZoomLevel(circle)));
+                }
             }
 
             @Override
