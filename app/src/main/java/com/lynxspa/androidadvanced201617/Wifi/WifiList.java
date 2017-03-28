@@ -1,9 +1,4 @@
-package com.lynxspa.androidadvanced201617.WifiDir;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+package com.lynxspa.androidadvanced201617.Wifi;
 
 public class WifiList{
 

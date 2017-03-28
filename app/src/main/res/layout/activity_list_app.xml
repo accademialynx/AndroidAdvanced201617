@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context=".AppListDir.ListAppActivity">
+    tools:context=".AppList.ListAppActivity">
 
     <TextView
         android:id="@+id/list_app_name"

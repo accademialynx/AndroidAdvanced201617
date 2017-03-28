@@ -1,21 +1,21 @@
-package com.lynxspa.androidadvanced201617.profileDir;
+package com.lynxspa.androidadvanced201617.profile;
 
-public class Profilo {
+public class ProfiloEncrypted {
 
     private int id;
     private String name;
-    private int radioButton;
-    private int brigthnesBar;
-    private int brightnessCheckBox;
-    private int volumeBarRing;
-    private int volumeBarMusic;
-    private int volumeBarNotification;
-    private int bluetoothSwitch;
-    private int wifiSwitch;
+    private String radioButton;
+    private String brigthnesBar;
+    private String brightnessCheckBox;
+    private String volumeBarRing;
+    private String volumeBarMusic;
+    private String volumeBarNotification;
+    private String bluetoothSwitch;
+    private String wifiSwitch;
     private String appName;
 
-    public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox,
-                   int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch, int wifiSwitch,String appName) {
+    public ProfiloEncrypted(int id, String name, String radioButton, String brigthnesBar, String brightnessCheckBox, String volumeBarRing,
+                            String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch,String appName) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
@@ -45,67 +45,67 @@ public class Profilo {
         this.name = name;
     }
 
-    public int getRadioButton() {
+    public String getRadioButton() {
         return radioButton;
     }
 
-    public void setRadioButton(int radioButton) {
+    public void setRadioButton(String radioButton) {
         this.radioButton = radioButton;
     }
 
-    public int getBrigthnesBar() {
+    public String getBrigthnesBar() {
         return brigthnesBar;
     }
 
-    public void setBrigthnesBar(int brigthnesBar) {
+    public void setBrigthnesBar(String brigthnesBar) {
         this.brigthnesBar = brigthnesBar;
     }
 
-    public int getBrightnessCheckBox() {
+    public String getBrightnessCheckBox() {
         return brightnessCheckBox;
     }
 
-    public void setBrightnessCheckBox(int brightnessCheckBox) {
+    public void setBrightnessCheckBox(String brightnessCheckBox) {
         this.brightnessCheckBox = brightnessCheckBox;
     }
 
-    public int getVolumeBarRing() {
+    public String getVolumeBarRing() {
         return volumeBarRing;
     }
 
-    public void setVolumeBarRing(int volumeBarRing) {
+    public void setVolumeBarRing(String volumeBarRing) {
         this.volumeBarRing = volumeBarRing;
     }
 
-    public int getVolumeBarMusic() {
+    public String getVolumeBarMusic() {
         return volumeBarMusic;
     }
 
-    public void setVolumeBarMusic(int volumeBarMusic) {
+    public void setVolumeBarMusic(String volumeBarMusic) {
         this.volumeBarMusic = volumeBarMusic;
     }
 
-    public int getVolumeBarNotification() {
+    public String getVolumeBarNotification() {
         return volumeBarNotification;
     }
 
-    public void setVolumeBarNotification(int volumeBarNotification) {
+    public void setVolumeBarNotification(String volumeBarNotification) {
         this.volumeBarNotification = volumeBarNotification;
     }
 
-    public int getBluetoothSwitch() {
+    public String getBluetoothSwitch() {
         return bluetoothSwitch;
     }
 
-    public void setBluetoothSwitch(int bluetoothSwitch) {
+    public void setBluetoothSwitch(String bluetoothSwitch) {
         this.bluetoothSwitch = bluetoothSwitch;
     }
 
-    public int getWifiSwitch() {
+    public String getWifiSwitch() {
         return wifiSwitch;
     }
 
-    public void setWifiSwitch(int wifiSwitch) {
+    public void setWifiSwitch(String wifiSwitch) {
         this.wifiSwitch = wifiSwitch;
     }
 

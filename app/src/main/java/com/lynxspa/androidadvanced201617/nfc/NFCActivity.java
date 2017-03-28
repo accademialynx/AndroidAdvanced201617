@@ -1,18 +1,13 @@
-package com.lynxspa.androidadvanced201617.nfcDir;
+package com.lynxspa.androidadvanced201617.nfc;
 
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
 import android.nfc.Tag;
-import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,11 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.util.List;
 

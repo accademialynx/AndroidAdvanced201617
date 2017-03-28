@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.AppListDir;
+package com.lynxspa.androidadvanced201617.AppList;
 
 import android.app.Activity;
 import android.content.Intent;

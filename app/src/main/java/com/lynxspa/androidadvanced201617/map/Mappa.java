@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.mapDir;
+package com.lynxspa.androidadvanced201617.map;
 
 public class Mappa {
 

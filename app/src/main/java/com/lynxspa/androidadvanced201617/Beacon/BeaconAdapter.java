@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.WifiDir;
+package com.lynxspa.androidadvanced201617.Beacon;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 
-public class WifiAdapter extends BaseAdapter {
+public class BeaconAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
-    private List<WifiList> listStorage;
+    private List<BeaconList> listStorage;
 
-    public WifiAdapter(Context context, List<WifiList> customizedListView) {
+    public BeaconAdapter(Context context, List<BeaconList> customizedListView) {
         layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
     }
@@ -42,25 +42,25 @@ public class WifiAdapter extends BaseAdapter {
         ViewHolder listViewHolder;
         if(convertView == null){
             listViewHolder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.activity_adapter_for_wifi_list, parent, false);
+            convertView = layoutInflater.inflate(R.layout.activity_adapter_for_beacon_list, parent, false);
 
-            listViewHolder.ssid = (TextView)convertView.findViewById(R.id.ssid);
-            listViewHolder.bssid= (TextView)convertView.findViewById(R.id.bssid);
-            listViewHolder.signal= (TextView)convertView.findViewById(R.id.signal);
+            listViewHolder.nameBeacon = (TextView)convertView.findViewById(R.id.nameBeacon);
+            listViewHolder.distanceBeacon= (TextView)convertView.findViewById(R.id.distanceBeacon);
+            listViewHolder.addressBeacon= (TextView)convertView.findViewById(R.id.addressBeacon);
             convertView.setTag(listViewHolder);
         }else{
             listViewHolder = (ViewHolder)convertView.getTag();
         }
-        listViewHolder.ssid.setText(listStorage.get(position).getSsid());
-        listViewHolder.bssid.setText(listStorage.get(position).getBssid());
-        listViewHolder.signal.setText(listStorage.get(position).getSignal());
+        listViewHolder.nameBeacon.setText(listStorage.get(position).getNameBeacon());
+        listViewHolder.distanceBeacon.setText(listStorage.get(position).getDistanceBeacon());
+        listViewHolder.addressBeacon.setText(listStorage.get(position).getAddressBeacon());
 
         return convertView;
     }
 
     static class ViewHolder{
-        TextView ssid;
-        TextView bssid;
-        TextView signal;
+        TextView nameBeacon;
+        TextView distanceBeacon;
+        TextView addressBeacon;
     }
 }

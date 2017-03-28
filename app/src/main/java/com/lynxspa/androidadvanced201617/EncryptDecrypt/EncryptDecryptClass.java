@@ -1,16 +1,9 @@
 package com.lynxspa.androidadvanced201617.EncryptDecrypt;
 
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
-import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
+import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**

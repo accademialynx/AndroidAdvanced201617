@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.BeaconDir;
+package com.lynxspa.androidadvanced201617.AppList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 
-public class BeaconAdapter extends BaseAdapter {
+public class AppAdapter extends BaseAdapter{
 
     private LayoutInflater layoutInflater;
-    private List<BeaconList> listStorage;
+    private List<AppList> listStorage;
 
-    public BeaconAdapter(Context context, List<BeaconList> customizedListView) {
+    public AppAdapter(Context context, List<AppList> customizedListView) {
         layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
     }
@@ -42,25 +42,18 @@ public class BeaconAdapter extends BaseAdapter {
         ViewHolder listViewHolder;
         if(convertView == null){
             listViewHolder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.activity_adapter_for_beacon_list, parent, false);
+            convertView = layoutInflater.inflate(R.layout.activity_list_app, parent, false);
 
-            listViewHolder.nameBeacon = (TextView)convertView.findViewById(R.id.nameBeacon);
-            listViewHolder.distanceBeacon= (TextView)convertView.findViewById(R.id.distanceBeacon);
-            listViewHolder.addressBeacon= (TextView)convertView.findViewById(R.id.addressBeacon);
+            listViewHolder.textInListView = (TextView)convertView.findViewById(R.id.list_app_name);
             convertView.setTag(listViewHolder);
         }else{
             listViewHolder = (ViewHolder)convertView.getTag();
         }
-        listViewHolder.nameBeacon.setText(listStorage.get(position).getNameBeacon());
-        listViewHolder.distanceBeacon.setText(listStorage.get(position).getDistanceBeacon());
-        listViewHolder.addressBeacon.setText(listStorage.get(position).getAddressBeacon());
-
+        listViewHolder.textInListView.setText(listStorage.get(position).getName());
         return convertView;
     }
 
     static class ViewHolder{
-        TextView nameBeacon;
-        TextView distanceBeacon;
-        TextView addressBeacon;
+        TextView textInListView;
     }
 }

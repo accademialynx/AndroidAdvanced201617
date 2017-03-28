@@ -1,14 +1,11 @@
-package com.lynxspa.androidadvanced201617.mapDir;
+package com.lynxspa.androidadvanced201617.map;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -25,8 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,10 +1,9 @@
-package com.lynxspa.androidadvanced201617.BeaconDir;
+package com.lynxspa.androidadvanced201617.Beacon;
 
 import android.app.Activity;
 import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;

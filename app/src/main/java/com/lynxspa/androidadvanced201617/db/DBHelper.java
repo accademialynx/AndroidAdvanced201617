@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.dbDir;
+package com.lynxspa.androidadvanced201617.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lynxspa.androidadvanced201617.BeaconDir.BeaconList;
-import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
-import com.lynxspa.androidadvanced201617.WifiDir.WifiList;
-import com.lynxspa.androidadvanced201617.mapDir.Mappa;
-import com.lynxspa.androidadvanced201617.nfcDir.NFC;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
-import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
+import com.lynxspa.androidadvanced201617.Beacon.BeaconList;
+import com.lynxspa.androidadvanced201617.Wifi.WifiList;
+import com.lynxspa.androidadvanced201617.map.Mappa;
+import com.lynxspa.androidadvanced201617.nfc.NFC;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.util.ArrayList;
 import java.util.List;

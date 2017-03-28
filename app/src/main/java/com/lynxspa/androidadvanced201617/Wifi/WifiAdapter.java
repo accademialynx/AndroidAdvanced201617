@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.AppListDir;
+package com.lynxspa.androidadvanced201617.Wifi;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import com.lynxspa.androidadvanced201617.R;
 
 import java.util.List;
 
-public class AppAdapter extends BaseAdapter{
+public class WifiAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
-    private List<AppList> listStorage;
+    private List<WifiList> listStorage;
 
-    public AppAdapter(Context context, List<AppList> customizedListView) {
+    public WifiAdapter(Context context, List<WifiList> customizedListView) {
         layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
     }
@@ -42,18 +42,25 @@ public class AppAdapter extends BaseAdapter{
         ViewHolder listViewHolder;
         if(convertView == null){
             listViewHolder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.activity_list_app, parent, false);
+            convertView = layoutInflater.inflate(R.layout.activity_adapter_for_wifi_list, parent, false);
 
-            listViewHolder.textInListView = (TextView)convertView.findViewById(R.id.list_app_name);
+            listViewHolder.ssid = (TextView)convertView.findViewById(R.id.ssid);
+            listViewHolder.bssid= (TextView)convertView.findViewById(R.id.bssid);
+            listViewHolder.signal= (TextView)convertView.findViewById(R.id.signal);
             convertView.setTag(listViewHolder);
         }else{
             listViewHolder = (ViewHolder)convertView.getTag();
         }
-        listViewHolder.textInListView.setText(listStorage.get(position).getName());
+        listViewHolder.ssid.setText(listStorage.get(position).getSsid());
+        listViewHolder.bssid.setText(listStorage.get(position).getBssid());
+        listViewHolder.signal.setText(listStorage.get(position).getSignal());
+
         return convertView;
     }
 
     static class ViewHolder{
-        TextView textInListView;
+        TextView ssid;
+        TextView bssid;
+        TextView signal;
     }
 }

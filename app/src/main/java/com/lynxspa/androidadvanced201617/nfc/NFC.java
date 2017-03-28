@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.nfcDir;
+package com.lynxspa.androidadvanced201617.nfc;
 
 public class NFC {
 

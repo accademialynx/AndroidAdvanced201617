@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.BeaconDir;
+package com.lynxspa.androidadvanced201617.Beacon;
 
 public class BeaconList {
 

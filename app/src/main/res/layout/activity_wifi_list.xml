@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context=".AppListDir.ListAppActivity">
+    tools:context=".AppList.ListAppActivity">
 
     <ListView
         android:id="@+id/listWifi"

@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.profileDir;
+package com.lynxspa.androidadvanced201617.profile;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,18 +16,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lynxspa.androidadvanced201617.AppListDir.ListAppActivity;
-import com.lynxspa.androidadvanced201617.BeaconDir.BeaconActivity;
-import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.AppList.ListAppActivity;
+import com.lynxspa.androidadvanced201617.Beacon.BeaconActivity;
 import com.lynxspa.androidadvanced201617.MainActivity;
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.WifiDir.WifiList;
-import com.lynxspa.androidadvanced201617.WifiDir.WifiListActivity;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.mapDir.MapsActivity;
-import com.lynxspa.androidadvanced201617.nfcDir.NFCActivity;
-
-import java.util.ArrayList;
+import com.lynxspa.androidadvanced201617.Wifi.WifiListActivity;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.map.MapsActivity;
+import com.lynxspa.androidadvanced201617.nfc.NFCActivity;
 
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 

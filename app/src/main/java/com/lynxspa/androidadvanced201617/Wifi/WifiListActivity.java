@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.WifiDir;
+package com.lynxspa.androidadvanced201617.Wifi;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -8,15 +8,14 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.util.ArrayList;
 import java.util.List;

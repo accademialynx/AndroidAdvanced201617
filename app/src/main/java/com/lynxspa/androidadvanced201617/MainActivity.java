@@ -1,11 +1,6 @@
 package com.lynxspa.androidadvanced201617;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
-import com.lynxspa.androidadvanced201617.dbDir.DBHelper;
-import com.lynxspa.androidadvanced201617.profileDir.ProfileDetail;
-import com.lynxspa.androidadvanced201617.profileDir.Profilo;
-import com.lynxspa.androidadvanced201617.profileDir.ProfiloEncrypted;
+import com.lynxspa.androidadvanced201617.db.DBHelper;
+import com.lynxspa.androidadvanced201617.profile.ProfileDetail;
+import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.util.ArrayList;
 /*
