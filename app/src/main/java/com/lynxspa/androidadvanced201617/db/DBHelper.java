@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lynxspa.androidadvanced201617.Beacon.BeaconList;
-import com.lynxspa.androidadvanced201617.Wifi.WifiList;
+import com.lynxspa.androidadvanced201617.beacon.BeaconList;
+import com.lynxspa.androidadvanced201617.wifi.WifiList;
 import com.lynxspa.androidadvanced201617.map.Mappa;
 import com.lynxspa.androidadvanced201617.nfc.NFC;
 import com.lynxspa.androidadvanced201617.profile.Profilo;

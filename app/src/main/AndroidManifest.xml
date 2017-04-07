@@ -32,8 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".profile.ProfileDetail" />
-        <activity android:name=".AppList.ListAppActivity"/>
-        <activity android:name=".Wifi.WifiListActivity"/>
+        <activity android:name=".appList.ListAppActivity"/>
+        <activity android:name=".wifi.WifiListActivity"/>
         <activity android:name=".map.MapsActivity" android:label="Map"/>
         <activity android:name=".nfc.NFCActivity">
             <intent-filter>
@@ -42,7 +42,7 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Beacon.BeaconActivity"/>
+        <activity android:name=".beacon.BeaconActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

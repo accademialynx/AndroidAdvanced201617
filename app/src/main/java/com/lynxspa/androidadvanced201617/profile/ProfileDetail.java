@@ -16,11 +16,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lynxspa.androidadvanced201617.AppList.ListAppActivity;
-import com.lynxspa.androidadvanced201617.Beacon.BeaconActivity;
+import com.lynxspa.androidadvanced201617.appList.ListAppActivity;
+import com.lynxspa.androidadvanced201617.beacon.BeaconActivity;
 import com.lynxspa.androidadvanced201617.MainActivity;
 import com.lynxspa.androidadvanced201617.R;
-import com.lynxspa.androidadvanced201617.Wifi.WifiListActivity;
+import com.lynxspa.androidadvanced201617.wifi.WifiListActivity;
 import com.lynxspa.androidadvanced201617.db.DBHelper;
 import com.lynxspa.androidadvanced201617.map.MapsActivity;
 import com.lynxspa.androidadvanced201617.nfc.NFCActivity;
