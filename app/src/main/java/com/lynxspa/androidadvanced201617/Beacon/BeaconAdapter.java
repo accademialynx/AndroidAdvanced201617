@@ -52,7 +52,7 @@ public class BeaconAdapter extends BaseAdapter {
             listViewHolder = (ViewHolder)convertView.getTag();
         }
         listViewHolder.nameBeacon.setText(listStorage.get(position).getNameBeacon());
-        listViewHolder.distanceBeacon.setText(listStorage.get(position).getDistanceBeacon());
+        listViewHolder.distanceBeacon.setText(listStorage.get(position).getDistanceBeacon()+"m");
         listViewHolder.addressBeacon.setText(listStorage.get(position).getAddressBeacon());
 
         return convertView;
