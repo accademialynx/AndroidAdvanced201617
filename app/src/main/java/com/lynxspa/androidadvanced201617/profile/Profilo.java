@@ -13,9 +13,11 @@ public class Profilo {
     private int bluetoothSwitch;
     private int wifiSwitch;
     private String appName;
+    private String password;
 
     public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox,
-                   int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch, int wifiSwitch,String appName) {
+                   int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch,
+                   int wifiSwitch,String appName, String password) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
@@ -27,6 +29,7 @@ public class Profilo {
         this.bluetoothSwitch = bluetoothSwitch;
         this.wifiSwitch = wifiSwitch;
         this.appName=appName;
+        this.password=password;
     }
 
     public int getId() {
@@ -115,5 +118,13 @@ public class Profilo {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

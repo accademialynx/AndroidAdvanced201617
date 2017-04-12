@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lynxspa.androidadvanced201617.beacon.BeaconList;
+import com.lynxspa.androidadvanced201617.encryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
 import com.lynxspa.androidadvanced201617.wifi.WifiList;
 import com.lynxspa.androidadvanced201617.map.Mappa;
 import com.lynxspa.androidadvanced201617.nfc.NFC;
@@ -47,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BEACON_SIGNAL = "beaconSignal";
     public static final String APP_NAME="appName";
     public static final String PROFILE_ID="profileId";
+    public static final String PASSWORD="password";
 
     public static final int VERSION_DB=1;
 
@@ -78,7 +81,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         ""+ BRIGHTNESS_VOLUME_NOTIFICATION+" INTEGER," +
                         ""+ BLUETOOTH_SWITCH +" INTEGER," +
                         ""+ WIFI_SWITCH +" INTEGER,"+
-                        ""+ APP_NAME +" TEXT)"
+                        ""+ APP_NAME +" TEXT,"+
+                        ""+ PASSWORD +" TEXT)"
         );
     }
 
@@ -123,17 +127,16 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         if(newVersion<3){
-            //TODO do something onUpgrade
+            db.execSQL("ALTER TABLE "+PROFILES_TABLE_NAME+" ADD COLUMN "+PASSWORD+" TEXT");
         }
     }
 
     public boolean insertOrUpdateProfile (Profilo profilo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        byte[] raw=new byte[16];
-       // ProfiloEncrypted profiloEncrypted=null;
+        ProfiloEncrypted profiloEncrypted=null;
         try {
-           // profiloEncrypted = EncryptDecryptClass.encrypt(raw, profilo);
+            profiloEncrypted = EncryptDecryptClass.encrypt(profilo);
             if(getProfileById(profilo.getId()) == null){
                 contentValues.put(NAME_PROFILE, profilo.getName());
                 contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
@@ -145,6 +148,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
                 contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
                 contentValues.put(APP_NAME, profilo.getAppName());
+                contentValues.put(PASSWORD, profilo.getPassword());
                 db.insert(PROFILES_TABLE_NAME, null, contentValues);
             }else if(getProfileById(profilo.getId()) != null){
                 contentValues.put(NAME_PROFILE, profilo.getName());
@@ -157,6 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(BLUETOOTH_SWITCH, profilo.getBluetoothSwitch());
                 contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
                 contentValues.put(APP_NAME, profilo.getAppName());
+                contentValues.put(PASSWORD, profilo.getPassword());
                 db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
             }
         } catch (Exception e) {
@@ -344,7 +349,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(BRIGHTNESS_VOLUME_NOTIFICATION)),
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
                     res.getInt(res.getColumnIndex(WIFI_SWITCH)),
-                    res.getString(res.getColumnIndex(APP_NAME)));
+                    res.getString(res.getColumnIndex(APP_NAME)),
+                    res.getString(res.getColumnIndex(PASSWORD)));
 
             array_list.add(profilo);
             res.moveToNext();

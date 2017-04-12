@@ -1,9 +1,16 @@
 package com.lynxspa.androidadvanced201617.profile;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -42,6 +49,10 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     private RadioButton beaconButton;
     private RadioGroup radioGroup;
     private TextView appList;
+    private EditText first_password;
+    private EditText second_password;
+    private String newPassword;
+    private String retypePassword;
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
@@ -49,6 +60,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     final static private int NFC_ACTIVITY=1;
     final static private int BEACON_ACTIVITY=1;
 
+    private Activity currentActivity;
     private Profilo currentProfile;
 
     @Override
@@ -56,7 +68,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        currentActivity=this;
         mydb = DBHelper.getInstance(this);
         final Bundle bundle = getIntent().getExtras();
 
@@ -67,7 +79,51 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.profile_detail,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+        case R.id.action_password:
+            LayoutInflater inflater=currentActivity.getLayoutInflater();
+            final View dialogView=inflater.inflate(R.layout.set_password_layout, null);
+            AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(currentActivity)
+                    .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            first_password=(EditText) dialogView.findViewById(R.id.first_password);
+                            second_password=(EditText)dialogView.findViewById(R.id.second_password);
+
+                             if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
+                                     && first_password.getText().toString().equals(second_password.getText().toString())) {
+                                 newPassword = first_password.getText().toString();
+                                 retypePassword = second_password.getText().toString();
+                             }
+                             else{
+                                 Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
+                                return;
+                             }
+                            }
+                    });
+            dialogBuilder.setView(dialogView);
+            dialogBuilder.show();
+        break;
+        }
+        return true;
+    }
+
     private void newProfile(){
+
         setContentView(R.layout.activity_edit_profile);
 
         mydb = DBHelper.getInstance(this);
@@ -156,14 +212,13 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                     }
 
                     if(!editText.getText().toString().isEmpty()) {
-                        Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
-                                brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(), volumeBarMusic.getProgress(),
-                                volumeBarNotification.getProgress(), switchBluetooth, switchWifi, appList.getText().toString());
-                        mydb.insertOrUpdateProfile(profilo);
+                            Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
+                                    brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(), volumeBarMusic.getProgress(),
+                                    volumeBarNotification.getProgress(), switchBluetooth, switchWifi,
+                                    appList.getText().toString(), newPassword);
+                            mydb.insertOrUpdateProfile(profilo);
+                        }
                         finish();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Errore: Inserisci nome profilo", Toast.LENGTH_SHORT).show();
-                    }
 
                 } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Errore: nome profilo non valido", Toast.LENGTH_SHORT).show();
@@ -338,10 +393,11 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                         switchWifi = 1;
                     }
 
-                   currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
-                            brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(),volumeBarMusic.getProgress(),
-                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,appList.getText().toString());
-                    mydb.insertOrUpdateProfile(currentProfile);
+                    currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
+                            brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(), volumeBarMusic.getProgress(),
+                            volumeBarNotification.getProgress(), switchBluetooth, switchWifi,
+                            appList.getText().toString(), newPassword);
+                        mydb.insertOrUpdateProfile(currentProfile);
                     Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
                     startActivity(mainActivity);
                 } else if (editText.getText().toString().equals("Inserisci nome profilo") || editText.getText().toString().isEmpty()) {
