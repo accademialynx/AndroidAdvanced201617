@@ -15,6 +15,8 @@ public class ProfiloEncrypted {
     private String appName;
     private String password;
 
+    public ProfiloEncrypted(){}
+
     public ProfiloEncrypted(int id, String name, String radioButton, String brigthnesBar, String brightnessCheckBox, String volumeBarRing,
                             String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch,
                             String appName, String password) {

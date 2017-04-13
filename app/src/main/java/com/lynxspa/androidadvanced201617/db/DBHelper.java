@@ -136,7 +136,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         ProfiloEncrypted profiloEncrypted=null;
         try {
-            profiloEncrypted = EncryptDecryptClass.encrypt(profilo);
+            //profilo = EncryptDecryptClass.encrypt(profilo);
             if(getProfileById(profilo.getId()) == null){
                 contentValues.put(NAME_PROFILE, profilo.getName());
                 contentValues.put(RADIO_BUTTON_VALUE, profilo.getRadioButton());
