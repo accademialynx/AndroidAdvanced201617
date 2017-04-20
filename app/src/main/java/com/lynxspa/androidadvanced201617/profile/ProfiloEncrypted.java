@@ -13,9 +13,13 @@ public class ProfiloEncrypted {
     private String bluetoothSwitch;
     private String wifiSwitch;
     private String appName;
+    private String password;
+
+    public ProfiloEncrypted(){}
 
     public ProfiloEncrypted(int id, String name, String radioButton, String brigthnesBar, String brightnessCheckBox, String volumeBarRing,
-                            String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch,String appName) {
+                            String volumeBarMusic, String volumeBarNotification, String bluetoothSwitch, String wifiSwitch,
+                            String appName, String password) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
@@ -27,6 +31,7 @@ public class ProfiloEncrypted {
         this.bluetoothSwitch = bluetoothSwitch;
         this.wifiSwitch = wifiSwitch;
         this.appName=appName;
+        this.password=password;
     }
 
     public int getId() {
@@ -115,5 +120,13 @@ public class ProfiloEncrypted {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -168,41 +168,52 @@
             </LinearLayout>
         </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_marginTop="@dimen/marginTop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
 
         <TextView
             android:id="@+id/bluetooth"
-            android:layout_width="@dimen/widthLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bluetooth"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/textColor"
+            android:minWidth="650px"
+            android:layout_weight="1"/>
         <Switch
             android:id="@+id/switchBluetooth"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/bluetooth" />
-    </RelativeLayout>
+            android:layout_toRightOf="@+id/bluetooth"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_marginTop="@dimen/marginTop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/wifi"
-            android:layout_width="@dimen/widthLayout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wifi"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/textColor"
+            android:layout_weight="1"
+            android:minWidth="650px"/>
         <Switch
             android:id="@+id/switchWifi"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/wifi" />
-    </RelativeLayout>
+            android:layout_toRightOf="@+id/wifi"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

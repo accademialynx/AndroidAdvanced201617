@@ -41,14 +41,14 @@ public class NFCActivity extends AppCompatActivity {
         mText = (TextView) findViewById(R.id.info);
         confirm=(Button)findViewById(R.id.confirmButtonNFC);
 
-        mAdapter = NfcAdapter.getDefaultAdapter(NFCActivity.this);
+        mAdapter = NfcAdapter.getDefaultAdapter(this);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        final Intent intent = new Intent(this, NFCActivity.class);
+        final Intent intent = this.getIntent();
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
