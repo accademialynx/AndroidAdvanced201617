@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.encryptDecrypt;
+package com.lynxspa.androidadvanced201617.EncryptDecrypt;
 
 import com.lynxspa.androidadvanced201617.profile.Profilo;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
@@ -58,7 +58,7 @@ public class EncryptDecryptClass {
                 Integer.valueOf(brightnessDecrypted.toString()),Integer.valueOf(brightnessCheckDecrypted.toString()),
                 Integer.valueOf(volumeRingDecrypted.toString()),Integer.valueOf(volumeMusicDecrypted.toString()),
                 Integer.valueOf(volumeNotificationDecrypted.toString()),Integer.valueOf(bluetoothSwitchDecrypted.toString()),
-                Integer.valueOf(wifiSwitchDecrypted.toString()),appDecrypted.toString(),passwordDecrypt.toString());
+                Integer.valueOf(wifiSwitchDecrypted.toString()),appDecrypted.toString(),passwordDecrypt.toString(),"");
         return profilo;
     }
 }

@@ -14,10 +14,11 @@ public class Profilo {
     private int wifiSwitch;
     private String appName;
     private String password;
+    private String authType;
 
     public Profilo(int id, String name, int radioButton, int brigthnesBar, int brightnessCheckBox,
                    int volumeBarRing, int volumeBarMusic, int volumeBarNotification, int bluetoothSwitch,
-                   int wifiSwitch,String appName, String password) {
+                   int wifiSwitch,String appName, String password,String authType) {
         this.id = id;
         this.name = name;
         this.radioButton= radioButton;
@@ -30,6 +31,7 @@ public class Profilo {
         this.wifiSwitch = wifiSwitch;
         this.appName=appName;
         this.password=password;
+        this.authType=authType;
     }
 
     public int getId() {
@@ -126,5 +128,13 @@ public class Profilo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(String authType) {
+        this.authType = authType;
     }
 }

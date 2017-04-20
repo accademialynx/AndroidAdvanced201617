@@ -58,6 +58,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     private String retypePassword;
     private String otpRandomParams;
     private TextView otpPosition;
+    private String authType;
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
@@ -76,8 +77,6 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         currentActivity=this;
         mydb = DBHelper.getInstance(this);
 
-        otpRandomParams =getRandomParam();
-
         final Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null && bundle.get("Profilo")!=null) {
@@ -86,42 +85,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             newProfile();
         }
     }
-    private String getRandomParam() {
-        List<String> listLetter=new ArrayList<String>();
-        listLetter.add("A");
-        listLetter.add("B");
-        listLetter.add("C");
-        listLetter.add("D");
-        listLetter.add("E");
-        listLetter.add("F");
-        listLetter.add("G");
 
-        List<String> listNumber=new ArrayList<String>();
-        listNumber.add("1");
-        listNumber.add("2");
-        listNumber.add("3");
-        listNumber.add("4");
-        listNumber.add("5");
-        listNumber.add("6");
-        listNumber.add("7");
-        listNumber.add("8");
-        listNumber.add("9");
-        listNumber.add("10");
-        String letterRandom="";
-        for(String str:listLetter){
-            int idx = new Random().nextInt(listLetter.size());
-            letterRandom = (listLetter.get(idx));
-        }
-        String randomNumber="";
-        for(String str:listNumber){
-            int idx = new Random().nextInt(listNumber.size());
-            randomNumber = (listNumber.get(idx));
-        }
-
-        String string = letterRandom+"-"+randomNumber;
-        return string;
-
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater=getMenuInflater();
@@ -151,6 +115,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                                          && first_password.getText().toString().equals(second_password.getText().toString())) {
                                      newPassword = first_password.getText().toString();
                                      retypePassword = second_password.getText().toString();
+                                     authType=AuthenticationType.PASSWORD.name();
                                  }
                                  else{
                                      Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
@@ -163,9 +128,10 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         break;
 
             case R.id.oneTimePassword:
-                otpPosition=(TextView)findViewById(R.id.otp_position);
-                otpPosition.setText(otpRandomParams);
                 final View otpDialogView=inflater.inflate(R.layout.set_otp_password_layout,null);
+                otpPosition=(TextView)otpDialogView.findViewById(R.id.otp_position);
+                otpRandomParams =RandomParam.getRandomParam();
+                otpPosition.setText(otpRandomParams);
                 AlertDialog.Builder otpDialogBuilder=new AlertDialog.Builder(currentActivity)
                         .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
                             @Override
@@ -179,7 +145,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
 
                                 if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
                                         && first_password.getText().toString().equals(mydb.getAllPasswords().get(otpRandomParams))) {
-                                    newPassword = first_password.getText().toString();
+                                    authType=AuthenticationType.OTP.name();
                                 }
                                 else{
                                     Toast.makeText(getApplicationContext(), "Errore: password errata", Toast.LENGTH_SHORT).show();
@@ -287,7 +253,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                             Profilo profilo = new Profilo(id, editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
                                     brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(), volumeBarMusic.getProgress(),
                                     volumeBarNotification.getProgress(), switchBluetooth, switchWifi,
-                                    appList.getText().toString(), newPassword);
+                                    appList.getText().toString(), newPassword,authType);
                             mydb.insertOrUpdateProfile(profilo);
                         }
                         finish();
@@ -468,7 +434,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                     currentProfile = new Profilo(currentProfile.getId(), editText.getText().toString(), radioGroup.getCheckedRadioButtonId(),
                             brightnessBar.getProgress(), checkBoxBrightness, volumeBarRing.getProgress(), volumeBarMusic.getProgress(),
                             volumeBarNotification.getProgress(), switchBluetooth, switchWifi,
-                            appList.getText().toString(), newPassword);
+                            appList.getText().toString(), newPassword,authType);
                         mydb.insertOrUpdateProfile(currentProfile);
                     Intent mainActivity = new Intent(ProfileDetail.this, MainActivity.class);
                     startActivity(mainActivity);

@@ -13,13 +13,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.db.DBHelper;
-import com.lynxspa.androidadvanced201617.encryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.profile.AuthenticationType;
 import com.lynxspa.androidadvanced201617.profile.ProfileDetail;
 import com.lynxspa.androidadvanced201617.profile.Profilo;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
+import com.lynxspa.androidadvanced201617.profile.RandomParam;
 
 import java.util.ArrayList;
 /*
@@ -84,13 +87,46 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 final Profilo profilo = mydb.getAllProfiles().get(position);
-                if (profilo.getPassword()==null) {
+                if(profilo.getAuthType()==null){
                     Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
                     modifyProfile.putExtra("Profilo", profilo.getId());
                     startActivity(modifyProfile);
-                } else {
+                }
+                else if(profilo.getAuthType().equals(AuthenticationType.PASSWORD.name())){
+                        LayoutInflater inflater = currentActivity.getLayoutInflater();
+                        final View dialogView = inflater.inflate(R.layout.get_password_layout, null);
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(currentActivity)
+                                .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        passwordEditText = (EditText) dialogView.findViewById(R.id.validationPassword);
+                                        if (profilo.getPassword() != null && profilo.getPassword().equals(passwordEditText.getText().toString()) &&
+                                                !passwordEditText.getText().toString().isEmpty()) {
+                                            Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
+                                            modifyProfile.putExtra("Profilo", profilo.getId());
+                                            startActivity(modifyProfile);
+                                        } else {
+                                            dialog.cancel();
+                                            Toast.makeText(getApplicationContext(), "Password errata", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                        dialogBuilder.setView(dialogView);
+                        dialogBuilder.show();
+                }
+                else if(profilo.getAuthType().equals(AuthenticationType.OTP.name())){
+                    final String otpRandomParams;
+                    TextView otpPosition;
                     LayoutInflater inflater = currentActivity.getLayoutInflater();
-                    final View dialogView = inflater.inflate(R.layout.get_password_layout, null);
+                    final View dialogView = inflater.inflate(R.layout.set_otp_password_layout, null);
+                    otpPosition=(TextView)dialogView.findViewById(R.id.otp_position);
+                    otpRandomParams = RandomParam.getRandomParam();
+                    otpPosition.setText(otpRandomParams);
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(currentActivity)
                             .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
                                 @Override
@@ -100,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
                             }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    passwordEditText = (EditText) dialogView.findViewById(R.id.validationPassword);
-                                    if (profilo.getPassword() != null && profilo.getPassword().equals(passwordEditText.getText().toString()) &&
-                                            !passwordEditText.getText().toString().isEmpty()) {
+                                    passwordEditText = (EditText) dialogView.findViewById(R.id.otp_password);
+                                    if ((passwordEditText.getText().toString()!=null && !passwordEditText.getText().toString().isEmpty())
+                                            && passwordEditText.getText().toString().equals(mydb.getAllPasswords().get(otpRandomParams))) {
                                         Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
                                         modifyProfile.putExtra("Profilo", profilo.getId());
                                         startActivity(modifyProfile);

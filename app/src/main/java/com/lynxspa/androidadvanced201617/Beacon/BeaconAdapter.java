@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.beacon;
+package com.lynxspa.androidadvanced201617.Beacon;
 
 import android.content.Context;
 import android.view.LayoutInflater;

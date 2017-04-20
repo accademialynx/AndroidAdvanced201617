@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.wifi;
+package com.lynxspa.androidadvanced201617.Wifi;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

@@ -6,10 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lynxspa.androidadvanced201617.beacon.BeaconList;
-import com.lynxspa.androidadvanced201617.encryptDecrypt.EncryptDecryptClass;
+import com.lynxspa.androidadvanced201617.Beacon.BeaconList;
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
-import com.lynxspa.androidadvanced201617.wifi.WifiList;
+import com.lynxspa.androidadvanced201617.Wifi.WifiList;
 import com.lynxspa.androidadvanced201617.map.Mappa;
 import com.lynxspa.androidadvanced201617.nfc.NFC;
 import com.lynxspa.androidadvanced201617.profile.Profilo;
@@ -52,11 +52,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String APP_NAME="appName";
     public static final String PROFILE_ID="profileId";
     public static final String PASSWORD="password";
-    public static final String ONE_TIME_PASSWORD_TABLE="oneTimePasswords";
+    public static final String AUTH_TYPE="authType";
 
 
 
-    public static final int VERSION_DB=1;
+    public static final int VERSION_DB=4;
 
     private static DBHelper newInstance;
     private DBHelper(Context context){
@@ -87,7 +87,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         ""+ BLUETOOTH_SWITCH +" INTEGER," +
                         ""+ WIFI_SWITCH +" INTEGER,"+
                         ""+ APP_NAME +" TEXT,"+
-                        ""+ PASSWORD +" TEXT)"
+                        ""+ PASSWORD +" TEXT,"+
+                        ""+ AUTH_TYPE +" TEXT)"
         );
     }
 
@@ -136,12 +137,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         if(newVersion<4){
-            db.execSQL( "CREATE TABLE "+ ONE_TIME_PASSWORD_TABLE +" " +"("
-                    + COLUMN_ID +" INTEGER PRIMARY KEY," +
-                    "A1 TEXT);"
-            );
-
+            db.execSQL("ALTER TABLE "+PROFILES_TABLE_NAME+" ADD COLUMN "+AUTH_TYPE+" TEXT");
         }
+
     }
 
     public boolean insertOrUpdateProfile (Profilo profilo) {
@@ -162,6 +160,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
                 contentValues.put(APP_NAME, profilo.getAppName());
                 contentValues.put(PASSWORD, profilo.getPassword());
+                contentValues.put(AUTH_TYPE,profilo.getAuthType());
                 db.insert(PROFILES_TABLE_NAME, null, contentValues);
             }else if(getProfileById(profilo.getId()) != null) {
                 contentValues.put(NAME_PROFILE, profilo.getName());
@@ -175,6 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(WIFI_SWITCH, profilo.getWifiSwitch());
                 contentValues.put(APP_NAME, profilo.getAppName());
                 contentValues.put(PASSWORD, profilo.getPassword());
+                contentValues.put(AUTH_TYPE, profilo.getAuthType());
                 db.update(PROFILES_TABLE_NAME, contentValues, PROFILES_COLUMN_ID+"= " + profilo.getId(), null);
             }
         } catch (Exception e) {
@@ -381,7 +381,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     res.getInt(res.getColumnIndex(BLUETOOTH_SWITCH)),
                     res.getInt(res.getColumnIndex(WIFI_SWITCH)),
                     res.getString(res.getColumnIndex(APP_NAME)),
-                    res.getString(res.getColumnIndex(PASSWORD)));
+                    res.getString(res.getColumnIndex(PASSWORD)),
+                    res.getString(res.getColumnIndex(AUTH_TYPE))
+                    );
 
             array_list.add(profilo);
             res.moveToNext();
