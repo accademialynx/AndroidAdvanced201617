@@ -3,4 +3,7 @@
     <item
         android:id="@+id/action_password"
         android:title="@string/password"/>
+    <item
+        android:id="@+id/oneTimePassword"
+        android:title="@string/otp_password"/>
 </menu>

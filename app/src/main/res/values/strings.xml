@@ -30,4 +30,6 @@
     <string name="password">Password</string>
     <string name="new_password">Inserisci Password</string>
     <string name="retype_password">Ripeti Password</string>
+    <string name="otp_password">One Time Password</string>
+    <string name="positionOTP">Inserisci password per la posizione:</string>
 </resources>
