@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.AppList;
+package com.lynxspa.androidadvanced201617.appList;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.AppList;
+package com.lynxspa.androidadvanced201617.appList;
 
 public class AppList {
 

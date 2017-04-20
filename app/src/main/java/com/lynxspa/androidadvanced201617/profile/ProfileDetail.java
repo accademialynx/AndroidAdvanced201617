@@ -2,7 +2,6 @@ package com.lynxspa.androidadvanced201617.profile;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +31,10 @@ import com.lynxspa.androidadvanced201617.db.DBHelper;
 import com.lynxspa.androidadvanced201617.map.MapsActivity;
 import com.lynxspa.androidadvanced201617.nfc.NFCActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 
     private DBHelper mydb;
@@ -53,6 +56,8 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
     private EditText second_password;
     private String newPassword;
     private String retypePassword;
+    private String otpRandomParams;
+    private TextView otpPosition;
 
     final static private int APP_LIST_ACTIVITY=1;
     final static private int WIFI_LIST_ACTIVITY=1;
@@ -70,6 +75,9 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         currentActivity=this;
         mydb = DBHelper.getInstance(this);
+
+        otpRandomParams =getRandomParam();
+
         final Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null && bundle.get("Profilo")!=null) {
@@ -78,7 +86,42 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             newProfile();
         }
     }
+    private String getRandomParam() {
+        List<String> listLetter=new ArrayList<String>();
+        listLetter.add("A");
+        listLetter.add("B");
+        listLetter.add("C");
+        listLetter.add("D");
+        listLetter.add("E");
+        listLetter.add("F");
+        listLetter.add("G");
 
+        List<String> listNumber=new ArrayList<String>();
+        listNumber.add("1");
+        listNumber.add("2");
+        listNumber.add("3");
+        listNumber.add("4");
+        listNumber.add("5");
+        listNumber.add("6");
+        listNumber.add("7");
+        listNumber.add("8");
+        listNumber.add("9");
+        listNumber.add("10");
+        String letterRandom="";
+        for(String str:listLetter){
+            int idx = new Random().nextInt(listLetter.size());
+            letterRandom = (listLetter.get(idx));
+        }
+        String randomNumber="";
+        for(String str:listNumber){
+            int idx = new Random().nextInt(listNumber.size());
+            randomNumber = (listNumber.get(idx));
+        }
+
+        String string = letterRandom+"-"+randomNumber;
+        return string;
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater=getMenuInflater();
@@ -88,36 +131,65 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        LayoutInflater inflater=currentActivity.getLayoutInflater();
         switch (item.getItemId()){
-        case R.id.action_password:
-            LayoutInflater inflater=currentActivity.getLayoutInflater();
-            final View dialogView=inflater.inflate(R.layout.set_password_layout, null);
-            AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(currentActivity)
-                    .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            first_password=(EditText) dialogView.findViewById(R.id.first_password);
-                            second_password=(EditText)dialogView.findViewById(R.id.second_password);
-
-                             if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
-                                     && first_password.getText().toString().equals(second_password.getText().toString())) {
-                                 newPassword = first_password.getText().toString();
-                                 retypePassword = second_password.getText().toString();
-                             }
-                             else{
-                                 Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
-                                return;
-                             }
+            case R.id.action_password:
+                final View dialogView=inflater.inflate(R.layout.set_password_layout, null);
+                AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(currentActivity)
+                        .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
                             }
-                    });
+                        }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                first_password=(EditText) dialogView.findViewById(R.id.first_password);
+                                second_password=(EditText)dialogView.findViewById(R.id.second_password);
+
+                                 if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
+                                         && first_password.getText().toString().equals(second_password.getText().toString())) {
+                                     newPassword = first_password.getText().toString();
+                                     retypePassword = second_password.getText().toString();
+                                 }
+                                 else{
+                                     Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
+                                    return;
+                                 }
+                                }
+                        });
             dialogBuilder.setView(dialogView);
             dialogBuilder.show();
         break;
+
+            case R.id.oneTimePassword:
+                otpPosition=(TextView)findViewById(R.id.otp_position);
+                otpPosition.setText(otpRandomParams);
+                final View otpDialogView=inflater.inflate(R.layout.set_otp_password_layout,null);
+                AlertDialog.Builder otpDialogBuilder=new AlertDialog.Builder(currentActivity)
+                        .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                first_password=(EditText) otpDialogView.findViewById(R.id.otp_password);
+
+                                if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
+                                        && first_password.getText().toString().equals(mydb.getAllPasswords().get(otpRandomParams))) {
+                                    newPassword = first_password.getText().toString();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Errore: password errata", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                    });
+                otpDialogBuilder.setView(otpDialogView);
+                otpDialogBuilder.show();
+
         }
         return true;
     }

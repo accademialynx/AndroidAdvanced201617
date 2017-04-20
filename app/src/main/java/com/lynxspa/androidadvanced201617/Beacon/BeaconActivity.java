@@ -1,11 +1,9 @@
-package com.lynxspa.androidadvanced201617.Beacon;
+package com.lynxspa.androidadvanced201617.beacon;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +18,6 @@ import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.Identifier;
-import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 

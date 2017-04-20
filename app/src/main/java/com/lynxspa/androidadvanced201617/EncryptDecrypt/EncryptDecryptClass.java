@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.EncryptDecrypt;
+package com.lynxspa.androidadvanced201617.encryptDecrypt;
 
 import com.lynxspa.androidadvanced201617.profile.Profilo;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
@@ -11,11 +11,12 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class EncryptDecryptClass {
 
+    private static final String key="ciaocaprettaamic";
     public EncryptDecryptClass() {
     }
 
-    public static ProfiloEncrypted encrypt(byte[] raw, Profilo profilo) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+    public static ProfiloEncrypted encrypt(Profilo profilo) throws Exception {
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] nameEncrypted = cipher.doFinal(profilo.getName().getBytes());
@@ -28,16 +29,17 @@ public class EncryptDecryptClass {
         byte[] bluetoothSwitchEncrypted = cipher.doFinal(String.valueOf(profilo.getBluetoothSwitch()).getBytes());
         byte[] wifiSwitchEncrypted = cipher.doFinal(String.valueOf(profilo.getWifiSwitch()).getBytes());
         byte[] appEncrypted = cipher.doFinal(String.valueOf(profilo.getAppName()).getBytes());
+        byte[] passwordEncrypted = cipher.doFinal(String.valueOf(profilo.getPassword()).getBytes());
 
 
         ProfiloEncrypted profiloEncrypted=new ProfiloEncrypted(profilo.getId(),nameEncrypted.toString(),radioButtonEncrypted.toString(),brightnessEncrypted.toString(),
                 brightnessCheckEncrypted.toString(),volumeRingEncrypted.toString(),volumeMusicEncrypted.toString(),volumeNotificationEncrypted.toString(),
-                bluetoothSwitchEncrypted.toString(),wifiSwitchEncrypted.toString(),appEncrypted.toString());
+                bluetoothSwitchEncrypted.toString(),wifiSwitchEncrypted.toString(),appEncrypted.toString(),passwordEncrypted.toString());
         return profiloEncrypted;
     }
 
-    public static Profilo decrypt(byte[] raw, ProfiloEncrypted profiloEncrypted) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+    public static Profilo decrypt(ProfiloEncrypted profiloEncrypted) throws Exception {
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] nameDecrypted = cipher.doFinal(profiloEncrypted.getName().getBytes());
@@ -50,12 +52,13 @@ public class EncryptDecryptClass {
         byte[] bluetoothSwitchDecrypted = cipher.doFinal(profiloEncrypted.getBluetoothSwitch().getBytes());
         byte[] wifiSwitchDecrypted = cipher.doFinal(profiloEncrypted.getWifiSwitch().getBytes());
         byte[] appDecrypted = cipher.doFinal(String.valueOf(profiloEncrypted.getAppName()).getBytes());
+        byte[] passwordDecrypt=cipher.doFinal(String.valueOf(profiloEncrypted.getPassword()).getBytes());
 
-        Profilo profilo=new Profilo(profiloEncrypted.getId(),nameDecrypted.toString(),Integer.valueOf(radioButtonDecrypted.toString()),
+        Profilo profilo=new Profilo(profiloEncrypted.getId(),nameDecrypted.toString(), Integer.valueOf(radioButtonDecrypted.toString()),
                 Integer.valueOf(brightnessDecrypted.toString()),Integer.valueOf(brightnessCheckDecrypted.toString()),
                 Integer.valueOf(volumeRingDecrypted.toString()),Integer.valueOf(volumeMusicDecrypted.toString()),
                 Integer.valueOf(volumeNotificationDecrypted.toString()),Integer.valueOf(bluetoothSwitchDecrypted.toString()),
-                Integer.valueOf(wifiSwitchDecrypted.toString()),appDecrypted.toString());
+                Integer.valueOf(wifiSwitchDecrypted.toString()),appDecrypted.toString(),passwordDecrypt.toString());
         return profilo;
     }
 }
