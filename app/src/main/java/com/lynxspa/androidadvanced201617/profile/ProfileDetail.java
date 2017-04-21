@@ -30,10 +30,8 @@ import com.lynxspa.androidadvanced201617.Wifi.*;
 import com.lynxspa.androidadvanced201617.db.DBHelper;
 import com.lynxspa.androidadvanced201617.map.MapsActivity;
 import com.lynxspa.androidadvanced201617.nfc.NFCActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.lynxspa.androidadvanced201617.utils.AuthenticationType;
+import com.lynxspa.androidadvanced201617.utils.RandomParam;
 
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 
@@ -115,11 +113,14 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
                                          && first_password.getText().toString().equals(second_password.getText().toString())) {
                                      newPassword = first_password.getText().toString();
                                      retypePassword = second_password.getText().toString();
-                                     authType=AuthenticationType.PASSWORD.name();
-                                 }
-                                 else{
+                                     authType= AuthenticationType.PASSWORD.name();
+                                 }else{
+                                     if(currentProfile.getAuthType()!=null) {
+                                         authType = currentProfile.getAuthType();
+                                         newPassword = currentProfile.getPassword();
+                                     }
                                      Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
-                                    return;
+                                     return;
                                  }
                                 }
                         });
@@ -130,7 +131,7 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             case R.id.oneTimePassword:
                 final View otpDialogView=inflater.inflate(R.layout.set_otp_password_layout,null);
                 otpPosition=(TextView)otpDialogView.findViewById(R.id.otp_position);
-                otpRandomParams =RandomParam.getRandomParam();
+                otpRandomParams = RandomParam.getRandomParam();
                 otpPosition.setText(otpRandomParams);
                 AlertDialog.Builder otpDialogBuilder=new AlertDialog.Builder(currentActivity)
                         .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {

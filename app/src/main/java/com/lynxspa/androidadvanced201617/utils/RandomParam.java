@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.profile;
+package com.lynxspa.androidadvanced201617.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,27 @@ import java.util.Random;
 public class RandomParam {
 
     public static String getRandomParam() {
+
+        String letterRandom="";
+        List<String> listLetter=getRandomLetter();
+        for(String str:listLetter){
+            int idx = new Random().nextInt(listLetter.size());
+            letterRandom = (listLetter.get(idx));
+        }
+
+        List<String> listNumber =getRandomNumber();
+        String randomNumber="";
+        for(String str:listNumber){
+            int idx = new Random().nextInt(listNumber.size());
+            randomNumber = (listNumber.get(idx));
+        }
+
+        String string = letterRandom+"-"+randomNumber;
+
+        return string;
+    }
+
+    public static List<String> getRandomLetter(){
         List<String> listLetter=new ArrayList<String>();
         listLetter.add("A");
         listLetter.add("B");
@@ -18,7 +39,10 @@ public class RandomParam {
         listLetter.add("E");
         listLetter.add("F");
         listLetter.add("G");
+        return listLetter;
+    }
 
+    public static List<String> getRandomNumber(){
         List<String> listNumber=new ArrayList<String>();
         listNumber.add("1");
         listNumber.add("2");
@@ -30,19 +54,6 @@ public class RandomParam {
         listNumber.add("8");
         listNumber.add("9");
         listNumber.add("10");
-        String letterRandom="";
-        for(String str:listLetter){
-            int idx = new Random().nextInt(listLetter.size());
-            letterRandom = (listLetter.get(idx));
-        }
-        String randomNumber="";
-        for(String str:listNumber){
-            int idx = new Random().nextInt(listNumber.size());
-            randomNumber = (listNumber.get(idx));
-        }
-
-        String string = letterRandom+"-"+randomNumber;
-
-        return string;
+        return listNumber;
     }
 }

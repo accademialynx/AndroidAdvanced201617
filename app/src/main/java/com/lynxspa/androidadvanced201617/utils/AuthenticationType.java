@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.profile;
+package com.lynxspa.androidadvanced201617.utils;
 
 /**
  * Created by Esami on 20/04/2017.

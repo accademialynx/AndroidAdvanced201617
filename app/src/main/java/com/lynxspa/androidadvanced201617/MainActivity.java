@@ -17,12 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lynxspa.androidadvanced201617.db.DBHelper;
-import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
-import com.lynxspa.androidadvanced201617.profile.AuthenticationType;
+import com.lynxspa.androidadvanced201617.utils.AuthenticationType;
 import com.lynxspa.androidadvanced201617.profile.ProfileDetail;
 import com.lynxspa.androidadvanced201617.profile.Profilo;
-import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
-import com.lynxspa.androidadvanced201617.profile.RandomParam;
+import com.lynxspa.androidadvanced201617.utils.RandomParam;
 
 import java.util.ArrayList;
 /*
