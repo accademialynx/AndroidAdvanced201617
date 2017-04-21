@@ -31,7 +31,12 @@ import com.lynxspa.androidadvanced201617.db.DBHelper;
 import com.lynxspa.androidadvanced201617.map.MapsActivity;
 import com.lynxspa.androidadvanced201617.nfc.NFCActivity;
 import com.lynxspa.androidadvanced201617.utils.AuthenticationType;
+import com.lynxspa.androidadvanced201617.utils.JSONReader;
 import com.lynxspa.androidadvanced201617.utils.RandomParam;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Map;
 
 public class ProfileDetail extends AppCompatActivity implements View.OnClickListener {
 
@@ -128,34 +133,73 @@ public class ProfileDetail extends AppCompatActivity implements View.OnClickList
             dialogBuilder.show();
         break;
 
-            case R.id.oneTimePassword:
-                final View otpDialogView=inflater.inflate(R.layout.set_otp_password_layout,null);
-                otpPosition=(TextView)otpDialogView.findViewById(R.id.otp_position);
-                otpRandomParams = RandomParam.getRandomParam();
-                otpPosition.setText(otpRandomParams);
-                AlertDialog.Builder otpDialogBuilder=new AlertDialog.Builder(currentActivity)
+        case R.id.oneTimePassword:
+            final View otpDialogView=inflater.inflate(R.layout.set_otp_password_layout,null);
+            otpPosition=(TextView)otpDialogView.findViewById(R.id.otp_position);
+            otpRandomParams = RandomParam.getRandomParam();
+            otpPosition.setText(otpRandomParams);
+            AlertDialog.Builder otpDialogBuilder=new AlertDialog.Builder(currentActivity)
+                    .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            first_password=(EditText) otpDialogView.findViewById(R.id.otp_password);
+                            Map mapPasswords= null;
+                            try {
+                                mapPasswords = JSONReader.readFromFileJson(new InputStreamReader(getAssets().open("file.json")));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
+                                    && first_password.getText().toString().equals(mapPasswords.get(otpRandomParams))) {
+                                authType=AuthenticationType.OTP.name();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Errore: password errata", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                });
+            otpDialogBuilder.setView(otpDialogView);
+            otpDialogBuilder.show();
+        break;
+
+            case R.id.challenge_password:
+                final View challengeDialogView=inflater.inflate(R.layout.set_password_layout, null);
+                AlertDialog.Builder challengeDialogBuilder=new AlertDialog.Builder(currentActivity)
                         .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                             }
                         }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                first_password=(EditText) otpDialogView.findViewById(R.id.otp_password);
+                             @Override
+                             public void onClick(DialogInterface dialog, int which) {
+                                 first_password = (EditText) challengeDialogView.findViewById(R.id.first_password);
+                                 second_password = (EditText) challengeDialogView.findViewById(R.id.second_password);
 
-                                if((first_password.getText().toString()!=null && !first_password.getText().toString().isEmpty())
-                                        && first_password.getText().toString().equals(mydb.getAllPasswords().get(otpRandomParams))) {
-                                    authType=AuthenticationType.OTP.name();
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(), "Errore: password errata", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                            }
-                    });
-                otpDialogBuilder.setView(otpDialogView);
-                otpDialogBuilder.show();
+                                 if ((first_password.getText().toString() != null && !first_password.getText().toString().isEmpty())
+                                         && first_password.getText().toString().equals(second_password.getText().toString())) {
+                                     newPassword = first_password.getText().toString();
+                                     retypePassword = second_password.getText().toString();
+                                     authType = AuthenticationType.CHALLENGE.name();
+                                 } else {
+                                     if (currentProfile.getAuthType() != null) {
+                                         authType = currentProfile.getAuthType();
+                                         newPassword = currentProfile.getPassword();
+                                     }
+                                     Toast.makeText(getApplicationContext(), "Errore: Inserisci password o Password diverse", Toast.LENGTH_SHORT).show();
+                                     return;
+                                 }
+                             }
+                         });
+                challengeDialogBuilder.setView(challengeDialogView);
+                challengeDialogBuilder.show();
+            break;
 
         }
         return true;

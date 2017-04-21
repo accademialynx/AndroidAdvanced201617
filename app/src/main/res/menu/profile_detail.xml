@@ -5,5 +5,8 @@
         android:title="@string/password"/>
     <item
         android:id="@+id/oneTimePassword"
-        android:title="@string/otp_password"/>
+        android:title="@string/otpPassword"/>
+    <item
+        android:id="@+id/challenge_password"
+        android:title="@string/challengeSimmetric"/>
 </menu>

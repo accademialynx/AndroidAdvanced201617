@@ -1,9 +1,10 @@
-package com.lynxspa.androidadvanced201617.EncryptDecrypt;
+package com.lynxspa.androidadvanced201617.utils;
 
 import com.lynxspa.androidadvanced201617.profile.Profilo;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -12,11 +13,13 @@ import javax.crypto.spec.SecretKeySpec;
 public class EncryptDecryptClass {
 
     private static final String key="ciaocaprettaamic";
+    private static final String initialVector="minitialvectoriv";
     public EncryptDecryptClass() {
     }
 
     public static ProfiloEncrypted encrypt(Profilo profilo) throws Exception {
         SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+        IvParameterSpec iv=new IvParameterSpec(initialVector.getBytes("UTF-8"));
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] nameEncrypted = cipher.doFinal(profilo.getName().getBytes());
@@ -40,8 +43,9 @@ public class EncryptDecryptClass {
 
     public static Profilo decrypt(ProfiloEncrypted profiloEncrypted) throws Exception {
         SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+        IvParameterSpec iv=new IvParameterSpec(initialVector.getBytes("UTF-8"));
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
         byte[] nameDecrypted = cipher.doFinal(profiloEncrypted.getName().getBytes());
         byte[] radioButtonDecrypted = cipher.doFinal(profiloEncrypted.getRadioButton().getBytes());
         byte[] brightnessDecrypted = cipher.doFinal(profiloEncrypted.getBrigthnesBar().getBytes());

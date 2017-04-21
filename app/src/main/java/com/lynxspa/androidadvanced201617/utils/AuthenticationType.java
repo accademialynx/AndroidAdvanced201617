@@ -5,5 +5,5 @@ package com.lynxspa.androidadvanced201617.utils;
  */
 public enum AuthenticationType {
 
-    PASSWORD,OTP;
+    PASSWORD,OTP,CHALLENGE;
 }

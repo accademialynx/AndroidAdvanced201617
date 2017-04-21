@@ -1,11 +1,6 @@
-{"Passwords":
-  [
-    {"row":"A",
-	  "values":[{
-                "col":1,
-			   "value":1293,
-                "col":2,
-                "value":5354
+{"Passwords":[{"row":"A",
+	"values":[{"col":1,
+			   "value":1293
 			   }
 			 ]
    },
@@ -46,7 +41,8 @@
 			 ]
    },
    {"row":"A",
-	"values":[{
+	"values":[{"col":2,
+			   "value":5354
 			   }
 			 ]
    },

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Lista Profili</string>
+    <string name="appName">Lista Profili</string>
     <string name="addProfile">Aggiungi profilo</string>
     <string name="profiloEdit">Inserisci nome profilo</string>
     <string name="cancelButton">Annulla</string>
     <string name="deleteProfile">Elimina</string>
     <string name="confirm">Conferma</string>
-    <string name="title_activity_maps">Mappa</string>
-    <string name="metodo_rilevamento">Metodo di rilevamento</string>
+    <string name="titleActivityMaps">Mappa</string>
+    <string name="metodoRilevamento">Metodo di rilevamento</string>
     <string name="gps">GPS</string>
     <string name="wifi">WI-FI</string>
     <string name="nfc">NFC</string>
@@ -28,8 +28,11 @@
     <string name="address">Indirizzo</string>
     <string name="distance">Distanza</string>
     <string name="password">Password</string>
-    <string name="new_password">Inserisci Password</string>
-    <string name="retype_password">Ripeti Password</string>
-    <string name="otp_password">One Time Password</string>
+    <string name="newPassword">Inserisci Password</string>
+    <string name="retypePassword">Ripeti Password</string>
+    <string name="otpPassword">One Time Password</string>
     <string name="positionOTP">Inserisci password per la posizione:</string>
+    <string name="challenge">Sfida:</string>
+    <string name="challengeSimmetric">Sfida Simmetrica</string>
+    <string name="challengeSolution">Soluzione</string>
 </resources>

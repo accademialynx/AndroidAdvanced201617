@@ -20,9 +20,18 @@ import com.lynxspa.androidadvanced201617.db.DBHelper;
 import com.lynxspa.androidadvanced201617.utils.AuthenticationType;
 import com.lynxspa.androidadvanced201617.profile.ProfileDetail;
 import com.lynxspa.androidadvanced201617.profile.Profilo;
+import com.lynxspa.androidadvanced201617.utils.GenerateChallenge;
+import com.lynxspa.androidadvanced201617.utils.HashChallengePassword;
+import com.lynxspa.androidadvanced201617.utils.JSONReader;
 import com.lynxspa.androidadvanced201617.utils.RandomParam;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /*
 * Created by Mohamed and Kishore
 * */
@@ -31,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     DBHelper mydb;
     private Activity currentActivity;
     private EditText passwordEditText;
+    private EditText solutionChallenge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(profilo.getAuthType().equals(AuthenticationType.OTP.name())){
                     final String otpRandomParams;
-                    TextView otpPosition;
+
                     LayoutInflater inflater = currentActivity.getLayoutInflater();
                     final View dialogView = inflater.inflate(R.layout.set_otp_password_layout, null);
-                    otpPosition=(TextView)dialogView.findViewById(R.id.otp_position);
+                    TextView otpPosition=(TextView)dialogView.findViewById(R.id.otp_position);
                     otpRandomParams = RandomParam.getRandomParam();
                     otpPosition.setText(otpRandomParams);
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(currentActivity)
@@ -135,11 +145,83 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     passwordEditText = (EditText) dialogView.findViewById(R.id.otp_password);
+                                    Map<String,String> mapPasswords= new HashMap<>();
+                                    try {
+                                        mapPasswords = JSONReader.readFromFileJson(new InputStreamReader(getAssets().open("file.json")));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     if ((passwordEditText.getText().toString()!=null && !passwordEditText.getText().toString().isEmpty())
-                                            && passwordEditText.getText().toString().equals(mydb.getAllPasswords().get(otpRandomParams))) {
+                                            && passwordEditText.getText().toString().equals(mapPasswords.get(otpRandomParams))) {
                                         Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
                                         modifyProfile.putExtra("Profilo", profilo.getId());
                                         startActivity(modifyProfile);
+                                    } else {
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(), "Password errata", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                    dialogBuilder.setView(dialogView);
+                    dialogBuilder.show();
+                }else if(profilo.getAuthType().equals(AuthenticationType.CHALLENGE.name())){
+                    LayoutInflater inflater = currentActivity.getLayoutInflater();
+                    final View dialogView = inflater.inflate(R.layout.set_challenge_password_layout, null);
+                    TextView challengeFieldPassword=(TextView)dialogView.findViewById(R.id.challenge_operation);
+
+                    int firstNumber=GenerateChallenge.getFirstRandomNumber();
+                    int secondNumber=GenerateChallenge.getSecondRandomNumber();
+                    String challengeOperation=GenerateChallenge.getChallengeOperation();
+
+                    if(challengeOperation.equals("-")){
+                        if(firstNumber<secondNumber){
+                            int appoggio=firstNumber;
+                            firstNumber=secondNumber;
+                            secondNumber=appoggio;
+                        }
+                    }
+                    final int result=GenerateChallenge.checkChallenge(firstNumber, challengeOperation, secondNumber);
+                    challengeFieldPassword.setText(firstNumber + " " + challengeOperation + " " + secondNumber);
+
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(currentActivity)
+                            .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    solutionChallenge = (EditText) dialogView.findViewById(R.id.solution_operation);
+                                    passwordEditText = (EditText) dialogView.findViewById(R.id.challenge_field_password);
+
+                                    if (result == Integer.valueOf(solutionChallenge.getText().toString())) {
+                                        if (profilo.getPassword() != null && profilo.getPassword().equals(passwordEditText.getText().toString()) &&
+                                                !passwordEditText.getText().toString().isEmpty()) {
+                                            try {
+
+                                                String hashedCurrentPassword = HashChallengePassword.hashPassword(passwordEditText.getText().toString());
+                                                byte[] encryptedResult = HashChallengePassword.encrypt(String.valueOf(result), hashedCurrentPassword);
+                                                String hashStoreDBPassword = HashChallengePassword.hashPassword(profilo.getPassword());
+                                                byte[] decrytedResult = HashChallengePassword.decrypt(encryptedResult, hashStoreDBPassword);
+
+                                                if (String.valueOf(result).getBytes() == decrytedResult) {
+
+                                                    Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
+                                                    modifyProfile.putExtra("Profilo", profilo.getId());
+                                                    startActivity(modifyProfile);
+                                                } else {
+                                                    dialog.cancel();
+                                                    Toast.makeText(getApplicationContext(), "Soluzione o Password errata", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        } else {
+                                            dialog.cancel();
+                                            Toast.makeText(getApplicationContext(), "Soluzione o Password errata", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
                                         dialog.cancel();
                                         Toast.makeText(getApplicationContext(), "Password errata", Toast.LENGTH_SHORT).show();
