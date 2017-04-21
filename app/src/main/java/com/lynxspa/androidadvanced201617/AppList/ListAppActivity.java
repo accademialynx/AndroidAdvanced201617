@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.AppListDir;
+package com.lynxspa.androidadvanced201617.AppList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,18 +31,11 @@ public class ListAppActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                /*Intent profileDetail = new Intent(ListAppActivity.this, ProfileDetail.class);
-                String app=installedApps.get(v.getId()).getName();
-                profileDetail.putExtra("App", app);
-                TextView textView=(TextView)findViewById(R.id.appList);
-                textView.setText(app);
-                startActivity(profileDetail);*/
                 Intent intent= new Intent();
                 String app=installedApps.get(position).getName();
                 intent.putExtra("App", app);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
-
             }
         });
     }

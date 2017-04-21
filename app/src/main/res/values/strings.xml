@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Lista Profili</string>
+    <string name="addProfile">Aggiungi profilo</string>
     <string name="profiloEdit">Inserisci nome profilo</string>
     <string name="cancelButton">Annulla</string>
     <string name="deleteProfile">Elimina</string>
@@ -10,11 +11,25 @@
     <string name="wifi">WI-FI</string>
     <string name="nfc">NFC</string>
     <string name="beacon">Beacon</string>
+    <string name="name">Nome</string>
     <string name="brightness">Luminosità</string>
-    <string name="volume">Volume</string>
+    <string name="volume">Volumi</string>
+    <string name="volumeRing">Suoneria</string>
+    <string name="volumeMusic">Musica</string>
+    <string name="volumeNotification">Notifiche</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="apps">AppList</string>
     <string name="auto">Auto</string>
     <string name="add">CREA</string>
-    <string name="setWifi">Imposta</string>
+    <string name="set">Imposta</string>
+    <string name="other">Altro</string>
+    <string name="id">Tag ID</string>
+    <string name="techSupported">Tecnologie Supportate</string>
+    <string name="address">Indirizzo</string>
+    <string name="distance">Distanza</string>
+    <string name="password">Password</string>
+    <string name="new_password">Inserisci Password</string>
+    <string name="retype_password">Ripeti Password</string>
+    <string name="otp_password">One Time Password</string>
+    <string name="positionOTP">Inserisci password per la posizione:</string>
 </resources>

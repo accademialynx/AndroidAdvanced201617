@@ -1,16 +1,19 @@
-package com.lynxspa.androidadvanced201617.WifiDir;
+package com.lynxspa.androidadvanced201617.Wifi;
 
-public class WifiList {
+public class WifiList{
 
     private String ssid;
     private String bssid;
     private String signal;
+    private int profileId;
 
-    public WifiList(String ssid, String bssid, String signal) {
+    public WifiList(String ssid, String bssid, String signal, int profileId) {
         this.ssid = ssid;
         this.bssid = bssid;
         this.signal = signal;
+        this.profileId=profileId;
     }
+
 
     public String getSsid() {
         return ssid;
@@ -34,5 +37,13 @@ public class WifiList {
 
     public void setSignal(String signal) {
         this.signal = signal;
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 }

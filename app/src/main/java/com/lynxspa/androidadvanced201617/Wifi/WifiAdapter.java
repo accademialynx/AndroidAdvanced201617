@@ -1,4 +1,4 @@
-package com.lynxspa.androidadvanced201617.WifiDir;
+package com.lynxspa.androidadvanced201617.Wifi;
 
 import android.content.Context;
 import android.view.LayoutInflater;
