@@ -28,6 +28,7 @@ import com.lynxspa.androidadvanced201617.utils.RandomParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(profilo.getAuthType().equals(AuthenticationType.OTP.name())){
                     final String otpRandomParams;
-
+                    TextView otpPosition;
                     LayoutInflater inflater = currentActivity.getLayoutInflater();
                     final View dialogView = inflater.inflate(R.layout.set_otp_password_layout, null);
-                    TextView otpPosition=(TextView)dialogView.findViewById(R.id.otp_position);
+                    otpPosition=(TextView)dialogView.findViewById(R.id.otp_position);
                     otpRandomParams = RandomParam.getRandomParam();
                     otpPosition.setText(otpRandomParams);
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(currentActivity)
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     if ((passwordEditText.getText().toString()!=null && !passwordEditText.getText().toString().isEmpty())
                                             && passwordEditText.getText().toString().equals(mapPasswords.get(otpRandomParams))) {
+
                                         Intent modifyProfile = new Intent(MainActivity.this, ProfileDetail.class);
                                         modifyProfile.putExtra("Profilo", profilo.getId());
                                         startActivity(modifyProfile);

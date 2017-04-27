@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lynxspa.androidadvanced201617.Beacon.BeaconList;
+import com.lynxspa.androidadvanced201617.EncryptDecrypt.EncryptDecryptClass;
 import com.lynxspa.androidadvanced201617.profile.ProfiloEncrypted;
 import com.lynxspa.androidadvanced201617.Wifi.WifiList;
 import com.lynxspa.androidadvanced201617.map.Mappa;
@@ -14,7 +15,9 @@ import com.lynxspa.androidadvanced201617.nfc.NFC;
 import com.lynxspa.androidadvanced201617.profile.Profilo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DBHelper extends SQLiteOpenHelper {
 
